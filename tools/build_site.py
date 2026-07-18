@@ -788,12 +788,11 @@ EXTRA2_CSS = """
   /* sidebar footer: audits + socials */
   .side-foot { margin-top: auto; padding: 16px 10px 4px; border-top: 1px solid rgba(255, 255, 255, 0.07); display: flex; flex-direction: column; gap: 10px; }
   .side-foot .audit-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-3); }
-  .audit-logos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; align-items: center; justify-items: start; }
-  .audit-logos a { display: flex; align-items: center; opacity: 0.65; transition: opacity 0.15s; color: #cfd8d2; min-height: 24px; }
+  .audit-logos { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; }
+  .audit-logos a { display: flex; align-items: center; opacity: 0.65; transition: opacity 0.15s; color: #cfd8d2; }
   .audit-logos a:hover { opacity: 1; }
-  .audit-logos svg { height: 17px; width: auto; display: block; }
-  .audit-logos a:first-child { grid-column: 1 / -1; }
-  .audit-logos a:first-child svg { height: 28px; }
+  .audit-logos svg { height: 14px; width: auto; display: block; }
+  .audit-logos a:first-child svg { height: 19px; }
 
   /* token reward icon — global sizing (used in rows AND tiles) */
   .ricon { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; display: inline-grid; place-items: center; flex: none; }
