@@ -625,6 +625,7 @@
   
   
   
+  
   /* ---------- subpage components ---------- */
   .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px; }
   .tile {
@@ -1206,6 +1207,36 @@ html[data-theme="light"] {
   }
   .sidebar { position: sticky; }
   .sidebar > * { position: relative; z-index: 1; }
+
+  /* ---------- connected sidebar (codex/og: one continuous surface) ---------- */
+  .app { max-width: none; }
+  .main { max-width: 1380px; }
+  .sidebar, html[data-theme="light"] .sidebar {
+    margin: 0; border-radius: 0; top: 0; height: 100vh;
+    border: none; border-right: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: none;
+  }
+
+  /* ---------- vault table: header + rows share one box ---------- */
+  .vault-table { padding: 4px 0 6px; }
+  .vault-table .list-head { padding: 12px 20px 12px; margin: 0; border-bottom: 1px solid var(--glass-border); }
+  .vault-table .cards { display: block; }
+  .vault-table .card {
+    background: transparent; border: none; border-radius: 0; box-shadow: none;
+    border-top: 1px solid var(--glass-border);
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+  .vault-table .card:first-child { border-top: none; }
+  .vault-table .card:hover { background: rgba(255, 255, 255, 0.045); transform: none; box-shadow: none; border-color: var(--glass-border); }
+  .vault-table .card::before { display: none; }
+  html[data-theme="light"] .vault-table .card { border-color: #eef0eb; background: transparent; box-shadow: none; }
+  html[data-theme="light"] .vault-table .card:hover { background: rgba(24, 49, 50, 0.04); }
+  html[data-theme="light"] .vault-table .list-head { border-color: #eef0eb; }
+  @media (max-width: 760px) {
+    .vault-table { padding: 0; }
+    .vault-table .list-head { display: none; }
+    .vault-table .card { min-width: 0; }
+  }
 </style>
 <script>/* Harmonix glass mockup — demo interaction layer. No real wallet, no real orders. */
 (function () {
@@ -1795,6 +1826,7 @@ html[data-theme="light"] {
         </div>
       </div>
 
+      <section class="panel vault-table">
       <div class="list-head" aria-hidden="true">
         <span>Asset</span><span>Net APY</span><span>TVL</span><span>Rewards</span><span></span>
       </div>
@@ -1894,6 +1926,7 @@ html[data-theme="light"] {
           <span class="deposit-btn" role="button">Deposit</span>
         </a>
       </div>
+      </section>
     </section>
   </main>
 </div>

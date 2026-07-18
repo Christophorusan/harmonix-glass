@@ -1506,6 +1506,14 @@ def vault_content(v):
 
 # make home rows clickable
 home_main = home_main.replace('href="https://christophorusan.github.io/harmonix-glass/', 'href="')
+# vault list lives in one contained box (header bar + divider rows), like the OG
+if 'vault-table' not in home_main:
+    assert home_main.count('<div class="list-head"') == 1
+    home_main = home_main.replace('<div class="list-head"', '<section class="panel vault-table">\n      <div class="list-head"', 1)
+    _close = '</div>\n    </section>'
+    assert home_main.count(_close) == 1, "cards close anchor not unique"
+    home_main = home_main.replace(_close, '</div>\n      </section>\n    </section>', 1)
+assert 'vault-table' in home_main
 _parts = home_main.split('<article class="card">')
 if len(_parts) == 5:
     _rebuilt = _parts[0]
@@ -1757,6 +1765,39 @@ FLAIR_CSS = """
   .sidebar > * { position: relative; z-index: 1; }
 """
 open(os.path.join(OUT, "assets", "style.css"), "a").write(FLAIR_CSS)
+
+STRUCT_CSS = """
+  /* ---------- connected sidebar (codex/og: one continuous surface) ---------- */
+  .app { max-width: none; }
+  .main { max-width: 1380px; }
+  .sidebar, html[data-theme="light"] .sidebar {
+    margin: 0; border-radius: 0; top: 0; height: 100vh;
+    border: none; border-right: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: none;
+  }
+
+  /* ---------- vault table: header + rows share one box ---------- */
+  .vault-table { padding: 4px 0 6px; }
+  .vault-table .list-head { padding: 12px 20px 12px; margin: 0; border-bottom: 1px solid var(--glass-border); }
+  .vault-table .cards { display: block; }
+  .vault-table .card {
+    background: transparent; border: none; border-radius: 0; box-shadow: none;
+    border-top: 1px solid var(--glass-border);
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+  .vault-table .card:first-child { border-top: none; }
+  .vault-table .card:hover { background: rgba(255, 255, 255, 0.045); transform: none; box-shadow: none; border-color: var(--glass-border); }
+  .vault-table .card::before { display: none; }
+  html[data-theme="light"] .vault-table .card { border-color: #eef0eb; background: transparent; box-shadow: none; }
+  html[data-theme="light"] .vault-table .card:hover { background: rgba(24, 49, 50, 0.04); }
+  html[data-theme="light"] .vault-table .list-head { border-color: #eef0eb; }
+  @media (max-width: 760px) {
+    .vault-table { padding: 0; }
+    .vault-table .list-head { display: none; }
+    .vault-table .card { min-width: 0; }
+  }
+"""
+open(os.path.join(OUT, "assets", "style.css"), "a").write(STRUCT_CSS)
 
 # ---------- final palette pass: exact OG accent across all generated files ----------
 PALETTE = [
