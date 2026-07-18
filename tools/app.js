@@ -2,12 +2,79 @@
 (function () {
   "use strict";
 
-  var ADDR = "0x7Fa9…3Cd2";
+  var DEMO_ADDR = "0x7Fa9…3Cd2";
   var BAL = { USDC: 5240.18, HYPE: 118.4, KHYPE: 312.6 };
   try {
     var saved = JSON.parse(localStorage.getItem("hmx_bal") || "null");
     if (saved) BAL = saved;
   } catch (e) {}
+
+  /* real wallet (EIP-1193) with demo fallback */
+  var realAddr = null;
+  var HYPEREVM = {
+    chainId: "0x3e7",
+    chainName: "HyperEVM",
+    nativeCurrency: { name: "HYPE", symbol: "HYPE", decimals: 18 },
+    rpcUrls: ["https://rpc.hyperliquid.xyz/evm"],
+    blockExplorerUrls: ["https://hyperevmscan.io"]
+  };
+  function short(a) { return a.slice(0, 6) + "…" + a.slice(-4); }
+  function ADDR() { return realAddr ? short(realAddr) : DEMO_ADDR; }
+
+  function switchToHyperEVM(eth) {
+    return eth.request({ method: "wallet_switchEthereumChain", params: [{ chainId: HYPEREVM.chainId }] })
+      .catch(function (e) {
+        if (e && (e.code === 4902 || /unrecognized|not.*added/i.test(e.message || ""))) {
+          return eth.request({ method: "wallet_addEthereumChain", params: [HYPEREVM] });
+        }
+        throw e;
+      });
+  }
+
+  function fetchNativeBal(eth) {
+    eth.request({ method: "eth_getBalance", params: [realAddr, "latest"] })
+      .then(function (hex) {
+        BAL.HYPE = parseInt(hex, 16) / 1e18;
+        refreshWallet();
+      })
+      .catch(function () {});
+  }
+
+  function connectInjected(eth) {
+    return eth.request({ method: "eth_requestAccounts" }).then(function (accs) {
+      if (!accs || !accs.length) throw new Error("no accounts");
+      realAddr = accs[0];
+      localStorage.setItem("hmx_w", "1");
+      localStorage.setItem("hmx_mode", "injected");
+      toast("Connected " + short(realAddr));
+      switchToHyperEVM(eth).then(function () { fetchNativeBal(eth); }).catch(function () { fetchNativeBal(eth); });
+      refreshWallet();
+    });
+  }
+
+  function restoreInjected() {
+    var eth = window.ethereum;
+    if (!eth || localStorage.getItem("hmx_mode") !== "injected") return;
+    eth.request({ method: "eth_accounts" }).then(function (accs) {
+      if (accs && accs.length) {
+        realAddr = accs[0];
+        fetchNativeBal(eth);
+      } else {
+        localStorage.removeItem("hmx_w");
+        localStorage.removeItem("hmx_mode");
+      }
+      refreshWallet();
+    }).catch(function () {});
+    if (eth.on && !eth._hmxBound) {
+      eth._hmxBound = true;
+      eth.on("accountsChanged", function (accs) {
+        if (accs && accs.length) { realAddr = accs[0]; fetchNativeBal(eth); toast("Account changed — " + short(realAddr)); }
+        else { realAddr = null; localStorage.removeItem("hmx_w"); localStorage.removeItem("hmx_mode"); toast("Wallet disconnected"); }
+        refreshWallet();
+      });
+      eth.on("chainChanged", function () { if (realAddr) fetchNativeBal(eth); });
+    }
+  }
 
   function on() { return localStorage.getItem("hmx_w") === "1"; }
   function saveBal() { try { localStorage.setItem("hmx_bal", JSON.stringify(BAL)); } catch (e) {} }
@@ -41,10 +108,9 @@
   function refreshWallet() {
     var isOn = on();
     document.querySelectorAll(".connect-btn").forEach(function (b) {
-      b.textContent = isOn ? ADDR : (b.textContent.trim() === "Connect" || b.closest(".mhead") ? "Connect" : "Connect wallet");
-      if (isOn) b.textContent = ADDR;
+      b.textContent = isOn ? ADDR() : (b.closest(".mhead") ? "Connect" : "Connect wallet");
       b.classList.toggle("addr", isOn);
-      b.title = isOn ? "Click to disconnect (demo)" : "Connect demo wallet";
+      b.title = isOn ? "Click to disconnect" : (window.ethereum ? "Connect wallet" : "Connect demo wallet");
     });
     document.querySelectorAll("[data-bal]").forEach(function (el) {
       var a = el.dataset.bal;
@@ -65,13 +131,27 @@
 
   function toggleWallet() {
     if (on()) {
+      realAddr = null;
       localStorage.removeItem("hmx_w");
+      localStorage.removeItem("hmx_mode");
       toast("Wallet disconnected");
+      refreshWallet();
+      return;
+    }
+    if (window.ethereum) {
+      connectInjected(window.ethereum).catch(function (e) {
+        if (e && e.code === 4001) { toast("Connection rejected"); return; }
+        localStorage.setItem("hmx_w", "1");
+        localStorage.setItem("hmx_mode", "demo");
+        toast("Wallet unavailable — demo wallet connected");
+        refreshWallet();
+      });
     } else {
       localStorage.setItem("hmx_w", "1");
-      toast("Demo wallet connected — " + ADDR);
+      localStorage.setItem("hmx_mode", "demo");
+      toast("No wallet extension found — demo wallet connected");
+      refreshWallet();
     }
-    refreshWallet();
   }
 
   /* ---------- perps ---------- */
@@ -348,5 +428,6 @@
     }
   });
 
+  restoreInjected();
   refreshWallet();
 })();
