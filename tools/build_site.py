@@ -94,6 +94,30 @@ else:
     assert "rgba(98, 172, 126, 0.42)" in base_css, "backdrop missing entirely"
 
 # ---------- 2. nav hrefs + active state ----------
+# ---------- 1d. mobile shell: fixed glass header + bottom tab bar ----------
+_lockup_m = re.search(r'<svg viewBox="0 0 236 57".*?</svg>', shell_head, re.S)
+LOCKUP_SVG = _lockup_m.group(0) if _lockup_m else ''
+
+MOBILE_HTML = ('<header class="mhead">'
+  '<a href="index.html" class="mlogo-a" aria-label="Harmonix home">' + LOCKUP_SVG.replace('aria-label="Harmonix logo"', 'aria-label="Harmonix logo" class="mlogo"') + '</a>'
+  '<button class="connect-btn">Connect</button>'
+  '</header>'
+  '<nav class="mnav" aria-label="Mobile">'
+  '<a class="mn" href="index.html"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg><span>Home</span></a>'
+  '<a class="mn" href="perps.html"><svg width="17" height="17" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M2 11.5 5.5 7l2.5 2.5L13 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 3.5H13V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Perps</span></a>'
+  '<a class="mn" href="swap.html"><svg width="17" height="17" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.47 2.22a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 1 1-1.06-1.06l.97-.97H5.75a.75.75 0 0 1 0-1.5h5.69l-.97-.97a.75.75 0 0 1 0-1.06Zm-4.94 6a.75.75 0 0 1 0 1.06l-.97.97h5.69a.75.75 0 0 1 0 1.5H4.56l.97.97a.75.75 0 1 1-1.06 1.06l-2.25-2.25a.75.75 0 0 1 0-1.06l2.25-2.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd"/></svg><span>Swap</span></a>'
+  '<a class="mn" href="stake.html"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75 2.25 12l4.179 2.25m0-4.5 5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0 4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0-5.571 3-5.571-3"/></svg><span>Stake</span></a>'
+  '<a class="mn" href="portfolio.html"><svg width="17" height="17" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5.33 17.33c0-2.51 0-3.77.78-4.55.78-.78 2.04-.78 4.56-.78h10.66c2.52 0 3.77 0 4.55.78.78.78.78 2.04.78 4.55V20c0 3.77 0 5.66-1.17 6.83C24.32 28 22.44 28 18.67 28h-5.34c-3.77 0-5.65 0-6.83-1.17-1.17-1.17-1.17-3.06-1.17-6.83v-2.67Z"/><path stroke-linecap="round" d="M21.33 10.67V9.33a5.33 5.33 0 0 0-10.66 0v1.34"/></svg><span>Portfolio</span></a>'
+  '</nav>')
+
+if 'name="viewport"' not in shell_head:
+    shell_head = shell_head.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">', 1)
+assert 'name="viewport"' in shell_head
+
+if 'class="mhead"' not in shell_head:
+    shell_head = shell_head.replace('<div class="app">', MOBILE_HTML + '\n<div class="app">', 1)
+assert 'class="mhead"' in shell_head
+
 NAV = {
     "Home": "index.html",
     "Protection Vault": "protection.html",
@@ -132,9 +156,18 @@ TOPBAR = '''    <div class="topbar">
     </div>
 '''
 
+_MNAV_MAP = {"Home": "index.html", "Perps": "perps.html", "Swap": "swap.html", "Stake": "stake.html", "Portfolio": "portfolio.html"}
+
+def mark_mnav(html, active):
+    mh = _MNAV_MAP.get(active)
+    if mh:
+        html = html.replace('class="mn" href="' + mh + '"', 'class="mn active" href="' + mh + '"', 1)
+    return html
+
 def page(fname, active, title, content):
     html = make_shell(active, title)
     html += '<main class="main">\n' + TOPBAR.format(title=title) + content + '\n  </main>\n' + SHELL_TAIL
+    html = mark_mnav(html, active)
     open(os.path.join(OUT, fname), "w").write(html)
     print("wrote", fname, len(html))
 
@@ -737,6 +770,69 @@ EXTRA2_CSS = """
 
   /* quiet chart captions */
   .chart-cap { margin: 8px 2px 0; font-size: 11.5px; color: var(--text-3); }
+
+  /* quieter column headers, benji-style muting */
+  .list-head { color: var(--text-3); }
+  .fine { opacity: 0.85; }
+
+  /* living counters */
+  .bignum { font-size: 24px; font-weight: 600; color: #62d98b; margin-top: 10px; font-variant-numeric: tabular-nums; }
+
+  /* ---------- phone ---------- */
+  .mhead, .mnav { display: none; }
+  @media (max-width: 760px) {
+    .sidebar { display: none; }
+    .app { display: block; }
+    .main { padding: 66px 14px 86px; }
+    .mhead {
+      display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+      align-items: center; justify-content: space-between; padding: 10px 14px;
+      background: rgba(6, 18, 13, 0.72);
+      backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .mhead .mlogo-a { display: flex; }
+    .mhead .mlogo { height: 22px; width: auto; display: block; }
+    .mhead .connect-btn { padding: 7px 16px; font-size: 12.5px; }
+    .mnav {
+      display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
+      background: rgba(6, 18, 13, 0.82);
+      backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 7px 4px calc(7px + env(safe-area-inset-bottom));
+    }
+    .mn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--text-2); text-decoration: none; font-size: 10px; font-weight: 500; padding: 3px 0; }
+    .mn.active { color: var(--lime); }
+    .mn:focus-visible { outline: 2px solid var(--lime); outline-offset: 1px; border-radius: 6px; }
+
+    .topbar { padding: 12px 0 14px; }
+    .topbar h1 { font-size: 21px; }
+    .topbar .connect-btn, .topbar .chain-btn { display: none; }
+    .banner { font-size: 12px; }
+    .hero { padding: 16px 18px; }
+    .hero h2 { font-size: 19px; }
+    .hero-stats { width: 100%; justify-content: space-between; gap: 8px; padding: 9px 14px; font-size: 12px; }
+
+    .section { overflow-x: visible; }
+    .list-head { display: none; }
+    .cards .card { min-width: 0; grid-template-columns: 1fr 1fr; gap: 12px 14px; padding: 16px; }
+    .card-head { grid-column: 1 / -1; }
+    .metric .label { display: block; margin-bottom: 2px; }
+    .metric.apy { display: block; }
+    .metric.apy .spark { margin-left: 8px; }
+    .deposit-btn { grid-column: 1 / -1; width: 100%; justify-self: stretch; }
+
+    .perps-grid { grid-template-columns: 1fr; }
+    .chart-wrap { grid-column: auto; }
+    .grid2, .grid2[style] { grid-template-columns: 1fr !important; }
+    .growth-grid { grid-template-columns: repeat(2, 1fr); }
+    .tiles { grid-template-columns: repeat(2, 1fr); }
+    .tile .value { font-size: 19px; }
+    .vhead-l h2 { font-size: 18px; }
+    .rail { position: static; }
+    .code-box { font-size: 14px; flex-wrap: wrap; }
+    .pairbar { gap: 14px; padding: 12px 16px; }
+  }
 """
 open(os.path.join(OUT, "assets", "style.css"), "a").write(EXTRA2_CSS)
 
@@ -795,11 +891,48 @@ def drawdown_chart():
             '<polyline points="' + line + '" fill="none" stroke="#62d98b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
             '<circle cx="680" cy="55" r="3.5" fill="#62d98b"/></svg>')
 
+def net_flows():
+    random.seed(11)
+    vals = [random.uniform(-0.55, 1.0) for _ in range(12)]
+    vals[-1] = 0.85
+    zero_y = 100
+    bars = ""
+    for i, v in enumerate(vals):
+        x = 70 + i * 54
+        bh = max(4, abs(v) * 66)
+        if v >= 0:
+            col = "#d7fb5f" if i == len(vals) - 1 else "rgba(98,217,139,0.6)"
+            bars += '<rect x="%d" y="%.1f" width="34" height="%.1f" rx="4" fill="%s"/>' % (x, zero_y - bh, bh, col)
+        else:
+            bars += '<rect x="%d" y="%d" width="34" height="%.1f" rx="4" fill="rgba(242,113,110,0.55)"/>' % (x, zero_y, bh)
+    grid = ""
+    for yy, lab in [(34, "+$1M"), (100, "$0"), (166, "-$1M")]:
+        grid += '<line x1="70" y1="%d" x2="718" y2="%d" stroke="rgba(255,255,255,0.06)"/><text class="axis" x="10" y="%d">%s</text>' % (yy, yy, yy + 3, lab)
+    xlab = '<text class="axis" x="70" y="196">May</text><text class="axis" x="340" y="196">Jun</text><text class="axis" x="610" y="196">Jul</text>'
+    return '<svg viewBox="0 0 730 200" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">' + grid + xlab + bars + '</svg>'
+
+COUNTER_JS = '''    <script>
+    (function () {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      document.querySelectorAll("[data-count]").forEach(function (el) {
+        var v = parseFloat(el.dataset.count);
+        var step = parseFloat(el.dataset.step || "0.1");
+        setInterval(function () {
+          v += Math.random() * step;
+          el.textContent = "+$" + v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }, 1800);
+      });
+    })();
+    </script>
+'''
+
 ANALYTICS = '''    <div class="tiles">
       <div class="tile"><div class="label">Total value locked</div><div class="value">$7.86M<span class="delta up">+4.2% 7d</span></div>''' + spark_tile([(0,18),(9,16),(18,17),(27,13),(36,12),(45,9),(54,7),(63,4)]) + '''</div>
       <div class="tile"><div class="label">24h volume</div><div class="value">$1.92M<span class="delta up">+12.8%</span></div>''' + spark_tile([(0,14),(9,16),(18,10),(27,13),(36,8),(45,11),(54,6),(63,4)]) + '''</div>
       <div class="tile"><div class="label">Best APY</div><div class="value lime">8.42%</div><div class="sub">HIP-3 haUSDC Vault</div></div>
       <div class="tile"><div class="label">Depositors</div><div class="value">1,241<span class="delta up">+38 this week</span></div></div>
+      <div class="tile"><div class="label">Protocol fees (30d)</div><div class="value">$28.4K<span class="delta up">+9.1%</span></div></div>
+      <div class="tile"><div class="label">Avg. deposit</div><div class="value">$6.3K</div><div class="sub">median $940</div></div>
     </div>
     <div class="grid2" style="margin-bottom:14px">
       <div class="panel">
@@ -811,6 +944,23 @@ ANALYTICS = '''    <div class="tiles">
         <h2>Weekly volume</h2>
         <p class="muted" style="margin:0 0 12px">Deposits, withdrawals and routed swaps.</p>
         ''' + volume_bars() + '''
+      </div>
+    </div>
+    <div class="grid2" style="margin-bottom:14px">
+      <div class="panel">
+        <h2>Net flows — weekly</h2>
+        <p class="muted" style="margin:0 0 12px">Deposits minus withdrawals.</p>
+        ''' + net_flows() + '''
+      </div>
+      <div class="panel">
+        <h2>Protocol fees — all time</h2>
+        <p class="muted" style="margin:2px 0 0">Performance fees plus builder-code revenue.</p>
+        <div class="bignum" data-count="153204.77" data-step="0.35">+$153,204.77</div>
+        <div style="margin-top:12px">
+          <div class="kv"><span>Performance fees (10% on yield)</span><b>$132.9K</b></div>
+          <div class="kv"><span>Builder-code fees (perps + spot)</span><b>$20.3K</b></div>
+          <div class="kv"><span>Fee switch to HAR stakers</span><b>Active — 50%</b></div>
+        </div>
       </div>
     </div>
     <div class="grid2">
@@ -836,7 +986,7 @@ ANALYTICS = '''    <div class="tiles">
         </table>
       </div>
     </div>
-'''
+''' + COUNTER_JS
 
 PORTFOLIO = '''    <div class="tiles">
       <div class="tile"><div class="label">Total balance</div><div class="value">$0.00</div><div class="sub">Across vaults, spot and perps</div></div>
@@ -1069,27 +1219,27 @@ def vault_apy_chart(apy):
             '<circle cx="%d" cy="%d" r="3.5" fill="#d7fb5f"/></svg>' % pts[-1])
 
 VAULTS = [
-    dict(slug="vault-hausdc.html", icon=USDC_ICON, name="HIP-3 haUSDC Vault", apy=8.42, tvl="$314.3K", sub="",
+    dict(slug="vault-hausdc.html", earned_full="18412.66", earned_disp="18,412.66", step="0.05", icon=USDC_ICON, name="HIP-3 haUSDC Vault", apy=8.42, tvl="$314.3K", sub="",
          asset="USDC", cap="$5.0M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+3</span>',
          desc="Multi-asset stablecoin vault optimized across HyperEVM, HyperCore, and HIP3 markets. Earn from delta-neutral strategies, lending yield, and future HIP3 potential rewards.",
          profile="Balanced", earned="$18.4K", g1="$61", g7="$412", g30="$1.7K", vid="0x3f8a…9d21", deployed="Jun 2026",
          allocs=[("Delta-neutral basis (HyperCore)", "52%", "$163.4K", "9.8%"),
                  ("Stablecoin lending (HyperEVM)", "33%", "$103.7K", "6.4%"),
                  ("HIP-3 market-making, hedged", "15%", "$47.2K", "8.9%")]),
-    dict(slug="vault-delta-neutral.html", icon=USDC_ICON, name="USDC — $HYPE Delta Neutral Vault", apy=7.46, tvl="$606.51K", sub="",
+    dict(slug="vault-delta-neutral.html", earned_full="31204.18", earned_disp="31,204.18", step="0.09", icon=USDC_ICON, name="USDC — $HYPE Delta Neutral Vault", apy=7.46, tvl="$606.51K", sub="",
          asset="USDC", cap="$2.5M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span>',
          desc="Convert half of your deposit into HyperLiquid and purchase $HYPE, while a 1x short HYPE-USD position hedges your exposure and earns funding fees. Net delta zero; auto-rebalances when funding flips.",
          profile="Balanced", earned="$31.2K", g1="$124", g7="$861", g30="$3.6K", vid="0x81c2…44e0", deployed="Feb 2026",
          allocs=[("Spot HYPE long", "50%", "$303.2K", "—"),
                  ("1x HYPE-USD short (funding)", "50%", "$303.3K", "14.9%")]),
-    dict(slug="vault-khype.html", icon=KHYPE_ICON_S, name="HyperEVM $KHYPE Vault", apy=3.84, tvl="$2.9M", sub="47,539.37 KHYPE",
+    dict(slug="vault-khype.html", earned_full="84903.42", earned_disp="84,903.42", step="0.24", icon=KHYPE_ICON_S, name="HyperEVM $KHYPE Vault", apy=3.84, tvl="$2.9M", sub="47,539.37 KHYPE",
          asset="KHYPE", cap="$6.0M", rewards='<span class="ricon"><svg aria-hidden="true"><use href="#tok-valantis"/></svg></span><span class="plus">+1</span>',
          desc="Deposit your KHYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols. Valantis points accrue to depositors.",
          profile="Conservative", earned="$84.9K", g1="$305", g7="$2.1K", g30="$9.2K", vid="0xc4d9…b7a3", deployed="Mar 2026",
          allocs=[("HyperEVM lending markets", "58%", "$1.68M", "4.1%"),
                  ("Delta-neutral overlay", "27%", "$783K", "3.4%"),
                  ("Liquid reserve", "15%", "$435K", "—")]),
-    dict(slug="vault-hype.html", icon=HYPE_ICON, name="HyperEVM $HYPE Vault", apy=3.80, tvl="$1.99M", sub="33,231.78 HYPE",
+    dict(slug="vault-hype.html", earned_full="56310.77", earned_disp="56,310.77", step="0.16", icon=HYPE_ICON, name="HyperEVM $HYPE Vault", apy=3.80, tvl="$1.99M", sub="33,231.78 HYPE",
          asset="HYPE", cap="$5.0M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+1</span>',
          desc="Deposit your HYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols. No directional risk.",
          profile="Conservative", earned="$56.3K", g1="$207", g7="$1.5K", g30="$6.1K", vid="0x9ab1…02cf", deployed="Mar 2026",
@@ -1147,7 +1297,7 @@ def vault_content(v):
         <div class="panel" style="margin-bottom:14px">
           <h2>Interest generated</h2>
           <p class="muted" style="margin:2px 0 0">Total yield paid to depositors in this vault.</p>
-          <div style="font-size:24px;font-weight:600;color:#62d98b;margin-top:10px;font-variant-numeric:tabular-nums">+''' + v["earned"] + '''</div>
+          <div class="bignum" data-count="''' + v["earned_full"] + '''" data-step="''' + v["step"] + '''">+$''' + v["earned_disp"] + '''</div>
           <div class="growth-grid">
             <div class="g"><div class="n">''' + v["g1"] + '''</div><div class="l">1D growth</div></div>
             <div class="g"><div class="n">''' + v["g7"] + '''</div><div class="l">7D growth</div></div>
@@ -1200,7 +1350,7 @@ def vault_content(v):
         </div>
       </div>
     </div>
-'''
+''' + COUNTER_JS
 
 # make home rows clickable
 home_main = home_main.replace('href="https://christophorusan.github.io/harmonix-glass/', 'href="')
@@ -1220,6 +1370,7 @@ home_content = home_main[len('<main class="main">'):]
 home_content = home_content[:home_content.rindex('</main>')]
 # replace its topbar with the standard one (already identical) — keep as is.
 idx_html = make_shell("Home", "Yield Markets") + '<main class="main">' + home_content + '</main>\n' + SHELL_TAIL
+idx_html = mark_mnav(idx_html, "Home")
 open(os.path.join(OUT, "index.html"), "w").write(idx_html)
 print("wrote index.html", len(idx_html))
 
