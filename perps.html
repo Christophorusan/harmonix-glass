@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>Harmonix — Yield Markets</title>
+<title>Harmonix — Perps</title>
 <link rel="stylesheet" href="assets/style.css">
 
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -19,7 +19,7 @@
     </div>
 
     <nav class="nav" aria-label="Main">
-      <a href="index.html" class="active" aria-current="page">
+      <a href="index.html">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
         Home
       </a>
@@ -39,7 +39,7 @@
         <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true"><circle cx="16" cy="16" r="10.7184" stroke="currentColor" stroke-width="2.5632"/><rect x="15.5732" y="10" width="0.857143" height="12" fill="currentColor" stroke="currentColor" stroke-width="1.6"/><rect x="22" y="15.5713" width="0.857143" height="12" transform="rotate(90 22 15.5713)" fill="currentColor" stroke="currentColor" stroke-width="1.6"/><rect x="19.9424" y="11.4556" width="0.857143" height="12" transform="rotate(45 19.9424 11.4556)" fill="currentColor" stroke="currentColor" stroke-width="1.6"/><rect x="20.5469" y="19.9399" width="0.857143" height="12" transform="rotate(135 20.5469 19.9399)" fill="currentColor" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="16" r="3" fill="currentColor"/></svg>
         Yield Markets
       </a>
-      <a href="perps.html">
+      <a href="perps.html" class="active" aria-current="page">
         <svg width="16" height="16" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M2 11.5 5.5 7l2.5 2.5L13 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 3.5H13V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Perps
       </a>
@@ -77,13 +77,8 @@
   </aside>
 
   <main class="main">
-    <div class="banner" role="status">
-      <span class="dot" aria-hidden="true"></span>
-      <span><strong>Valantis points</strong> will be distributed directly to haHYPE holders by the Valantis team.</span>
-    </div>
-
     <div class="topbar">
-      <h1>Yield Markets</h1>
+      <h1>Perps</h1>
       <div class="topbar-actions">
         <button class="chain-btn" aria-haspopup="listbox" aria-label="Switch network, current: HyperEVM">
           <span class="cicon" aria-hidden="true"><svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="11" fill="#072723"/><path d="M18.9666 10.8871C18.9812 12.1981 18.7068 13.4507 18.1679 14.6475C17.3984 16.3517 15.5534 17.7452 13.8685 16.2619C12.4945 15.0529 12.2396 12.5986 10.181 12.2393C7.45717 11.9092 7.39163 15.0675 5.61217 15.4244C3.62879 15.8274 2.9709 12.4918 3.00004 10.9769C3.02917 9.46209 3.43215 7.33305 5.15578 7.33305C7.13915 7.33305 7.27267 10.336 9.79014 10.1734C12.2833 10.0035 12.327 6.87908 13.9559 5.54146C15.3615 4.3859 17.0148 5.23315 17.8426 6.62418C18.6097 7.91083 18.9472 9.42082 18.9641 10.8871H18.9666Z" fill="#50D2C1"/></svg></span>
@@ -93,131 +88,67 @@
         <button class="connect-btn">Connect wallet</button>
       </div>
     </div>
+    <section class="perps-grid">
+      <div class="pairbar">
+        <div class="pair"><span class="coin" aria-hidden="true"><svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="11" fill="#072723"/><path d="M18.9666 10.8871C18.9812 12.1981 18.7068 13.4507 18.1679 14.6475C17.3984 16.3517 15.5534 17.7452 13.8685 16.2619C12.4945 15.0529 12.2396 12.5986 10.181 12.2393C7.45717 11.9092 7.39163 15.0675 5.61217 15.4244C3.62879 15.8274 2.9709 12.4918 3.00004 10.9769C3.02917 9.46209 3.43215 7.33305 5.15578 7.33305C7.13915 7.33305 7.27267 10.336 9.79014 10.1734C12.2833 10.0035 12.327 6.87908 13.9559 5.54146C15.3615 4.3859 17.0148 5.23315 17.8426 6.62418C18.6097 7.91083 18.9472 9.42082 18.9641 10.8871H18.9666Z" fill="#50D2C1"/></svg></span>HYPE-USD <svg class="chev" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+        <div class="pstat"><div class="label">Mark</div><div class="v">42.99</div></div>
+        <div class="pstat"><div class="label">24h Change</div><div class="v up">+1.04 / +2.34%</div></div>
+        <div class="pstat"><div class="label">24h Volume</div><div class="v">$48,214,930</div></div>
+        <div class="pstat"><div class="label">Open Interest</div><div class="v">$12,608,112</div></div>
+        <div class="pstat"><div class="label">Funding / Countdown</div><div class="v lime">0.0013% <span style="color:var(--text-3);font-weight:500">42m 18s</span></div></div>
+      </div>
 
-    <!-- ============ Hyperliquid Vaults (all strategies) ============ -->
-    <section class="section">
-      <div class="hero">
-        <svg class="contours" viewBox="0 0 900 160" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M-20 130 C 150 60, 300 170, 460 100 S 780 40, 940 110" stroke="rgba(255,255,255,0.10)" stroke-width="1.2" fill="none"/>
-          <path d="M-20 100 C 160 30, 320 140, 480 70 S 790 10, 940 80" stroke="rgba(255,255,255,0.07)" stroke-width="1.2" fill="none"/>
-          <path d="M-20 160 C 140 90, 290 200, 450 130 S 770 70, 940 140" stroke="rgba(255,255,255,0.05)" stroke-width="1.2" fill="none"/>
-        </svg>
-        <div>
-          <h2>Hyperliquid Vaults</h2>
-          <p>Explore all available Hyperliquid strategies.</p>
+      <div class="panel chart-panel chart-wrap">
+        <div class="tf"><button>1m</button><button>5m</button><button>15m</button><button class="active">1h</button><button>4h</button><button>1d</button></div>
+        <svg class="candles" viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="50.0" x2="760" y2="50.0" stroke="rgba(255,255,255,0.05)" stroke-width="1"/><line x1="0" y1="100.0" x2="760" y2="100.0" stroke="rgba(255,255,255,0.05)" stroke-width="1"/><line x1="0" y1="150.0" x2="760" y2="150.0" stroke="rgba(255,255,255,0.05)" stroke-width="1"/><line x1="0" y1="200.0" x2="760" y2="200.0" stroke="rgba(255,255,255,0.05)" stroke-width="1"/><line x1="0" y1="250.0" x2="760" y2="250.0" stroke="rgba(255,255,255,0.05)" stroke-width="1"/><line x1="8.3" y1="160.3" x2="8.3" y2="194.4" stroke="#e0605d" stroke-width="1"/><rect x="3.0" y="166.7" width="10.6" height="11.4" rx="1" fill="#e0605d"/><line x1="24.8" y1="164.0" x2="24.8" y2="219.7" stroke="#e0605d" stroke-width="1"/><rect x="19.5" y="178.1" width="10.6" height="31.0" rx="1" fill="#e0605d"/><line x1="41.3" y1="195.6" x2="41.3" y2="245.3" stroke="#e0605d" stroke-width="1"/><rect x="36.0" y="209.1" width="10.6" height="32.1" rx="1" fill="#e0605d"/><line x1="57.8" y1="236.5" x2="57.8" y2="249.2" stroke="#e0605d" stroke-width="1"/><rect x="52.5" y="241.2" width="10.6" height="2.8" rx="1" fill="#e0605d"/><line x1="74.3" y1="224.2" x2="74.3" y2="253.4" stroke="#e0605d" stroke-width="1"/><rect x="69.1" y="244.1" width="10.6" height="3.6" rx="1" fill="#e0605d"/><line x1="90.9" y1="231.7" x2="90.9" y2="289.2" stroke="#e0605d" stroke-width="1"/><rect x="85.6" y="247.6" width="10.6" height="19.3" rx="1" fill="#e0605d"/><line x1="107.4" y1="247.3" x2="107.4" y2="289.7" stroke="#4fc776" stroke-width="1"/><rect x="102.1" y="258.5" width="10.6" height="8.3" rx="1" fill="#4fc776"/><line x1="123.9" y1="238.0" x2="123.9" y2="295.8" stroke="#e0605d" stroke-width="1"/><rect x="118.6" y="258.5" width="10.6" height="28.1" rx="1" fill="#e0605d"/><line x1="140.4" y1="281.0" x2="140.4" y2="296.2" stroke="#4fc776" stroke-width="1"/><rect x="135.1" y="286.7" width="10.6" height="2.0" rx="1" fill="#4fc776"/><line x1="157.0" y1="252.7" x2="157.0" y2="301.6" stroke="#4fc776" stroke-width="1"/><rect x="151.7" y="259.7" width="10.6" height="27.0" rx="1" fill="#4fc776"/><line x1="173.5" y1="235.7" x2="173.5" y2="274.0" stroke="#4fc776" stroke-width="1"/><rect x="168.2" y="246.5" width="10.6" height="13.2" rx="1" fill="#4fc776"/><line x1="190.0" y1="242.0" x2="190.0" y2="285.7" stroke="#e0605d" stroke-width="1"/><rect x="184.7" y="246.5" width="10.6" height="31.8" rx="1" fill="#e0605d"/><line x1="206.5" y1="250.0" x2="206.5" y2="287.9" stroke="#4fc776" stroke-width="1"/><rect x="201.2" y="261.9" width="10.6" height="16.4" rx="1" fill="#4fc776"/><line x1="223.0" y1="240.5" x2="223.0" y2="271.2" stroke="#4fc776" stroke-width="1"/><rect x="217.8" y="252.9" width="10.6" height="9.0" rx="1" fill="#4fc776"/><line x1="239.6" y1="210.3" x2="239.6" y2="261.1" stroke="#4fc776" stroke-width="1"/><rect x="234.3" y="227.6" width="10.6" height="25.3" rx="1" fill="#4fc776"/><line x1="256.1" y1="205.6" x2="256.1" y2="248.4" stroke="#4fc776" stroke-width="1"/><rect x="250.8" y="219.4" width="10.6" height="8.1" rx="1" fill="#4fc776"/><line x1="272.6" y1="190.1" x2="272.6" y2="242.4" stroke="#4fc776" stroke-width="1"/><rect x="267.3" y="199.2" width="10.6" height="20.2" rx="1" fill="#4fc776"/><line x1="289.1" y1="187.5" x2="289.1" y2="245.1" stroke="#e0605d" stroke-width="1"/><rect x="283.8" y="199.2" width="10.6" height="27.5" rx="1" fill="#e0605d"/><line x1="305.7" y1="213.5" x2="305.7" y2="255.6" stroke="#e0605d" stroke-width="1"/><rect x="300.4" y="226.7" width="10.6" height="24.8" rx="1" fill="#e0605d"/><line x1="322.2" y1="217.4" x2="322.2" y2="266.3" stroke="#4fc776" stroke-width="1"/><rect x="316.9" y="236.0" width="10.6" height="15.5" rx="1" fill="#4fc776"/><line x1="338.7" y1="194.8" x2="338.7" y2="253.3" stroke="#4fc776" stroke-width="1"/><rect x="333.4" y="204.4" width="10.6" height="31.6" rx="1" fill="#4fc776"/><line x1="355.2" y1="179.8" x2="355.2" y2="216.9" stroke="#4fc776" stroke-width="1"/><rect x="349.9" y="194.7" width="10.6" height="9.7" rx="1" fill="#4fc776"/><line x1="371.7" y1="143.6" x2="371.7" y2="207.5" stroke="#4fc776" stroke-width="1"/><rect x="366.5" y="165.9" width="10.6" height="28.9" rx="1" fill="#4fc776"/><line x1="388.3" y1="146.2" x2="388.3" y2="183.2" stroke="#4fc776" stroke-width="1"/><rect x="383.0" y="150.7" width="10.6" height="15.1" rx="1" fill="#4fc776"/><line x1="404.8" y1="113.7" x2="404.8" y2="170.5" stroke="#4fc776" stroke-width="1"/><rect x="399.5" y="136.9" width="10.6" height="13.8" rx="1" fill="#4fc776"/><line x1="421.3" y1="125.9" x2="421.3" y2="168.1" stroke="#e0605d" stroke-width="1"/><rect x="416.0" y="136.9" width="10.6" height="14.5" rx="1" fill="#e0605d"/><line x1="437.8" y1="138.8" x2="437.8" y2="193.0" stroke="#e0605d" stroke-width="1"/><rect x="432.5" y="151.4" width="10.6" height="34.9" rx="1" fill="#e0605d"/><line x1="454.3" y1="181.8" x2="454.3" y2="232.5" stroke="#e0605d" stroke-width="1"/><rect x="449.1" y="186.3" width="10.6" height="27.5" rx="1" fill="#e0605d"/><line x1="470.9" y1="205.5" x2="470.9" y2="251.5" stroke="#e0605d" stroke-width="1"/><rect x="465.6" y="213.8" width="10.6" height="26.6" rx="1" fill="#e0605d"/><line x1="487.4" y1="204.1" x2="487.4" y2="252.7" stroke="#4fc776" stroke-width="1"/><rect x="482.1" y="209.1" width="10.6" height="31.3" rx="1" fill="#4fc776"/><line x1="503.9" y1="181.9" x2="503.9" y2="228.8" stroke="#4fc776" stroke-width="1"/><rect x="498.6" y="202.9" width="10.6" height="6.2" rx="1" fill="#4fc776"/><line x1="520.4" y1="163.3" x2="520.4" y2="214.5" stroke="#4fc776" stroke-width="1"/><rect x="515.1" y="172.2" width="10.6" height="30.7" rx="1" fill="#4fc776"/><line x1="537.0" y1="151.2" x2="537.0" y2="203.3" stroke="#e0605d" stroke-width="1"/><rect x="531.7" y="172.2" width="10.6" height="8.7" rx="1" fill="#e0605d"/><line x1="553.5" y1="174.0" x2="553.5" y2="213.7" stroke="#e0605d" stroke-width="1"/><rect x="548.2" y="180.9" width="10.6" height="24.9" rx="1" fill="#e0605d"/><line x1="570.0" y1="192.7" x2="570.0" y2="239.3" stroke="#e0605d" stroke-width="1"/><rect x="564.7" y="205.7" width="10.6" height="18.5" rx="1" fill="#e0605d"/><line x1="586.5" y1="220.8" x2="586.5" y2="252.1" stroke="#e0605d" stroke-width="1"/><rect x="581.2" y="224.2" width="10.6" height="16.2" rx="1" fill="#e0605d"/><line x1="603.0" y1="225.7" x2="603.0" y2="270.6" stroke="#e0605d" stroke-width="1"/><rect x="597.8" y="240.4" width="10.6" height="7.9" rx="1" fill="#e0605d"/><line x1="619.6" y1="217.4" x2="619.6" y2="263.9" stroke="#4fc776" stroke-width="1"/><rect x="614.3" y="231.1" width="10.6" height="17.2" rx="1" fill="#4fc776"/><line x1="636.1" y1="210.6" x2="636.1" y2="252.4" stroke="#4fc776" stroke-width="1"/><rect x="630.8" y="215.0" width="10.6" height="16.1" rx="1" fill="#4fc776"/><line x1="652.6" y1="170.0" x2="652.6" y2="234.3" stroke="#4fc776" stroke-width="1"/><rect x="647.3" y="190.8" width="10.6" height="24.2" rx="1" fill="#4fc776"/><line x1="669.1" y1="179.5" x2="669.1" y2="202.3" stroke="#e0605d" stroke-width="1"/><rect x="663.8" y="190.8" width="10.6" height="6.1" rx="1" fill="#e0605d"/><line x1="685.7" y1="179.5" x2="685.7" y2="201.6" stroke="#4fc776" stroke-width="1"/><rect x="680.4" y="184.1" width="10.6" height="12.8" rx="1" fill="#4fc776"/><line x1="702.2" y1="177.5" x2="702.2" y2="214.6" stroke="#e0605d" stroke-width="1"/><rect x="696.9" y="184.1" width="10.6" height="20.4" rx="1" fill="#e0605d"/><line x1="718.7" y1="201.1" x2="718.7" y2="243.4" stroke="#e0605d" stroke-width="1"/><rect x="713.4" y="204.4" width="10.6" height="32.6" rx="1" fill="#e0605d"/><line x1="735.2" y1="226.4" x2="735.2" y2="269.6" stroke="#e0605d" stroke-width="1"/><rect x="729.9" y="237.0" width="10.6" height="28.8" rx="1" fill="#e0605d"/><line x1="751.7" y1="218.6" x2="751.7" y2="272.1" stroke="#4fc776" stroke-width="1"/><rect x="746.5" y="234.2" width="10.6" height="31.5" rx="1" fill="#4fc776"/><line x1="0" y1="234.2" x2="760" y2="234.2" stroke="rgba(215,251,95,0.5)" stroke-width="1" stroke-dasharray="4 4"/><rect x="704" y="225.2" width="52" height="18" rx="4" fill="#2c4a1f"/><text x="708" y="238.2" font-size="11" fill="#d7fb5f" font-family="Poppins, sans-serif">42.99</text></svg>
+      </div>
+
+      <div class="panel">
+        <div class="ptabs" style="margin:-6px -6px 10px"><button class="active">Order book</button><button>Recent trades</button></div>
+        <div class="ob-head"><span>Price</span><span>Size</span><span>Total</span></div>
+        <div class="ob-row ask"><span>43.29</span><span>665.2</span><span>931.3</span><span class="depth" style="width:56%"></span></div>
+          <div class="ob-row ask"><span>43.24</span><span>1477.3</span><span>2068.2</span><span class="depth" style="width:72%"></span></div>
+          <div class="ob-row ask"><span>43.19</span><span>365.0</span><span>511.0</span><span class="depth" style="width:74%"></span></div>
+          <div class="ob-row ask"><span>43.14</span><span>2384.0</span><span>3337.6</span><span class="depth" style="width:71%"></span></div>
+          <div class="ob-row ask"><span>43.09</span><span>1194.5</span><span>1672.3</span><span class="depth" style="width:51%"></span></div>
+          <div class="ob-row ask"><span>43.04</span><span>279.3</span><span>391.0</span><span class="depth" style="width:25%"></span></div>
+          <div class="spread">Spread 0.05 (0.011%)</div>
+          <div class="ob-row bid"><span>42.97</span><span>1819.2</span><span>2546.9</span><span class="depth" style="width:45%"></span></div>
+          <div class="ob-row bid"><span>42.92</span><span>1190.4</span><span>1666.6</span><span class="depth" style="width:32%"></span></div>
+          <div class="ob-row bid"><span>42.87</span><span>1277.9</span><span>1789.1</span><span class="depth" style="width:38%"></span></div>
+          <div class="ob-row bid"><span>42.82</span><span>2286.3</span><span>3200.8</span><span class="depth" style="width:79%"></span></div>
+          <div class="ob-row bid"><span>42.77</span><span>919.3</span><span>1287.0</span><span class="depth" style="width:81%"></span></div>
+          <div class="ob-row bid"><span>42.72</span><span>2200.8</span><span>3081.1</span><span class="depth" style="width:79%"></span></div>
+      </div>
+
+      <div class="panel">
+        <div class="seg"><button class="active">Cross</button><button>20x</button><button>One-way</button></div>
+        <div class="seg" style="margin-top:8px"><button class="active">Market</button><button>Limit</button><button>Pro</button></div>
+        <div class="seg buysell"><button class="buy active">Buy / Long</button><button class="sell">Sell / Short</button></div>
+        <div class="trade-rows">
+          <div class="kv"><span>Available to trade</span><b>0.00 USDC</b></div>
+          <div class="kv"><span>Current position</span><b>0.00 HYPE</b></div>
         </div>
-        <div class="hero-stats">
-          <span>Vaults <b>4</b></span>
-          <span class="sep" aria-hidden="true"></span>
-          <span>Total TVL <b>$5.81M</b></span>
-          <span class="sep" aria-hidden="true"></span>
-          <span>Best APY <span class="apy">8.42%</span></span>
+        <div class="field">
+          <div class="flabel">Size</div>
+          <div class="fbox">0.00 <span class="unit">USDC</span></div>
+        </div>
+        <button class="cta">Connect wallet to trade</button>
+        <div class="trade-rows">
+          <div class="kv"><span>Liquidation price</span><b>N/A</b></div>
+          <div class="kv"><span>Order value</span><b>N/A</b></div>
+          <div class="kv"><span>Margin required</span><b>N/A</b></div>
+          <div class="kv"><span>Slippage</span><b>Est. 0.10% / Max 3%</b></div>
+          <div class="kv"><span>Fees</span><b>0.0350% / 0.0150%</b></div>
         </div>
       </div>
 
-      <div class="list-head" aria-hidden="true">
-        <span>Vault</span><span>Net APY</span><span>TVL</span><span>Asset</span><span>Rewards</span><span></span>
-      </div>
-
-      <div class="cards">
-        <article class="card">
-          <div class="card-head">
-            <span class="coin" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47 47" fill="none"><g clip-path="url(#usdc-clip)"><path d="M23.6665 46.5C36.4124 46.5 46.6665 36.2459 46.6665 23.5C46.6665 10.7541 36.4124 0.5 23.6665 0.5C10.9206 0.5 0.666504 10.7541 0.666504 23.5C0.666504 36.2459 10.9206 46.5 23.6665 46.5Z" fill="#2775CA"/><path d="M29.991 27.139C29.991 23.7849 27.9785 22.6349 23.9535 22.1558C21.0785 21.7724 20.5035 21.0058 20.5035 19.664C20.5035 18.3221 21.4619 17.4599 23.3785 17.4599C25.1035 17.4599 26.0619 18.0349 26.541 19.4724C26.6369 19.7599 26.9244 19.9515 27.2119 19.9515H28.7451C29.1285 19.9515 29.416 19.664 29.416 19.2808V19.1849C29.0326 17.0765 27.3076 15.4474 25.1035 15.2558V12.9558C25.1035 12.5724 24.816 12.2849 24.3369 12.189H22.8994C22.516 12.189 22.2285 12.4765 22.1326 12.9558V15.1599C19.2576 15.5433 17.4369 17.4599 17.4369 19.8558C17.4369 23.0183 19.3535 24.264 23.3785 24.7433C26.0619 25.2224 26.9244 25.7974 26.9244 27.3308C26.9244 28.8642 25.5826 29.9183 23.7619 29.9183C21.2701 29.9183 20.4076 28.864 20.1201 27.4265C20.0244 27.0433 19.7369 26.8515 19.4494 26.8515H17.8201C17.4369 26.8515 17.1494 27.139 17.1494 27.5224V27.6183C17.5326 30.014 19.066 31.739 22.2285 32.2183V34.5183C22.2285 34.9015 22.516 35.189 22.9951 35.2849H24.4326C24.816 35.2849 25.1035 34.9974 25.1994 34.5183V32.2183C28.0744 31.739 29.991 29.7265 29.991 27.139Z" fill="white"/><path d="M18.7775 37.2032C11.3025 34.52 7.46905 26.1825 10.2484 18.8032C11.6859 14.7782 14.8484 11.7116 18.7775 10.2741C19.1609 10.0825 19.3525 9.79502 19.3525 9.3157V7.97411C19.3525 7.5907 19.1609 7.3032 18.7775 7.20752C18.6815 7.20752 18.49 7.20752 18.394 7.3032C9.28996 10.1782 4.30654 19.8575 7.18154 28.9616C8.90654 34.3282 13.0275 38.4491 18.394 40.1741C18.7775 40.3657 19.1609 40.1741 19.2565 39.7907C19.3525 39.695 19.3525 39.5991 19.3525 39.4075V38.0657C19.3525 37.7782 19.065 37.395 18.7775 37.2032ZM28.9359 7.3032C28.5525 7.11161 28.169 7.3032 28.0734 7.68661C27.9775 7.78252 27.9775 7.8782 27.9775 8.07002V9.41161C27.9775 9.79502 28.265 10.1782 28.5525 10.37C36.0275 13.0532 39.8609 21.3907 37.0816 28.77C35.644 32.795 32.4815 35.8616 28.5525 37.2991C28.169 37.4907 27.9775 37.7782 27.9775 38.2575V39.5991C27.9775 39.9825 28.169 40.27 28.5525 40.3657C28.6484 40.3657 28.84 40.3657 28.9359 40.27C38.04 37.395 43.0234 27.7157 40.1484 18.6116C38.4234 13.1491 34.2066 9.0282 28.9359 7.3032Z" fill="white"/></g><defs><clipPath id="usdc-clip"><rect width="46" height="46" fill="white" transform="translate(0.666504 0.5)"/></clipPath></defs></svg></span>
-            <h3>HIP-3 haUSDC Vault</h3>
-            <span class="live">LIVE</span>
-          </div>
-          <div class="metrics">
-            <div class="metric apy">
-              <div class="label">Net APY</div>
-              <div class="value">8.42%</div>
-              <svg class="spark" viewBox="0 0 60 20" aria-hidden="true"><polyline points="0,15 10,13 20,14 30,10 40,8 50,6 60,4"/><circle cx="60" cy="4" r="2"/></svg>
-            </div>
-            <div class="metric">
-              <div class="label">TVL</div>
-              <div class="value">$314.3K</div>
-            </div>
-          </div>
-          <div class="divider" aria-hidden="true"></div>
-          <div class="row"><span class="k">Asset</span><span class="v">USDC</span></div>
-          <div class="row"><span class="k">Rewards</span><span class="v"><span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+3</span></span></div>
-          <p class="desc">Multi-asset stablecoin vault optimized across HyperEVM, HyperCore, and HIP3 markets. Earn from delta-neutral strategies, lending yield, and future HIP3 potential rewards.</p>
-          <button class="deposit-btn">Deposit</button>
-        </article>
-
-        <article class="card">
-          <div class="card-head">
-            <span class="coin hype" aria-hidden="true"><svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="11" fill="#072723"/><path d="M18.9666 10.8871C18.9812 12.1981 18.7068 13.4507 18.1679 14.6475C17.3984 16.3517 15.5534 17.7452 13.8685 16.2619C12.4945 15.0529 12.2396 12.5986 10.181 12.2393C7.45717 11.9092 7.39163 15.0675 5.61217 15.4244C3.62879 15.8274 2.9709 12.4918 3.00004 10.9769C3.02917 9.46209 3.43215 7.33305 5.15578 7.33305C7.13915 7.33305 7.27267 10.336 9.79014 10.1734C12.2833 10.0035 12.327 6.87908 13.9559 5.54146C15.3615 4.3859 17.0148 5.23315 17.8426 6.62418C18.6097 7.91083 18.9472 9.42082 18.9641 10.8871H18.9666Z" fill="#50D2C1"/></svg></span>
-            <h3>USDC — $HYPE Delta Neutral Vault</h3>
-            <span class="live">LIVE</span>
-          </div>
-          <div class="metrics">
-            <div class="metric apy">
-              <div class="label">Net APY</div>
-              <div class="value">7.46%</div>
-              <svg class="spark" viewBox="0 0 60 20" aria-hidden="true"><polyline points="0,10 10,12 20,8 30,11 40,7 50,9 60,6"/><circle cx="60" cy="6" r="2"/></svg>
-            </div>
-            <div class="metric">
-              <div class="label">TVL</div>
-              <div class="value">$606.51K</div>
-            </div>
-          </div>
-          <div class="divider" aria-hidden="true"></div>
-          <div class="row"><span class="k">Asset</span><span class="v">USDC</span></div>
-          <div class="row"><span class="k">Rewards</span><span class="v"><span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span></span></div>
-          <p class="desc">Convert half of your deposit into HyperLiquid and purchase $HYPE, while a 1x short HYPE-USD position hedges your exposure and earns funding fees.</p>
-          <button class="deposit-btn">Deposit</button>
-        </article>
-
-        <article class="card">
-          <div class="card-head">
-            <span class="coin" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 541 541"><circle cx="270.5" cy="270.5" r="262.5" fill="url(#ka)" stroke="url(#kb)" stroke-width="16"/><path fill="url(#kc)" d="M436.07 269.312c.302 27.204-5.387 53.199-16.564 78.035-15.96 35.366-54.223 64.283-89.165 33.502-28.496-25.089-33.783-76.021-76.476-83.477-56.49-6.851-57.849 58.69-94.754 66.096-41.133 8.363-54.777-60.857-54.173-92.293s8.962-75.617 44.708-75.617c41.134 0 43.903 62.317 96.113 58.942 51.706-3.526 52.612-68.363 86.395-96.122 29.151-23.98 63.437-6.398 80.605 22.469 15.91 26.701 22.909 58.036 23.26 88.465z"/><circle cx="270.5" cy="270.5" r="232.508" stroke="url(#kd)" stroke-opacity=".8" stroke-width="12"/><defs><linearGradient id="ka" x1="541" x2="0" y1="0" y2="541" gradientUnits="userSpaceOnUse"><stop stop-color="#9F9F9F"/><stop offset=".423" stop-color="#131313"/></linearGradient><linearGradient id="kc" x1="270.5" x2="270.5" y1="147.128" y2="393.872" gradientUnits="userSpaceOnUse"><stop stop-color="#6EE4FF"/><stop offset="1" stop-color="#246F8F"/></linearGradient><linearGradient id="kb" x1="270.5" x2="270.5" y1="15.698" y2="525.301" gradientUnits="userSpaceOnUse"><stop stop-color="#35ABD9"/><stop offset="1" stop-color="#2D7E99"/></linearGradient><linearGradient id="kd" x1="270.5" x2="270.5" y1="43.992" y2="497.008" gradientUnits="userSpaceOnUse"><stop stop-color="#C9C9C9"/><stop offset="1" stop-color="#646464"/></linearGradient></defs></svg></span>
-            <h3>HyperEVM $KHYPE Vault</h3>
-            <span class="live">LIVE</span>
-          </div>
-          <div class="metrics">
-            <div class="metric apy">
-              <div class="label">Net APY</div>
-              <div class="value">3.84%</div>
-              <svg class="spark" viewBox="0 0 60 20" aria-hidden="true"><polyline points="0,12 10,11 20,12 30,10 40,11 50,9 60,9"/><circle cx="60" cy="9" r="2"/></svg>
-            </div>
-            <div class="metric">
-              <div class="label">TVL</div>
-              <div class="value">$2.9M</div>
-              <div class="sub">47,539.37 KHYPE</div>
-            </div>
-          </div>
-          <div class="divider" aria-hidden="true"></div>
-          <div class="row"><span class="k">Asset</span><span class="v">KHYPE</span></div>
-          <div class="row"><span class="k">Rewards</span><span class="v"><span class="ricon"><svg aria-hidden="true"><use href="#tok-valantis"/></svg></span><span class="plus">+1</span></span></div>
-          <p class="desc">Deposit your KHYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols.</p>
-          <button class="deposit-btn">Deposit</button>
-        </article>
-
-        <article class="card">
-          <div class="card-head">
-            <span class="coin hype" aria-hidden="true"><svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="11" fill="#072723"/><path d="M18.9666 10.8871C18.9812 12.1981 18.7068 13.4507 18.1679 14.6475C17.3984 16.3517 15.5534 17.7452 13.8685 16.2619C12.4945 15.0529 12.2396 12.5986 10.181 12.2393C7.45717 11.9092 7.39163 15.0675 5.61217 15.4244C3.62879 15.8274 2.9709 12.4918 3.00004 10.9769C3.02917 9.46209 3.43215 7.33305 5.15578 7.33305C7.13915 7.33305 7.27267 10.336 9.79014 10.1734C12.2833 10.0035 12.327 6.87908 13.9559 5.54146C15.3615 4.3859 17.0148 5.23315 17.8426 6.62418C18.6097 7.91083 18.9472 9.42082 18.9641 10.8871H18.9666Z" fill="#50D2C1"/></svg></span>
-            <h3>HyperEVM $HYPE Vault</h3>
-            <span class="live">LIVE</span>
-          </div>
-          <div class="metrics">
-            <div class="metric apy">
-              <div class="label">Net APY</div>
-              <div class="value">3.8%</div>
-              <svg class="spark" viewBox="0 0 60 20" aria-hidden="true"><polyline points="0,9 10,11 20,10 30,12 40,10 50,11 60,10"/><circle cx="60" cy="10" r="2"/></svg>
-            </div>
-            <div class="metric">
-              <div class="label">TVL</div>
-              <div class="value">$1.99M</div>
-              <div class="sub">33,231.78 HYPE</div>
-            </div>
-          </div>
-          <div class="divider" aria-hidden="true"></div>
-          <div class="row"><span class="k">Asset</span><span class="v">HYPE</span></div>
-          <div class="row"><span class="k">Rewards</span><span class="v"><span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+1</span></span></div>
-          <p class="desc">Deposit your HYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols.</p>
-          <button class="deposit-btn">Deposit</button>
-        </article>
+      <div class="panel positions-panel">
+        <div class="ptabs"><button class="active">Balances</button><button>Positions</button><button>Open orders</button><button>TWAP</button><button>Trade history</button><button>Funding history</button></div>
+        <div class="empty-state">Connect wallet to view your account</div>
       </div>
     </section>
+    <p class="fine">Harmonix Perps — routed through Hyperliquid with the Harmonix builder code.</p>
+
   </main>
 </div>
