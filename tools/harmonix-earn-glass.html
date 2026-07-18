@@ -2223,7 +2223,686 @@
     .code-box { font-size: 14px; flex-wrap: wrap; }
     .pairbar { gap: 14px; padding: 12px 16px; }
   }
+
+  /* ---------- subpage components ---------- */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px; }
+  .tile {
+    background: var(--glass); border: 1px solid var(--glass-border); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 16px 20px;
+    backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  }
+  .tile .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.11em; color: var(--text-2); }
+  .tile .value { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: 3px; letter-spacing: -0.01em; }
+  .tile .value.lime { color: var(--lime); }
+  .tile .sub { font-size: 11.5px; color: var(--text-3); }
+
+  .panel {
+    background: var(--glass); border: 1px solid var(--glass-border); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 20px;
+    backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  }
+  .panel h2 { margin: 0 0 4px; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .panel .muted { color: var(--text-2); font-size: 13px; }
+
+  .empty-state { text-align: center; padding: 56px 20px; color: var(--text-2); font-size: 14px; }
+  .empty-state .big { font-size: 16px; font-weight: 600; color: var(--text-1); margin-bottom: 6px; }
+  .empty-state .connect-btn { margin-top: 18px; }
+
+  .ghost-btn {
+    background: rgba(47, 174, 78, 0.16); color: #62d98b; border: none; border-radius: var(--radius-sm);
+    font: 600 13.5px var(--font); padding: 10px 22px; cursor: pointer;
+    box-shadow: inset 0 0 0 1px rgba(98, 217, 139, 0.22);
+    transition: background 0.16s, color 0.16s;
+  }
+  .ghost-btn:hover { background: linear-gradient(180deg, #41cc63, #2cb04e); color: #fff; }
+
+  /* centered card pages (swap / stake) */
+  .center-wrap { display: flex; justify-content: center; padding-top: 12px; }
+  .center-card { width: 440px; max-width: 100%; }
+  .swap-box {
+    background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
+    padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  .swap-box + .swap-box { margin-top: 8px; }
+  .swap-box .amt { font-size: 24px; font-weight: 600; color: var(--text-0); font-variant-numeric: tabular-nums; }
+  .swap-box .lbl { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-2); margin-bottom: 4px; }
+  .swap-box .bal { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+  .token-pill {
+    display: inline-flex; align-items: center; gap: 7px; background: var(--glass-strong);
+    border: 1px solid var(--glass-border); border-radius: 999px; padding: 6px 12px 6px 7px;
+    font-weight: 600; font-size: 14px; color: var(--text-0); flex: none;
+  }
+  .token-pill .coin { width: 22px; height: 22px; }
+  .swap-arrow { display: flex; justify-content: center; margin: 2px 0; color: var(--text-2); }
+  .kv { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-2); padding: 4px 2px; }
+  .kv b { color: var(--text-1); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .cta {
+    width: 100%; margin-top: 14px; padding: 13px; border: none; border-radius: var(--radius-sm);
+    background: linear-gradient(180deg, #38bd58, #27a246); color: #fff; font: 600 14.5px var(--font);
+    cursor: pointer; box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), 0 4px 16px rgba(47,174,78,0.22);
+    transition: background 0.16s, box-shadow 0.16s;
+  }
+  .cta:hover { background: linear-gradient(180deg, #41cc63, #2cb04e); }
+  .fine { text-align: center; font-size: 11px; color: var(--text-3); margin-top: 12px; }
+
+  /* tables (points / stake validators) */
+  .gtable { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .gtable th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.11em; color: var(--text-2); font-weight: 500; padding: 8px 12px; }
+  .gtable td { padding: 11px 12px; border-top: 1px solid var(--glass-border); color: var(--text-1); font-variant-numeric: tabular-nums; }
+  .gtable td:first-child, .gtable th:first-child { padding-left: 4px; }
+  .gtable .r { text-align: right; }
+  .gtable th.r { text-align: right; }
+  .mono { color: var(--text-1); }
+
+  /* ---------- perps ---------- */
+  .perps-grid { display: grid; grid-template-columns: 1fr 300px 320px; gap: 12px; align-items: start; }
+  .pairbar {
+    grid-column: 1 / -1; display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+    background: var(--glass); border: 1px solid var(--glass-border); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 12px 20px;
+    backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  }
+  .pairbar .pair { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; }
+  .pairbar .pair .coin { width: 26px; height: 26px; }
+  .pstat .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-2); }
+  .pstat .v { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: 1px; }
+  .pstat .v.up { color: #62d98b; }
+  .pstat .v.lime { color: var(--lime); }
+
+  .chart-panel { padding: 14px 16px 8px; }
+  .tf { display: flex; gap: 4px; margin-bottom: 10px; }
+  .tf button {
+    background: transparent; border: none; border-radius: 7px; color: var(--text-2);
+    font: 500 12px var(--font); padding: 5px 11px; cursor: pointer;
+  }
+  .tf button.active { background: rgba(215, 251, 95, 0.14); color: var(--lime); }
+  .candles { width: 100%; height: auto; display: block; }
+
+  .ob-head, .ob-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .ob-head { color: var(--text-2); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 6px 8px; }
+  .ob-row { padding: 3px 6px; border-radius: 5px; position: relative; color: var(--text-1); }
+  .ob-row span:nth-child(2), .ob-row span:nth-child(3) { text-align: right; }
+  .ob-row.ask span:first-child { color: #f2716e; }
+  .ob-row.bid span:first-child { color: #62d98b; }
+  .ob-row .depth { position: absolute; right: 0; top: 0; bottom: 0; border-radius: 5px; z-index: -1; }
+  .ob-row.ask .depth { background: rgba(242, 113, 110, 0.10); }
+  .ob-row.bid .depth { background: rgba(98, 217, 139, 0.10); }
+  .ob-row { z-index: 0; }
+  .spread { text-align: center; font-size: 11.5px; color: var(--text-2); padding: 7px 0; border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); margin: 6px 0; }
+
+  .seg { display: flex; gap: 4px; background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: 999px; padding: 3px; }
+  .seg button { flex: 1; background: transparent; border: none; border-radius: 999px; color: var(--text-2); font: 600 12.5px var(--font); padding: 7px 0; cursor: pointer; }
+  .seg button.active { background: rgba(255, 255, 255, 0.10); color: var(--text-0); }
+  .seg.buysell { margin-top: 10px; }
+  .seg.buysell button.buy.active { background: linear-gradient(180deg, #38bd58, #27a246); color: #fff; }
+  .seg.buysell button.sell.active { background: #a03c3a; color: #fff; }
+
+  .field { margin-top: 10px; }
+  .field .flabel { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-2); margin-bottom: 5px; }
+  .field .fbox {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
+    padding: 10px 14px; font-size: 15px; font-weight: 600; color: var(--text-3);
+  }
+  .field .fbox .unit { color: var(--text-2); font-size: 12.5px; font-weight: 500; }
+  .trade-rows { margin-top: 12px; }
+  .positions-panel { grid-column: 1 / -1; }
+  .ptabs { display: flex; gap: 2px; border-bottom: 1px solid var(--glass-border); margin-bottom: 0; }
+  .ptabs button { background: transparent; border: none; color: var(--text-2); font: 500 13px var(--font); padding: 10px 14px; cursor: pointer; border-bottom: 2px solid transparent; }
+  .ptabs button.active { color: var(--text-0); border-bottom-color: var(--lime); }
+
+  @media (max-width: 1200px) { .perps-grid { grid-template-columns: 1fr 1fr; } .chart-wrap { grid-column: 1 / -1; } }
+
+  /* referral / points */
+  .code-box {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: var(--glass-inner); border: 1px dashed var(--glass-border-hover); border-radius: var(--radius-sm);
+    padding: 14px 18px; font-size: 18px; font-weight: 600; letter-spacing: 0.06em;
+  }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 18px; }
+  .step { background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); padding: 14px 16px; font-size: 13px; color: var(--text-1); }
+  .step b { display: block; color: var(--text-0); margin-bottom: 4px; font-weight: 600; }
+  .step .n { color: var(--lime); font-weight: 600; margin-right: 6px; }
+
+  /* dashboard grids + charts */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid2 > .panel { min-width: 0; }
+  @media (max-width: 1150px) { .grid2 { grid-template-columns: 1fr; } }
+  .tile { position: relative; overflow: hidden; }
+  .tile .spark { position: absolute; right: 14px; bottom: 14px; opacity: 0.85; }
+  .delta { font-size: 11.5px; font-weight: 600; margin-left: 8px; }
+  .delta.up { color: #62d98b; }
+  .delta.down { color: #f2716e; }
+  .axis { font-size: 10px; fill: rgba(244,247,243,0.36); font-family: Poppins, sans-serif; }
+
+  .hbar-row { display: grid; grid-template-columns: 30px minmax(120px, 220px) 1fr auto auto; gap: 12px; align-items: center; padding: 9px 2px; font-size: 13px; }
+  .hbar-row + .hbar-row { border-top: 1px solid var(--glass-border); }
+  .hbar-row .coin { width: 24px; height: 24px; }
+  .hbar-track { height: 8px; border-radius: 4px; background: var(--glass-inner); overflow: hidden; }
+  .hbar-track i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, rgba(215,251,95,0.45), #d7fb5f); }
+  .hbar-row .val { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .hbar-row .pct { font-variant-numeric: tabular-nums; color: var(--text-2); font-size: 12px; width: 48px; text-align: right; }
+
+  .progress { height: 9px; border-radius: 5px; background: var(--glass-inner); border: 1px solid var(--glass-border); overflow: hidden; margin-top: 10px; }
+  .progress i { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, rgba(215,251,95,0.5), #d7fb5f); }
+
+  .avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--glass-strong); border: 1px solid var(--glass-border); display: inline-grid; place-items: center; font-size: 11px; font-weight: 600; color: var(--text-1); margin-right: 9px; }
+
+  .tier { text-align: left; }
+  .tier .mult { font-size: 30px; font-weight: 600; color: var(--lime); letter-spacing: -0.02em; }
+  .tier .dur { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .tier .est { font-size: 12px; color: var(--text-2); margin: 6px 0 12px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; font-size: 12.5px; color: var(--text-1); }
+  .legend .sw { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 6px; }
+
+  .you-row td { color: var(--lime) !important; font-weight: 600; }
+
+  /* sidebar footer: audits + socials */
+  .side-foot { margin-top: auto; padding: 16px 10px 4px; border-top: 1px solid rgba(255, 255, 255, 0.07); display: flex; flex-direction: column; gap: 10px; }
+  .side-foot .audit-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-3); }
+  .audit-logos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; align-items: center; justify-items: start; }
+  .audit-logos a { display: flex; align-items: center; opacity: 0.65; transition: opacity 0.15s; color: #cfd8d2; min-height: 24px; }
+  .audit-logos a:hover { opacity: 1; }
+  .audit-logos svg { height: 17px; width: auto; display: block; }
+  .audit-logos a:first-child { grid-column: 1 / -1; }
+  .audit-logos a:first-child svg { height: 28px; }
+
+  /* token reward icon — global sizing (used in rows AND tiles) */
+  .ricon { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; display: inline-grid; place-items: center; flex: none; }
+  .ricon svg { width: 100%; height: 100%; display: block; }
+
+  /* clickable vault rows */
+  a.card { text-decoration: none; color: inherit; cursor: pointer; }
+  a.card:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+
+  /* kamino-style vault overview */
+  .vhead { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+  .vhead-l { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .vhead-l .coin { width: 42px; height: 42px; }
+  .vhead-l h2 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+  .chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .chip-sm {
+    font-size: 11px; font-weight: 500; color: var(--text-1);
+    background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: 999px; padding: 3px 10px;
+  }
+  .chip-sm b { color: var(--text-0); font-weight: 600; }
+  .vtabs { display: flex; gap: 2px; border-bottom: 1px solid var(--glass-border); margin-bottom: 16px; }
+  .vtabs button { background: transparent; border: none; color: var(--text-2); font: 600 13.5px var(--font); padding: 10px 16px; cursor: pointer; border-bottom: 2px solid transparent; }
+  .vtabs button.active { color: var(--text-0); border-bottom-color: var(--lime); }
+  .halfmax { display: flex; gap: 6px; }
+  .halfmax button {
+    background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: 7px;
+    color: var(--text-1); font: 600 11px var(--font); padding: 4px 10px; cursor: pointer;
+  }
+  .halfmax button:hover { color: var(--text-0); border-color: var(--glass-border-hover); }
+  .wallet-line { display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; color: var(--text-3); margin-top: 6px; }
+  .legend-dot { display: inline-block; width: 8px; height: 8px; border-radius: 3px; margin-right: 6px; vertical-align: 0; }
+  .growth-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+  .growth-grid .g .n { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; color: #62d98b; }
+  .growth-grid .g .l { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--text-2); margin-top: 2px; }
+  .rail { position: sticky; top: 14px; }
+  @media (max-width: 1150px) { .rail { position: static; } }
+  .backlink { color: var(--text-2); text-decoration: none; font-size: 13px; transition: color 0.15s; }
+  .backlink:hover { color: var(--text-0); }
+  .vault-hero-head { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .vault-hero-head .coin { width: 40px; height: 40px; }
+  .vault-hero-head h2 { margin: 0 0 2px; }
+  .vault-hero-head p { margin: 0; }
+  .socials { display: flex; gap: 7px; margin-top: 2px; }
+  .socials a { width: 30px; height: 30px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.09); display: grid; place-items: center; color: var(--text-1); transition: color 0.15s, background 0.15s, border-color 0.15s; }
+  .socials a:hover { color: #fff; background: rgba(255, 255, 255, 0.10); border-color: rgba(255, 255, 255, 0.2); }
+  .socials a:focus-visible { outline: 2px solid var(--lime); outline-offset: 1px; }
+
+  /* living numbers: momentum colouring + crossfading arrow (benji-style) */
+  .pstat .v, [data-px] { transition: color 0.45s ease; }
+  .px-up { color: #62d98b !important; }
+  .px-down { color: #f2716e !important; }
+  .mk-arrow { display: inline-block; font-size: 9px; margin-left: 5px; vertical-align: 1px; opacity: 0; transition: opacity 0.35s ease, color 0.45s ease; }
+  .mk-arrow.show { opacity: 0.9; }
+
+  /* breathing endpoint on sparklines */
+  .spark circle { animation: dotbreathe 2.6s ease-in-out infinite; }
+  @keyframes dotbreathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* interactive layer */
+  .finput { background: transparent; border: none; outline: none; color: var(--text-0); font: 600 15px var(--font); width: 100%; min-width: 0; }
+  .finput::placeholder { color: var(--text-3); }
+  .fbox { color: var(--text-0); }
+  .cta.sell { background: linear-gradient(180deg, #e0605d, #c04a47); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 4px 16px rgba(224,96,93,0.25); }
+  .cta.sell:hover { background: linear-gradient(180deg, #e8706d, #cb5350); }
+  .connect-btn.addr { font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+  .toasts { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 120; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; }
+  .toast {
+    background: rgba(8, 20, 14, 0.92); border: 1px solid var(--glass-border-hover); color: var(--text-0);
+    font: 500 13px var(--font); padding: 10px 20px; border-radius: 999px; white-space: nowrap; max-width: 92vw;
+    overflow: hidden; text-overflow: ellipsis;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    opacity: 0; transform: translateY(8px); transition: opacity 0.25s, transform 0.25s;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  .toast.show { opacity: 1; transform: none; }
+
+  /* quiet chart captions */
+  .chart-cap { margin: 8px 2px 0; font-size: 11.5px; color: var(--text-3); }
+
+  /* quieter column headers, benji-style muting */
+  .list-head { color: var(--text-3); }
+  .fine { opacity: 0.85; }
+
+  /* living counters */
+  .bignum { font-size: 24px; font-weight: 600; color: #62d98b; margin-top: 10px; font-variant-numeric: tabular-nums; }
+
+  /* ---------- phone ---------- */
+  .mhead, .mnav { display: none; }
+  @media (max-width: 760px) {
+    .sidebar { display: none; }
+    .app { display: block; }
+    .main { padding: 66px 14px 86px; }
+    .mhead {
+      display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+      align-items: center; justify-content: space-between; padding: 10px 14px;
+      background: rgba(6, 18, 13, 0.72);
+      backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .mhead .mlogo-a { display: flex; }
+    .mhead .mlogo { height: 22px; width: auto; display: block; }
+    .mhead .connect-btn { padding: 7px 16px; font-size: 12.5px; }
+    .mnav {
+      display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
+      background: rgba(6, 18, 13, 0.82);
+      backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 7px 4px calc(7px + env(safe-area-inset-bottom));
+    }
+    .mn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--text-2); text-decoration: none; font-size: 10px; font-weight: 500; padding: 3px 0; }
+    .mn.active { color: var(--lime); }
+    .mn:focus-visible { outline: 2px solid var(--lime); outline-offset: 1px; border-radius: 6px; }
+
+    .topbar { padding: 12px 0 14px; }
+    .topbar h1 { font-size: 21px; }
+    .topbar .connect-btn, .topbar .chain-btn { display: none; }
+    .banner { font-size: 12px; }
+    .hero { padding: 16px 18px; }
+    .hero h2 { font-size: 19px; }
+    .hero-stats { width: 100%; justify-content: space-between; gap: 8px; padding: 9px 14px; font-size: 12px; }
+
+    .section { overflow-x: visible; }
+    .list-head { display: none; }
+    .cards .card { min-width: 0; grid-template-columns: 1fr 1fr; gap: 12px 14px; padding: 16px; }
+    .card-head { grid-column: 1 / -1; }
+    .metric .label { display: block; margin-bottom: 2px; }
+    .metric.apy { display: block; }
+    .metric.apy .spark { margin-left: 8px; }
+    .deposit-btn { grid-column: 1 / -1; width: 100%; justify-self: stretch; }
+
+    .perps-grid { grid-template-columns: 1fr; }
+    .chart-wrap { grid-column: auto; }
+    .grid2, .grid2[style] { grid-template-columns: 1fr !important; }
+    .growth-grid { grid-template-columns: repeat(2, 1fr); }
+    .tiles { grid-template-columns: repeat(2, 1fr); }
+    .tile .value { font-size: 19px; }
+    .vhead-l h2 { font-size: 18px; }
+    .rail { position: static; }
+    .code-box { font-size: 14px; flex-wrap: wrap; }
+    .pairbar { gap: 14px; padding: 12px 16px; }
+    .toasts { bottom: calc(84px + env(safe-area-inset-bottom)); }
+  }
 </style>
+<script>/* Harmonix glass mockup — demo interaction layer. No real wallet, no real orders. */
+(function () {
+  "use strict";
+
+  var ADDR = "0x7Fa9…3Cd2";
+  var BAL = { USDC: 5240.18, HYPE: 118.4, KHYPE: 312.6 };
+  try {
+    var saved = JSON.parse(localStorage.getItem("hmx_bal") || "null");
+    if (saved) BAL = saved;
+  } catch (e) {}
+
+  function on() { return localStorage.getItem("hmx_w") === "1"; }
+  function saveBal() { try { localStorage.setItem("hmx_bal", JSON.stringify(BAL)); } catch (e) {} }
+  function fmt(n, d) {
+    if (d === undefined) d = 2;
+    return n.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+  }
+  function num(el) { return parseFloat((el && el.value || "").replace(/,/g, "")) || 0; }
+  function set(id, txt) { var el = document.getElementById(id); if (el) el.textContent = txt; }
+
+  /* ---------- toasts ---------- */
+  var toastBox = null;
+  function toast(msg) {
+    if (!toastBox) {
+      toastBox = document.createElement("div");
+      toastBox.className = "toasts";
+      document.body.appendChild(toastBox);
+    }
+    var t = document.createElement("div");
+    t.className = "toast";
+    t.textContent = msg;
+    toastBox.appendChild(t);
+    requestAnimationFrame(function () { t.classList.add("show"); });
+    setTimeout(function () {
+      t.classList.remove("show");
+      setTimeout(function () { t.remove(); }, 300);
+    }, 2800);
+  }
+
+  /* ---------- wallet ---------- */
+  function refreshWallet() {
+    var isOn = on();
+    document.querySelectorAll(".connect-btn").forEach(function (b) {
+      b.textContent = isOn ? ADDR : (b.textContent.trim() === "Connect" || b.closest(".mhead") ? "Connect" : "Connect wallet");
+      if (isOn) b.textContent = ADDR;
+      b.classList.toggle("addr", isOn);
+      b.title = isOn ? "Click to disconnect (demo)" : "Connect demo wallet";
+    });
+    document.querySelectorAll("[data-bal]").forEach(function (el) {
+      var a = el.dataset.bal;
+      el.textContent = (isOn ? fmt(BAL[a] || 0) : "0.00") + " " + a;
+    });
+    document.querySelectorAll("[data-balv]").forEach(function (el) {
+      el.textContent = isOn ? fmt(BAL[el.dataset.balv] || 0) : "0.00";
+    });
+    document.querySelectorAll("[data-walletbal]").forEach(function (el) {
+      el.textContent = isOn ? fmt(BAL[el.dataset.walletbal] || 0) : "0";
+    });
+    var note = document.getElementById("acct-note");
+    if (note && !note.dataset.filled) note.textContent = isOn ? "No open positions yet." : "Connect wallet to view your account";
+    updateTradeCta();
+    updateSwapCta();
+    updateDepCta();
+  }
+
+  function toggleWallet() {
+    if (on()) {
+      localStorage.removeItem("hmx_w");
+      toast("Wallet disconnected");
+    } else {
+      localStorage.setItem("hmx_w", "1");
+      toast("Demo wallet connected — " + ADDR);
+    }
+    refreshWallet();
+  }
+
+  /* ---------- perps ---------- */
+  var tp = document.getElementById("trade-panel");
+  var PX = tp ? parseFloat(tp.dataset.price) : 0;
+  var lev = 20, side = "long", mode = "market";
+  var LEVS = [5, 10, 20, 50];
+
+  function updateTradeCta() {
+    var c = document.getElementById("trade-cta");
+    if (!c) return;
+    var s = num(document.getElementById("size-in"));
+    if (!on()) { c.textContent = "Connect wallet to trade"; c.classList.remove("sell"); return; }
+    var verb = side === "long" ? "Buy / Long" : "Sell / Short";
+    c.textContent = s ? verb + " " + fmt(s / PX, 2) + " HYPE" : verb + " HYPE";
+    c.classList.toggle("sell", side === "short");
+  }
+
+  function updTrade() {
+    var s = num(document.getElementById("size-in"));
+    set("ov", s ? "$" + fmt(s) : "N/A");
+    set("mr", s ? "$" + fmt(s / lev) : "N/A");
+    var liq = side === "long" ? PX * (1 - 0.95 / lev) : PX * (1 + 0.95 / lev);
+    set("lq", s ? fmt(liq) : "N/A");
+    updateTradeCta();
+  }
+
+  if (tp) {
+    var sizeIn = document.getElementById("size-in");
+    if (sizeIn) sizeIn.addEventListener("input", updTrade);
+
+    tp.addEventListener("click", function (e) {
+      var b = e.target.closest("button");
+      if (!b) return;
+      if (b.id === "lev-btn") {
+        lev = LEVS[(LEVS.indexOf(lev) + 1) % LEVS.length];
+        b.textContent = lev + "x";
+        b.classList.add("active");
+        toast("Leverage set to " + lev + "x (demo)");
+        updTrade();
+        return;
+      }
+      if (b.dataset.side) { side = b.dataset.side; updTrade(); }
+      if (b.dataset.mode) {
+        mode = b.dataset.mode;
+        var lf = document.getElementById("limit-field");
+        if (lf) lf.hidden = mode !== "limit";
+        if (mode === "pro") toast("Pro mode — demo only");
+      }
+      if (b.id === "trade-cta") {
+        if (!on()) { toggleWallet(); return; }
+        var s = num(sizeIn);
+        if (!s) { toast("Enter a size first"); return; }
+        if (s > (BAL.USDC || 0)) { toast("Insufficient USDC (demo balance " + fmt(BAL.USDC) + ")"); return; }
+        var qty = s / PX;
+        placePosition(side, qty, s);
+        toast((side === "long" ? "Long" : "Short") + " " + fmt(qty, 2) + " HYPE @ " + fmt(PX) + " — demo order filled");
+        sizeIn.value = "";
+        updTrade();
+      }
+    });
+  }
+
+  function placePosition(side, qty, notional) {
+    var note = document.getElementById("acct-note");
+    if (!note) return;
+    note.dataset.filled = "1";
+    note.classList.remove("empty-state");
+    note.innerHTML = "";
+    var tbl = document.createElement("table");
+    tbl.className = "gtable";
+    tbl.innerHTML =
+      "<thead><tr><th>Position</th><th class='r'>Size</th><th class='r'>Entry</th><th class='r'>Leverage</th><th class='r'>PnL</th></tr></thead>" +
+      "<tbody><tr><td>" + (side === "long" ? "Long" : "Short") + " HYPE-USD</td>" +
+      "<td class='r'>" + fmt(qty, 2) + " HYPE</td>" +
+      "<td class='r'>" + fmt(PX) + "</td>" +
+      "<td class='r'>" + lev + "x</td>" +
+      "<td class='r' style='color:#62d98b'>+$0.00</td></tr></tbody>";
+    note.appendChild(tbl);
+    var tabs = document.querySelectorAll(".positions-panel .ptabs button");
+    tabs.forEach(function (t) { t.classList.toggle("active", /Positions/.test(t.textContent)); });
+  }
+
+  /* ---------- spot swap ---------- */
+  var sp = document.getElementById("swap-panel");
+  var RATE = sp ? parseFloat(sp.dataset.rate) : 0;
+  var dir = "buy"; // buy: USDC -> HYPE
+
+  function updateSwapCta() {
+    var c = document.getElementById("swap-cta");
+    if (!c) return;
+    c.textContent = on() ? (dir === "buy" ? "Buy HYPE" : "Sell HYPE") : "Connect wallet to swap";
+    c.classList.toggle("sell", dir === "sell");
+  }
+
+  function updSwap() {
+    var payIn = document.getElementById("pay-in");
+    var rcvIn = document.getElementById("rcv-in");
+    if (!payIn || !rcvIn) return;
+    var v = num(payIn);
+    rcvIn.value = v ? fmt(dir === "buy" ? v / RATE : v * RATE) : "";
+  }
+
+  if (sp) {
+    var payIn = document.getElementById("pay-in");
+    if (payIn) payIn.addEventListener("input", updSwap);
+    sp.addEventListener("click", function (e) {
+      var b = e.target.closest("button");
+      if (!b) return;
+      if (b.dataset.dir) {
+        dir = b.dataset.dir;
+        set("pay-unit", dir === "buy" ? "USDC" : "HYPE");
+        set("rcv-unit", dir === "buy" ? "HYPE" : "USDC");
+        var pi = document.getElementById("pay-in");
+        if (pi) pi.value = "";
+        var ri = document.getElementById("rcv-in");
+        if (ri) ri.value = "";
+        updateSwapCta();
+      }
+      if (b.id === "swap-cta") {
+        if (!on()) { toggleWallet(); return; }
+        var v = num(document.getElementById("pay-in"));
+        if (!v) { toast("Enter an amount first"); return; }
+        var payA = dir === "buy" ? "USDC" : "HYPE";
+        var rcvA = dir === "buy" ? "HYPE" : "USDC";
+        if (v > (BAL[payA] || 0)) { toast("Insufficient " + payA + " (demo balance " + fmt(BAL[payA]) + ")"); return; }
+        var out = dir === "buy" ? v / RATE : v * RATE;
+        BAL[payA] -= v;
+        BAL[rcvA] = (BAL[rcvA] || 0) + out;
+        saveBal();
+        toast("Swapped " + fmt(v) + " " + payA + " → " + fmt(out) + " " + rcvA + " (demo)");
+        document.getElementById("pay-in").value = "";
+        document.getElementById("rcv-in").value = "";
+        refreshWallet();
+      }
+    });
+  }
+
+  /* ---------- vault deposit ---------- */
+  var depIn = document.getElementById("dep-in");
+
+  function updateDepCta() {
+    var c = document.getElementById("dep-cta");
+    if (!c) return;
+    c.textContent = on() ? "Deposit" : "Connect wallet";
+  }
+
+  function updDep() {
+    if (!depIn) return;
+    var v = num(depIn);
+    var apy = parseFloat(depIn.dataset.apy) || 0;
+    var px = parseFloat(depIn.dataset.px) || 1;
+    set("dep-val", "$" + fmt(v * px));
+    set("dep-earn", v ? "~$" + fmt(v * px * apy / 100) + " / yr" : "—");
+  }
+
+  if (depIn) {
+    depIn.addEventListener("input", updDep);
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest("button");
+      if (!b) return;
+      if (b.dataset.frac) {
+        if (!on()) { toast("Connect a wallet first"); return; }
+        var asset = depIn.dataset.asset;
+        depIn.value = fmt((BAL[asset] || 0) * parseFloat(b.dataset.frac), 2).replace(/,/g, "");
+        updDep();
+      }
+      if (b.id === "dep-cta") {
+        if (!on()) { toggleWallet(); return; }
+        var v = num(depIn);
+        var asset = depIn.dataset.asset;
+        if (!v) { toast("Enter an amount first"); return; }
+        if (v > (BAL[asset] || 0)) { toast("Insufficient " + asset + " (demo balance " + fmt(BAL[asset]) + ")"); return; }
+        BAL[asset] -= v;
+        saveBal();
+        toast("Deposited " + fmt(v) + " " + asset + " (demo)");
+        depIn.value = "";
+        updDep();
+        refreshWallet();
+      }
+    });
+  }
+
+  /* ---------- charts: timeframe redraw ---------- */
+  function lcg(seed) {
+    var s = seed >>> 0;
+    return function () { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
+  }
+  function drawCandles(svg, seed) {
+    var W = 760, H = 300, N = 46, cw = W / N;
+    var rnd = lcg(seed);
+    var lo = 42.0, hi = 46.5, price = 44.0;
+    function ym(p) { return H - (p - lo) / (hi - lo) * H; }
+    var out = [];
+    for (var gy = 1; gy < 6; gy++) {
+      var y = H * gy / 6;
+      out.push('<line x1="0" y1="' + y.toFixed(1) + '" x2="' + W + '" y2="' + y.toFixed(1) + '" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>');
+    }
+    for (var i = 0; i < N; i++) {
+      var o = price;
+      var c = Math.max(lo + 0.2, Math.min(hi - 0.2, price + (rnd() - 0.47) * 1.15));
+      var top = Math.max(o, c) + rnd() * 0.3 + 0.05;
+      var bot = Math.min(o, c) - rnd() * 0.3 - 0.05;
+      var col = c >= o ? "#4fc776" : "#e0605d";
+      var x = i * cw + cw * 0.5;
+      out.push('<line x1="' + x.toFixed(1) + '" y1="' + ym(top).toFixed(1) + '" x2="' + x.toFixed(1) + '" y2="' + ym(bot).toFixed(1) + '" stroke="' + col + '" stroke-width="1"/>');
+      var y1 = ym(Math.max(o, c)), y2 = ym(Math.min(o, c));
+      out.push('<rect x="' + (i * cw + cw * 0.18).toFixed(1) + '" y="' + y1.toFixed(1) + '" width="' + (cw * 0.64).toFixed(1) + '" height="' + Math.max(2, y2 - y1).toFixed(1) + '" rx="1" fill="' + col + '"/>');
+      price = c;
+    }
+    var ly = ym(price);
+    out.push('<line x1="0" y1="' + ly.toFixed(1) + '" x2="' + W + '" y2="' + ly.toFixed(1) + '" stroke="rgba(215,251,95,0.5)" stroke-width="1" stroke-dasharray="4 4"/>');
+    out.push('<rect x="' + (W - 56) + '" y="' + (ly - 9).toFixed(1) + '" width="52" height="18" rx="4" fill="#2c4a1f"/>');
+    out.push('<text x="' + (W - 52) + '" y="' + (ly + 4).toFixed(1) + '" font-size="11" fill="#d7fb5f" font-family="Poppins, sans-serif">' + price.toFixed(2) + "</text>");
+    svg.innerHTML = out.join("");
+  }
+  var TF_SEEDS = { "1m": 3, "5m": 13, "15m": 19, "1h": 7, "4h": 23, "1d": 31 };
+  document.querySelectorAll(".tf button[data-tf]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var svg = b.closest(".panel").querySelector("svg.candles");
+      if (svg) drawCandles(svg, TF_SEEDS[b.dataset.tf] || 7);
+    });
+  });
+
+  /* ---------- order book / recent trades tabs ---------- */
+  function buildTrades(host, base) {
+    var rnd = lcg(97);
+    var rows = ['<div class="ob-head"><span>Price</span><span>Size</span><span>Time</span></div>'];
+    var t = new Date();
+    for (var i = 0; i < 13; i++) {
+      var up = rnd() > 0.45;
+      var p = base + (rnd() - 0.5) * 0.4;
+      var sz = 40 + rnd() * 900;
+      t = new Date(t.getTime() - (20 + rnd() * 90) * 1000);
+      var hh = ("0" + t.getHours()).slice(-2) + ":" + ("0" + t.getMinutes()).slice(-2) + ":" + ("0" + t.getSeconds()).slice(-2);
+      rows.push('<div class="ob-row ' + (up ? "bid" : "ask") + '"><span>' + p.toFixed(2) + "</span><span>" + sz.toFixed(1) + "</span><span>" + hh + "</span></div>");
+    }
+    host.innerHTML = rows.join("");
+  }
+  document.querySelectorAll("[data-obtab]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var panel = b.closest(".panel");
+      var book = panel.querySelector(".ob-wrap");
+      var trades = panel.querySelector(".tr-wrap");
+      if (!book || !trades) return;
+      var showTrades = b.dataset.obtab === "trades";
+      book.hidden = showTrades;
+      trades.hidden = !showTrades;
+      if (showTrades && !trades.dataset.built) {
+        buildTrades(trades, PX || RATE || 43);
+        trades.dataset.built = "1";
+      }
+    });
+  });
+
+  /* ---------- global click handling ---------- */
+  document.addEventListener("click", function (e) {
+    var cb = e.target.closest(".connect-btn");
+    if (cb) { e.preventDefault(); toggleWallet(); return; }
+
+    var seg = e.target.closest(".seg, .tf, .ptabs, .vtabs, .tabs");
+    var btn = e.target.closest("button");
+    if (seg && btn && seg.contains(btn) && btn.id !== "lev-btn") {
+      seg.querySelectorAll("button").forEach(function (x) { x.classList.remove("active"); });
+      btn.classList.add("active");
+      if (btn.closest(".vtabs") && /My position/.test(btn.textContent)) {
+        toast(on() ? "No position in this vault yet (demo)" : "Connect a wallet to see your position");
+      }
+    }
+
+    var ghost = e.target.closest(".ghost-btn");
+    if (ghost && !ghost.dataset.frac) {
+      toast(on() ? "Demo mockup — action simulated" : "Connect a wallet first");
+    }
+  });
+
+  refreshWallet();
+})();
+</script>
 
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <symbol id="tok-glow" viewBox="0 -9 66 66"><g><path d="M48.6887 10C54.5314 10.0001 55.8981 17.3373 55.9969 22.5578C56.0956 27.7786 53.8646 39.2733 47.1414 37.8845C41.4178 36.7172 40.925 26.8563 33.0001 26.8245C25.0752 26.8565 24.5824 36.7174 18.8587 37.8845C12.1355 39.2732 9.90443 27.7785 10.0031 22.5578C10.1019 17.3374 11.4687 10.0002 17.3114 10C24.029 10.0002 24.4867 20.3311 33.0001 19.789C41.5134 20.3312 41.9712 10.0004 48.6887 10Z" fill="#09090B"/><path d="M48.6885 10.5C51.3373 10.5 52.9989 12.1382 54.0381 14.5215C55.0838 16.9199 55.4482 19.9824 55.4971 22.5674C55.5454 25.1236 55.0196 29.2318 53.665 32.5088C52.9877 34.1474 52.1207 35.5345 51.0547 36.4258C50.0075 37.3012 48.7598 37.708 47.2422 37.3945H47.2412C45.9551 37.1322 44.9396 36.3803 44.0039 35.335C43.0556 34.2756 42.2406 32.9782 41.3057 31.6416C39.4659 29.0116 37.2309 26.3412 33.002 26.3242H32.998C28.7688 26.3413 26.5341 29.0125 24.6943 31.6426C23.7594 32.9791 22.9443 34.2757 21.9961 35.335C21.0604 36.3803 20.045 37.1322 18.7588 37.3945H18.7578C17.2402 37.708 15.9925 37.3012 14.9453 36.4258C13.8793 35.5345 13.0123 34.1474 12.335 32.5088C10.9804 29.2318 10.4546 25.1235 10.5029 22.5674C10.5518 19.9825 10.9162 16.9199 11.9619 14.5215C13.0011 12.1382 14.6627 10.5001 17.3115 10.5C18.8431 10.5001 20.0201 11.0823 21.0742 11.9854C22.1495 12.9066 23.0651 14.1306 24.0928 15.4111C26.1154 17.9315 28.4955 20.5628 33 20.2891C37.5048 20.563 39.8855 17.9316 41.9082 15.4111C42.9358 14.1306 43.8506 12.9066 44.9258 11.9854C45.9799 11.0822 47.157 10.5002 48.6885 10.5Z" stroke="#19C692"/></g><defs><filter id="glowf" x="0" y="0" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset/><feGaussianBlur stdDeviation="5"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0.0980392 0 0 0 0 0.776471 0 0 0 0 0.572549 0 0 0 1 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/></filter></defs></symbol>

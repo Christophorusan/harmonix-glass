@@ -13,7 +13,8 @@ base_css = style_m.group(1)
 
 main_start = src.index('<main class="main">')
 shell_head = src[:main_start]              # meta, title, sprite svg, <div class="app">, sidebar, up to main
-shell_head = shell_head.replace(style_m.group(0), '<link rel="stylesheet" href="assets/style.css">')
+shell_head = shell_head.replace(style_m.group(0), '<link rel="stylesheet" href="assets/style.css">\n<script src="assets/app.js" defer></script>')
+shell_head = shell_head.replace('<script src="assets/app.js" defer></script>\n<script src="assets/app.js" defer></script>', '<script src="assets/app.js" defer></script>')
 
 home_main = src[main_start:]               # <main> ... </main></div>
 SHELL_TAIL = "</div>\n"
@@ -416,34 +417,41 @@ PERPS = '''    <section class="perps-grid">
       </div>
 
       <div class="panel chart-panel chart-wrap">
-        <div class="tf"><button>1m</button><button>5m</button><button>15m</button><button class="active">1h</button><button>4h</button><button>1d</button></div>
+        <div class="tf"><button data-tf="1m">1m</button><button data-tf="5m">5m</button><button data-tf="15m">15m</button><button class="active" data-tf="1h">1h</button><button data-tf="4h">4h</button><button data-tf="1d">1d</button></div>
         ''' + CANDLES + '''
         <p class="chart-cap">1h candles. Mark price ticks live with momentum colouring.</p>
       </div>
 
       <div class="panel">
-        <div class="ptabs" style="margin:-6px -6px 10px"><button class="active">Order book</button><button>Recent trades</button></div>
+        <div class="ptabs" style="margin:-6px -6px 10px"><button class="active" data-obtab="book">Order book</button><button data-obtab="trades">Recent trades</button></div>
+        <div class="ob-wrap">
         <div class="ob-head"><span>Price</span><span>Size</span><span>Total</span></div>
         ''' + orderbook(LAST) + '''
+        </div>
+        <div class="tr-wrap" hidden></div>
       </div>
 
-      <div class="panel">
-        <div class="seg"><button class="active">Cross</button><button>20x</button><button>One-way</button></div>
-        <div class="seg" style="margin-top:8px"><button class="active">Market</button><button>Limit</button><button>Pro</button></div>
-        <div class="seg buysell"><button class="buy active">Buy / Long</button><button class="sell">Sell / Short</button></div>
+      <div class="panel" id="trade-panel" data-price="''' + ('%.2f' % LAST) + '''">
+        <div class="seg"><button class="active">Cross</button><button id="lev-btn">20x</button><button>One-way</button></div>
+        <div class="seg" style="margin-top:8px"><button class="active" data-mode="market">Market</button><button data-mode="limit">Limit</button><button data-mode="pro">Pro</button></div>
+        <div class="seg buysell"><button class="buy active" data-side="long">Buy / Long</button><button class="sell" data-side="short">Sell / Short</button></div>
         <div class="trade-rows">
-          <div class="kv"><span>Available to trade</span><b>0.00 USDC</b></div>
+          <div class="kv"><span>Available to trade</span><b data-bal="USDC">0.00 USDC</b></div>
           <div class="kv"><span>Current position</span><b>0.00 HYPE</b></div>
         </div>
         <div class="field">
           <div class="flabel">Size</div>
-          <div class="fbox">0.00 <span class="unit">USDC</span></div>
+          <div class="fbox"><input class="finput" id="size-in" inputmode="decimal" placeholder="0.00" aria-label="Order size in USDC"><span class="unit">USDC</span></div>
         </div>
-        <button class="cta">Connect wallet to trade</button>
+        <div class="field" id="limit-field" hidden>
+          <div class="flabel">Limit price</div>
+          <div class="fbox"><input class="finput" id="limit-in" inputmode="decimal" placeholder="''' + ('%.2f' % LAST) + '''" aria-label="Limit price"><span class="unit">USD</span></div>
+        </div>
+        <button class="cta" id="trade-cta">Connect wallet to trade</button>
         <div class="trade-rows">
-          <div class="kv"><span>Liquidation price</span><b>N/A</b></div>
-          <div class="kv"><span>Order value</span><b>N/A</b></div>
-          <div class="kv"><span>Margin required</span><b>N/A</b></div>
+          <div class="kv"><span>Liquidation price</span><b id="lq">N/A</b></div>
+          <div class="kv"><span>Order value</span><b id="ov">N/A</b></div>
+          <div class="kv"><span>Margin required</span><b id="mr">N/A</b></div>
           <div class="kv"><span>Slippage</span><b>Est. 0.10% / Max 3%</b></div>
           <div class="kv"><span>Fees</span><b>0.0350% / 0.0150%</b></div>
         </div>
@@ -451,7 +459,7 @@ PERPS = '''    <section class="perps-grid">
 
       <div class="panel positions-panel">
         <div class="ptabs"><button class="active">Balances</button><button>Positions</button><button>Open orders</button><button>TWAP</button><button>Trade history</button><button>Funding history</button></div>
-        <div class="empty-state">Connect wallet to view your account</div>
+        <div class="empty-state" id="acct-note">Connect wallet to view your account</div>
       </div>
     </section>
     <p class="fine">Harmonix Perps — routed through Hyperliquid with the Harmonix builder code.</p>
@@ -468,36 +476,39 @@ SWAP = '''    <section class="perps-grid">
       </div>
 
       <div class="panel chart-panel chart-wrap">
-        <div class="tf"><button>1m</button><button>5m</button><button>15m</button><button class="active">1h</button><button>4h</button><button>1d</button></div>
+        <div class="tf"><button data-tf="1m">1m</button><button data-tf="5m">5m</button><button data-tf="15m">15m</button><button class="active" data-tf="1h">1h</button><button data-tf="4h">4h</button><button data-tf="1d">1d</button></div>
         ''' + CANDLES2 + '''
         <p class="chart-cap">1h candles, HYPE/USDC spot. Last price ticks live.</p>
       </div>
 
       <div class="panel">
-        <div class="ptabs" style="margin:-6px -6px 10px"><button class="active">Order book</button><button>Recent trades</button></div>
+        <div class="ptabs" style="margin:-6px -6px 10px"><button class="active" data-obtab="book">Order book</button><button data-obtab="trades">Recent trades</button></div>
+        <div class="ob-wrap">
         <div class="ob-head"><span>Price</span><span>Size</span><span>Total</span></div>
         ''' + orderbook(LAST2) + '''
+        </div>
+        <div class="tr-wrap" hidden></div>
       </div>
 
-      <div class="panel">
+      <div class="panel" id="swap-panel" data-rate="''' + ('%.2f' % LAST2) + '''">
         <div class="seg"><button class="active">Market</button><button>Limit</button><button>TWAP</button></div>
-        <div class="seg buysell"><button class="buy active">Buy HYPE</button><button class="sell">Sell HYPE</button></div>
+        <div class="seg buysell"><button class="buy active" data-dir="buy">Buy HYPE</button><button class="sell" data-dir="sell">Sell HYPE</button></div>
         <div class="trade-rows">
-          <div class="kv"><span>Available USDC</span><b>0.00</b></div>
-          <div class="kv"><span>Available HYPE</span><b>0.00</b></div>
+          <div class="kv"><span>Available USDC</span><b data-balv="USDC">0.00</b></div>
+          <div class="kv"><span>Available HYPE</span><b data-balv="HYPE">0.00</b></div>
         </div>
         <div class="field">
           <div class="flabel">You pay</div>
-          <div class="fbox">0.00 <span class="unit">USDC</span></div>
+          <div class="fbox"><input class="finput" id="pay-in" inputmode="decimal" placeholder="0.00" aria-label="Amount you pay"><span class="unit" id="pay-unit">USDC</span></div>
         </div>
         <div class="swap-arrow" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10m0 0 4-4m-4 4-4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="field" style="margin-top:2px">
           <div class="flabel">You receive</div>
-          <div class="fbox">0.00 <span class="unit">HYPE</span></div>
+          <div class="fbox"><input class="finput" id="rcv-in" readonly placeholder="0.00" aria-label="Amount you receive"><span class="unit" id="rcv-unit">HYPE</span></div>
         </div>
-        <button class="cta">Connect wallet to swap</button>
+        <button class="cta" id="swap-cta">Connect wallet to swap</button>
         <div class="trade-rows">
-          <div class="kv"><span>Rate</span><b>1 HYPE = ''' + ('%.2f' % LAST2) + ''' USDC</b></div>
+          <div class="kv"><span>Rate</span><b id="rate-lbl">1 HYPE = ''' + ('%.2f' % LAST2) + ''' USDC</b></div>
           <div class="kv"><span>Max slippage</span><b>0.50%</b></div>
           <div class="kv"><span>Fees</span><b>0.0400% + builder 0.0100%</b></div>
         </div>
@@ -505,7 +516,7 @@ SWAP = '''    <section class="perps-grid">
 
       <div class="panel positions-panel">
         <div class="ptabs"><button class="active">Balances</button><button>Open orders</button><button>Trade history</button></div>
-        <div class="empty-state">Connect wallet to view your account</div>
+        <div class="empty-state" id="acct-note">Connect wallet to view your account</div>
       </div>
     </section>
     <p class="fine">Harmonix Spot — Hyperliquid spot markets, routed with the Harmonix builder code.</p>
@@ -768,6 +779,24 @@ EXTRA2_CSS = """
   .spark circle { animation: dotbreathe 2.6s ease-in-out infinite; }
   @keyframes dotbreathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
+  /* interactive layer */
+  .finput { background: transparent; border: none; outline: none; color: var(--text-0); font: 600 15px var(--font); width: 100%; min-width: 0; }
+  .finput::placeholder { color: var(--text-3); }
+  .fbox { color: var(--text-0); }
+  .cta.sell { background: linear-gradient(180deg, #e0605d, #c04a47); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 4px 16px rgba(224,96,93,0.25); }
+  .cta.sell:hover { background: linear-gradient(180deg, #e8706d, #cb5350); }
+  .connect-btn.addr { font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+  .toasts { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 120; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; }
+  .toast {
+    background: rgba(8, 20, 14, 0.92); border: 1px solid var(--glass-border-hover); color: var(--text-0);
+    font: 500 13px var(--font); padding: 10px 20px; border-radius: 999px; white-space: nowrap; max-width: 92vw;
+    overflow: hidden; text-overflow: ellipsis;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    opacity: 0; transform: translateY(8px); transition: opacity 0.25s, transform 0.25s;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  .toast.show { opacity: 1; transform: none; }
+
   /* quiet chart captions */
   .chart-cap { margin: 8px 2px 0; font-size: 11.5px; color: var(--text-3); }
 
@@ -832,6 +861,7 @@ EXTRA2_CSS = """
     .rail { position: static; }
     .code-box { font-size: 14px; flex-wrap: wrap; }
     .pairbar { gap: 14px; padding: 12px 16px; }
+    .toasts { bottom: calc(84px + env(safe-area-inset-bottom)); }
   }
 """
 open(os.path.join(OUT, "assets", "style.css"), "a").write(EXTRA2_CSS)
@@ -1219,27 +1249,27 @@ def vault_apy_chart(apy):
             '<circle cx="%d" cy="%d" r="3.5" fill="#d7fb5f"/></svg>' % pts[-1])
 
 VAULTS = [
-    dict(slug="vault-hausdc.html", earned_full="18412.66", earned_disp="18,412.66", step="0.05", icon=USDC_ICON, name="HIP-3 haUSDC Vault", apy=8.42, tvl="$314.3K", sub="",
+    dict(slug="vault-hausdc.html", px="1", earned_full="18412.66", earned_disp="18,412.66", step="0.05", icon=USDC_ICON, name="HIP-3 haUSDC Vault", apy=8.42, tvl="$314.3K", sub="",
          asset="USDC", cap="$5.0M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+3</span>',
          desc="Multi-asset stablecoin vault optimized across HyperEVM, HyperCore, and HIP3 markets. Earn from delta-neutral strategies, lending yield, and future HIP3 potential rewards.",
          profile="Balanced", earned="$18.4K", g1="$61", g7="$412", g30="$1.7K", vid="0x3f8a…9d21", deployed="Jun 2026",
          allocs=[("Delta-neutral basis (HyperCore)", "52%", "$163.4K", "9.8%"),
                  ("Stablecoin lending (HyperEVM)", "33%", "$103.7K", "6.4%"),
                  ("HIP-3 market-making, hedged", "15%", "$47.2K", "8.9%")]),
-    dict(slug="vault-delta-neutral.html", earned_full="31204.18", earned_disp="31,204.18", step="0.09", icon=USDC_ICON, name="USDC — $HYPE Delta Neutral Vault", apy=7.46, tvl="$606.51K", sub="",
+    dict(slug="vault-delta-neutral.html", px="1", earned_full="31204.18", earned_disp="31,204.18", step="0.09", icon=USDC_ICON, name="USDC — $HYPE Delta Neutral Vault", apy=7.46, tvl="$606.51K", sub="",
          asset="USDC", cap="$2.5M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span>',
          desc="Convert half of your deposit into HyperLiquid and purchase $HYPE, while a 1x short HYPE-USD position hedges your exposure and earns funding fees. Net delta zero; auto-rebalances when funding flips.",
          profile="Balanced", earned="$31.2K", g1="$124", g7="$861", g30="$3.6K", vid="0x81c2…44e0", deployed="Feb 2026",
          allocs=[("Spot HYPE long", "50%", "$303.2K", "—"),
                  ("1x HYPE-USD short (funding)", "50%", "$303.3K", "14.9%")]),
-    dict(slug="vault-khype.html", earned_full="84903.42", earned_disp="84,903.42", step="0.24", icon=KHYPE_ICON_S, name="HyperEVM $KHYPE Vault", apy=3.84, tvl="$2.9M", sub="47,539.37 KHYPE",
+    dict(slug="vault-khype.html", px="43.6", earned_full="84903.42", earned_disp="84,903.42", step="0.24", icon=KHYPE_ICON_S, name="HyperEVM $KHYPE Vault", apy=3.84, tvl="$2.9M", sub="47,539.37 KHYPE",
          asset="KHYPE", cap="$6.0M", rewards='<span class="ricon"><svg aria-hidden="true"><use href="#tok-valantis"/></svg></span><span class="plus">+1</span>',
          desc="Deposit your KHYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols. Valantis points accrue to depositors.",
          profile="Conservative", earned="$84.9K", g1="$305", g7="$2.1K", g30="$9.2K", vid="0xc4d9…b7a3", deployed="Mar 2026",
          allocs=[("HyperEVM lending markets", "58%", "$1.68M", "4.1%"),
                  ("Delta-neutral overlay", "27%", "$783K", "3.4%"),
                  ("Liquid reserve", "15%", "$435K", "—")]),
-    dict(slug="vault-hype.html", earned_full="56310.77", earned_disp="56,310.77", step="0.16", icon=HYPE_ICON, name="HyperEVM $HYPE Vault", apy=3.80, tvl="$1.99M", sub="33,231.78 HYPE",
+    dict(slug="vault-hype.html", px="42.9", earned_full="56310.77", earned_disp="56,310.77", step="0.16", icon=HYPE_ICON, name="HyperEVM $HYPE Vault", apy=3.80, tvl="$1.99M", sub="33,231.78 HYPE",
          asset="HYPE", cap="$5.0M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+1</span>',
          desc="Deposit your HYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols. No directional risk.",
          profile="Conservative", earned="$56.3K", g1="$207", g7="$1.5K", g30="$6.1K", vid="0x9ab1…02cf", deployed="Mar 2026",
@@ -1318,14 +1348,14 @@ def vault_content(v):
         <div class="panel" style="margin-bottom:14px">
           <h2>You deposit</h2>
           <div class="field" style="margin-top:8px">
-            <div class="fbox">0.00 <span class="unit">''' + v["asset"] + '''</span></div>
+            <div class="fbox"><input class="finput" id="dep-in" inputmode="decimal" placeholder="0.00" data-apy="''' + str(v["apy"]) + '''" data-asset="''' + v["asset"] + '''" data-px="''' + v["px"] + '''" aria-label="Deposit amount"><span class="unit">''' + v["asset"] + '''</span></div>
           </div>
-          <div class="wallet-line"><span>Wallet: 0</span><span class="halfmax"><button>Half</button><button>Max</button></span></div>
+          <div class="wallet-line"><span>Wallet: <span data-walletbal="''' + v["asset"] + '''">0</span></span><span class="halfmax"><button class="ghost-btn" data-frac="0.5" style="padding:4px 10px;font-size:11px;border-radius:7px">Half</button><button class="ghost-btn" data-frac="1" style="padding:4px 10px;font-size:11px;border-radius:7px">Max</button></span></div>
           <div class="trade-rows">
-            <div class="kv"><span>~ value</span><b>$0.00</b></div>
-            <div class="kv"><span>Est. yearly earnings</span><b>—</b></div>
+            <div class="kv"><span>~ value</span><b id="dep-val">$0.00</b></div>
+            <div class="kv"><span>Est. yearly earnings</span><b id="dep-earn">—</b></div>
           </div>
-          <button class="cta">Connect wallet</button>
+          <button class="cta" id="dep-cta">Connect wallet</button>
           <div class="kv" style="margin-top:10px"><span>Transaction settings</span><b>0.5% slippage</b></div>
         </div>
         <div class="panel" style="margin-bottom:14px">
