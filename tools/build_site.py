@@ -61,6 +61,13 @@ else:
     assert _n == 1, "existing side-foot not replaced"
 assert 'Zenith audit report' in shell_head, "zenith logo not injected"
 
+# exact Valantis mark from the app (incl. the bright #5EA9FF wireframe layer)
+VALANTIS_INNER = open("valantis-inner.svg").read().strip()
+shell_head = re.sub(r'<symbol id="tok-valantis" viewBox="0 0 139 139">.*?</symbol>',
+                    '<symbol id="tok-valantis" viewBox="0 0 139 139">' + VALANTIS_INNER.replace('\\', '\\\\') + '</symbol>',
+                    shell_head, flags=re.S)
+assert 'paint3_linear_222_11556' in shell_head, "valantis wireframe missing"
+
 # ---------- 1c. home strip fixes: Asset column header, drop text asset col, delta-neutral USDC icon ----------
 home_main = home_main.replace(
     '<span>Vault</span><span>Net APY</span><span>TVL</span><span>Asset</span><span>Rewards</span><span></span>',
@@ -228,10 +235,14 @@ TOPBAR = '''    <div class="topbar">
 
 _MNAV_MAP = {"Home": "index.html", "Perps": "perps.html", "Swap": "swap.html", "Stake": "stake.html", "Portfolio": "portfolio.html"}
 
+_MOON_DEFAULT = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>'
+
 def mark_mnav(html, active):
     mh = _MNAV_MAP.get(active)
     if mh:
         html = html.replace('class="mn" href="' + mh + '"', 'class="mn active" href="' + mh + '"', 1)
+    html = html.replace('aria-label="Toggle light/dark theme"></button>',
+                        'aria-label="Toggle light/dark theme">' + _MOON_DEFAULT + '</button>')
     return html
 
 def page(fname, active, title, content):
@@ -1797,6 +1808,46 @@ STRUCT_CSS = """
   }
 """
 open(os.path.join(OUT, "assets", "style.css"), "a").write(STRUCT_CSS)
+
+FIXES_CSS = """
+  /* deposit: quiet at rest, turns solid on hover (both themes) */
+  html:not([data-theme="light"]) .deposit-btn {
+    background: rgba(255, 255, 255, 0.10); color: #f8faf8;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  }
+  html:not([data-theme="light"]) .deposit-btn:hover {
+    background: #ffffff; color: #0b0b0b;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.30);
+  }
+  html[data-theme="light"] .deposit-btn {
+    background: rgba(24, 49, 50, 0.07); color: #183132;
+    box-shadow: inset 0 0 0 1px rgba(24, 49, 50, 0.20);
+  }
+  html[data-theme="light"] .deposit-btn:hover {
+    background: #183132; color: #ffffff;
+    box-shadow: 0 6px 16px rgba(24, 49, 50, 0.28);
+  }
+
+  /* social buttons live on the dark sidebar — keep them white in both themes */
+  .socials a, html[data-theme="light"] .socials a {
+    color: rgba(248, 250, 248, 0.75);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.10);
+  }
+  .socials a:hover, html[data-theme="light"] .socials a:hover {
+    color: #ffffff; background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.22);
+  }
+
+  /* sidebar identical in both themes */
+  .sidebar, html[data-theme="light"] .sidebar {
+    background: rgba(10, 26, 23, 0.92);
+  }
+
+  /* theme button keeps its footprint while scripts load */
+  .theme-btn { min-width: 40px; }
+  .theme-btn svg { pointer-events: none; }
+"""
+open(os.path.join(OUT, "assets", "style.css"), "a").write(FIXES_CSS)
 
 # ---------- final palette pass: exact OG accent across all generated files ----------
 PALETTE = [

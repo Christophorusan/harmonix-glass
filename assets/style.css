@@ -624,6 +624,7 @@
   
   
   
+  
   /* ---------- subpage components ---------- */
   .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px; }
   .tile {
@@ -1234,3 +1235,40 @@ html[data-theme="light"] {
     .vault-table .list-head { display: none; }
     .vault-table .card { min-width: 0; }
   }
+
+  /* deposit: quiet at rest, turns solid on hover (both themes) */
+  html:not([data-theme="light"]) .deposit-btn {
+    background: rgba(255, 255, 255, 0.10); color: #f8faf8;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  }
+  html:not([data-theme="light"]) .deposit-btn:hover {
+    background: #ffffff; color: #0b0b0b;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.30);
+  }
+  html[data-theme="light"] .deposit-btn {
+    background: rgba(24, 49, 50, 0.07); color: #183132;
+    box-shadow: inset 0 0 0 1px rgba(24, 49, 50, 0.20);
+  }
+  html[data-theme="light"] .deposit-btn:hover {
+    background: #183132; color: #ffffff;
+    box-shadow: 0 6px 16px rgba(24, 49, 50, 0.28);
+  }
+
+  /* social buttons live on the dark sidebar — keep them white in both themes */
+  .socials a, html[data-theme="light"] .socials a {
+    color: rgba(248, 250, 248, 0.75);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.10);
+  }
+  .socials a:hover, html[data-theme="light"] .socials a:hover {
+    color: #ffffff; background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.22);
+  }
+
+  /* sidebar identical in both themes */
+  .sidebar, html[data-theme="light"] .sidebar {
+    background: rgba(10, 26, 23, 0.92);
+  }
+
+  /* theme button keeps its footprint while scripts load */
+  .theme-btn { min-width: 40px; }
+  .theme-btn svg { pointer-events: none; }
