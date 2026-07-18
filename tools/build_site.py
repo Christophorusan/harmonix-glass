@@ -18,6 +18,10 @@ main_start = src.index('<main class="main">')
 shell_head = src[:main_start]              # meta, title, sprite svg, <div class="app">, sidebar, up to main
 shell_head = shell_head.replace(style_m.group(0), '<link rel="stylesheet" href="assets/style.css?v=' + VER + '">\n<script src="assets/app.js?v=' + VER + '" defer></script>')
 shell_head = re.sub(r'(<script src="assets/app\.js[^"]*" defer></script>\s*)+', lambda m: m.group(0).split('</script>')[0] + '</script>', shell_head)
+# strip inline app.js copies re-ingested from artifact-refresh cycles (they'd double-register handlers)
+shell_head = re.sub(r'<script>/\* Harmonix glass mockup.*?</script>\s*', '', shell_head, flags=re.S)
+assert shell_head.count('Harmonix glass mockup') == 0, "inline app.js still present in shell"
+
 
 home_main = src[main_start:]               # <main> ... </main></div>
 SHELL_TAIL = "</div>\n"
@@ -99,16 +103,18 @@ _prev_bg3 = """      radial-gradient(150% 150% at 50% 44%, transparent 55%, rgba
 _prev_bg4 = """      radial-gradient(150% 150% at 50% 44%, transparent 58%, rgba(0, 0, 0, 0.45) 100%),
       radial-gradient(1200px 800px at 60% 28%, rgba(255, 255, 255, 0.04), transparent 60%),
       linear-gradient(160deg, #17181a 0%, #101112 45%, #0b0c0d 100%);"""
-# OG app dark-mode ground: deep teal #0F2122 family
-_new_bg = """      radial-gradient(150% 150% at 50% 44%, transparent 58%, rgba(0, 0, 0, 0.40) 100%),
+_prev_bg5 = """      radial-gradient(150% 150% at 50% 44%, transparent 58%, rgba(0, 0, 0, 0.40) 100%),
       radial-gradient(1200px 800px at 60% 28%, rgba(226, 246, 161, 0.05), transparent 60%),
       linear-gradient(160deg, #142c2d 0%, #0f2122 48%, #0b1a1b 100%);"""
-for _cand in (_old_bg, _prev_bg, _prev_bg2, _prev_bg3, _prev_bg4):
+# calm ground — the flair lives inside the boxes now
+_new_bg = """      radial-gradient(150% 150% at 50% 44%, transparent 60%, rgba(0, 0, 0, 0.32) 100%),
+      linear-gradient(160deg, #13292a 0%, #0f2122 48%, #0c191a 100%);"""
+for _cand in (_old_bg, _prev_bg, _prev_bg2, _prev_bg3, _prev_bg4, _prev_bg5):
     if _cand in base_css:
         base_css = base_css.replace(_cand, _new_bg)
         break
 else:
-    assert "rgba(226, 246, 161, 0.05)" in base_css, "backdrop missing entirely"
+    assert "#13292a" in base_css, "backdrop missing entirely"
 
 # family-style contrast: near-black elevated cards, brighter text
 for _old, _new in [
@@ -1547,10 +1553,7 @@ html[data-theme="light"] {
   }
   body { background: #f2f5ee; color: #11181c; }
   body::before {
-    background:
-      radial-gradient(1200px 800px at 62% 28%, rgba(226, 246, 161, 0.38), transparent 60%),
-      radial-gradient(900px 700px at 22% 78%, rgba(7, 39, 35, 0.07), transparent 70%),
-      linear-gradient(160deg, #f8faf4 0%, #edf1e7 48%, #f4f6f0 100%);
+    background: linear-gradient(165deg, #f7f9f3 0%, #eff3ea 55%, #f3f5ef 100%);
   }
   .sidebar { color: #f8faf8; }
   .sidebar .assets-card .value { color: #ffffff; }
@@ -1699,6 +1702,61 @@ THEME_BTN_CSS = """
   .mhead .theme-btn { width: 34px; height: 34px; }
 """
 open(os.path.join(OUT, "assets", "style.css"), "a").write(THEME_BTN_CSS)
+
+
+FLAIR_CSS = """
+  /* ---------- in-box light flair (morphing glows live inside the glass) ---------- */
+  :root {
+    --flair-a: rgba(226, 246, 161, 0.11);
+    --flair-b: rgba(80, 210, 193, 0.10);
+    --flair-c: rgba(226, 246, 161, 0.05);
+  }
+  html[data-theme="light"] {
+    --flair-a: rgba(226, 246, 161, 0.50);
+    --flair-b: rgba(174, 226, 189, 0.34);
+    --flair-c: rgba(255, 255, 255, 0.55);
+  }
+  html[data-theme="light"] .hero, html[data-theme="light"] .chart-panel, html[data-theme="light"] .panel:has(.axis) {
+    --flair-a: rgba(226, 246, 161, 0.13);
+    --flair-b: rgba(80, 210, 193, 0.11);
+    --flair-c: rgba(226, 246, 161, 0.05);
+  }
+  .card, .panel, .tile, .hero, .pairbar { position: relative; overflow: hidden; }
+  .card::before, .panel::before, .tile::before, .hero::before, .pairbar::before {
+    content: ""; position: absolute; inset: -45%; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(42% 46% at 22% 26%, var(--flair-a), transparent 70%),
+      radial-gradient(46% 52% at 80% 76%, var(--flair-b), transparent 70%),
+      radial-gradient(36% 40% at 66% 12%, var(--flair-c), transparent 70%);
+    animation: flairdrift 17s ease-in-out infinite alternate;
+  }
+  .tile::before { animation-duration: 21s; }
+  .hero::before { animation-duration: 14s; }
+  .card > *, .panel > *, .tile > *, .hero > *, .pairbar > * { position: relative; z-index: 1; }
+  @keyframes flairdrift {
+    0% { transform: translate3d(-4%, -3%, 0) rotate(0deg) scale(1); }
+    100% { transform: translate3d(4%, 3%, 0) rotate(7deg) scale(1.09); }
+  }
+
+  /* OG-exact: white pill deposit buttons on dark surfaces */
+  html:not([data-theme="light"]) .deposit-btn {
+    background: #ffffff; color: #0b0b0b; box-shadow: none;
+  }
+  html:not([data-theme="light"]) .deposit-btn:hover {
+    background: #eef2e4; color: #0b0b0b; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.30);
+  }
+
+  /* OG sidebar contour texture */
+  .sidebar::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46%;
+    pointer-events: none; opacity: 0.35; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 240' fill='none'%3E%3Cpath d='M-20 200 C 60 150, 140 230, 220 180 S 340 130, 380 170' stroke='rgba(255,255,255,0.10)' stroke-width='1'/%3E%3Cpath d='M-20 160 C 70 110, 150 190, 230 140 S 350 90, 390 130' stroke='rgba(255,255,255,0.07)' stroke-width='1'/%3E%3Cpath d='M-20 240 C 50 190, 130 270, 210 220 S 330 170, 370 210' stroke='rgba(255,255,255,0.05)' stroke-width='1'/%3E%3Cpath d='M-20 120 C 80 70, 160 150, 240 100 S 360 50, 400 90' stroke='rgba(255,255,255,0.045)' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: cover;
+  }
+  .sidebar { position: sticky; }
+  .sidebar > * { position: relative; z-index: 1; }
+"""
+open(os.path.join(OUT, "assets", "style.css"), "a").write(FLAIR_CSS)
 
 # ---------- final palette pass: exact OG accent across all generated files ----------
 PALETTE = [
