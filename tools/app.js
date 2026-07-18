@@ -2,10 +2,15 @@
 (function () {
   "use strict";
 
+  var MEM = {};
+  function lsGet(k) { try { var v = window.localStorage.getItem(k); return v === null ? (k in MEM ? MEM[k] : null) : v; } catch (e) { return k in MEM ? MEM[k] : null; } }
+  function lsSet(k, v) { MEM[k] = v; try { window.localStorage.setItem(k, v); } catch (e) {} }
+  function lsDel(k) { delete MEM[k]; try { window.localStorage.removeItem(k); } catch (e) {} }
+
   var DEMO_ADDR = "0x7Fa9…3Cd2";
   var BAL = { USDC: 5240.18, HYPE: 118.4, KHYPE: 312.6 };
   try {
-    var saved = JSON.parse(localStorage.getItem("hmx_bal") || "null");
+    var saved = JSON.parse(lsGet("hmx_bal") || "null");
     if (saved) BAL = saved;
   } catch (e) {}
 
@@ -44,8 +49,8 @@
     return eth.request({ method: "eth_requestAccounts" }).then(function (accs) {
       if (!accs || !accs.length) throw new Error("no accounts");
       realAddr = accs[0];
-      localStorage.setItem("hmx_w", "1");
-      localStorage.setItem("hmx_mode", "injected");
+      lsSet("hmx_w", "1");
+      lsSet("hmx_mode", "injected");
       toast("Connected " + short(realAddr));
       switchToHyperEVM(eth).then(function () { fetchNativeBal(eth); }).catch(function () { fetchNativeBal(eth); });
       refreshWallet();
@@ -54,14 +59,14 @@
 
   function restoreInjected() {
     var eth = window.ethereum;
-    if (!eth || localStorage.getItem("hmx_mode") !== "injected") return;
+    if (!eth || lsGet("hmx_mode") !== "injected") return;
     eth.request({ method: "eth_accounts" }).then(function (accs) {
       if (accs && accs.length) {
         realAddr = accs[0];
         fetchNativeBal(eth);
       } else {
-        localStorage.removeItem("hmx_w");
-        localStorage.removeItem("hmx_mode");
+        lsDel("hmx_w");
+        lsDel("hmx_mode");
       }
       refreshWallet();
     }).catch(function () {});
@@ -69,15 +74,15 @@
       eth._hmxBound = true;
       eth.on("accountsChanged", function (accs) {
         if (accs && accs.length) { realAddr = accs[0]; fetchNativeBal(eth); toast("Account changed — " + short(realAddr)); }
-        else { realAddr = null; localStorage.removeItem("hmx_w"); localStorage.removeItem("hmx_mode"); toast("Wallet disconnected"); }
+        else { realAddr = null; lsDel("hmx_w"); lsDel("hmx_mode"); toast("Wallet disconnected"); }
         refreshWallet();
       });
       eth.on("chainChanged", function () { if (realAddr) fetchNativeBal(eth); });
     }
   }
 
-  function on() { return localStorage.getItem("hmx_w") === "1"; }
-  function saveBal() { try { localStorage.setItem("hmx_bal", JSON.stringify(BAL)); } catch (e) {} }
+  function on() { return lsGet("hmx_w") === "1"; }
+  function saveBal() { try { lsSet("hmx_bal", JSON.stringify(BAL)); } catch (e) {} }
   function fmt(n, d) {
     if (d === undefined) d = 2;
     return n.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
@@ -89,7 +94,7 @@
   var SUN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/></svg>';
   var MOON = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>';
   function theme() {
-    try { return localStorage.getItem("hmx_theme") || "light"; } catch (e) { return "light"; }
+    try { return lsGet("hmx_theme") || "light"; } catch (e) { return "light"; }
   }
   function applyTheme() {
     var t = theme();
@@ -102,7 +107,7 @@
   document.addEventListener("click", function (e) {
     var b = e.target.closest(".theme-btn");
     if (!b) return;
-    try { localStorage.setItem("hmx_theme", theme() === "light" ? "dark" : "light"); } catch (err) {}
+    try { lsSet("hmx_theme", theme() === "light" ? "dark" : "light"); } catch (err) {}
     applyTheme();
   });
   applyTheme();
@@ -154,8 +159,8 @@
   function toggleWallet() {
     if (on()) {
       realAddr = null;
-      localStorage.removeItem("hmx_w");
-      localStorage.removeItem("hmx_mode");
+      lsDel("hmx_w");
+      lsDel("hmx_mode");
       toast("Wallet disconnected");
       refreshWallet();
       return;
@@ -163,14 +168,14 @@
     if (window.ethereum) {
       connectInjected(window.ethereum).catch(function (e) {
         if (e && e.code === 4001) { toast("Connection rejected"); return; }
-        localStorage.setItem("hmx_w", "1");
-        localStorage.setItem("hmx_mode", "demo");
+        lsSet("hmx_w", "1");
+        lsSet("hmx_mode", "demo");
         toast("Wallet unavailable — demo wallet connected");
         refreshWallet();
       });
     } else {
-      localStorage.setItem("hmx_w", "1");
-      localStorage.setItem("hmx_mode", "demo");
+      lsSet("hmx_w", "1");
+      lsSet("hmx_mode", "demo");
       toast("No wallet extension found — demo wallet connected");
       refreshWallet();
     }
