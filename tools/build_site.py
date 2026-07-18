@@ -901,7 +901,16 @@ EXTRA2_CSS = """
   .cta:hover { background: linear-gradient(180deg, #eaff85, #d6f95f); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 6px 20px rgba(215, 251, 95, 0.30); }
   .cta.sell { background: linear-gradient(180deg, #e0605d, #c04a47); color: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 16px rgba(224, 96, 93, 0.25); }
   .cta.sell:hover { background: linear-gradient(180deg, #e8706d, #cb5350); }
-  .connect-btn:hover { border-color: rgba(215, 251, 95, 0.35); }
+  .connect-btn {
+    background: linear-gradient(180deg, #e0fb6d, #cbf04f); color: #0a1a12; border: none; font-weight: 600;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 16px rgba(215, 251, 95, 0.20);
+  }
+  .connect-btn:hover { background: linear-gradient(180deg, #eaff85, #d6f95f); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 6px 20px rgba(215, 251, 95, 0.30); }
+  .connect-btn.addr {
+    background: rgba(215, 251, 95, 0.12); color: var(--lime);
+    box-shadow: inset 0 0 0 1px rgba(215, 251, 95, 0.28);
+  }
+  .connect-btn.addr:hover { background: rgba(215, 251, 95, 0.18); }
 
   .panel .kv { padding: 7px 2px; }
   .panel .kv + .kv { border-top: 1px solid rgba(255, 255, 255, 0.055); }
