@@ -35,8 +35,8 @@
   :root {
     --bg: #081711;
     --sidebar-bg: #12291f;
-    --glass: rgba(17, 19, 18, 0.58);
-    --glass-strong: rgba(30, 32, 31, 0.72);
+    --glass: rgba(30, 31, 33, 0.62);
+    --glass-strong: rgba(43, 45, 47, 0.72);
     --glass-inner: rgba(255, 255, 255, 0.055);
     --glass-border: rgba(255, 255, 255, 0.10);
     --glass-border-hover: rgba(255, 255, 255, 0.28);
@@ -72,10 +72,9 @@
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(150% 150% at 50% 44%, transparent 55%, rgba(6, 7, 7, 0.50) 100%),
-      radial-gradient(1400px 950px at 63% 38%, rgba(150, 160, 152, 0.20), transparent 64%),
-      radial-gradient(1000px 700px at 30% 70%, rgba(110, 122, 114, 0.14), transparent 72%),
-      linear-gradient(150deg, #1c1e1d 0%, #26292a 38%, #1d201e 68%, #131514 100%);
+      radial-gradient(150% 150% at 50% 44%, transparent 58%, rgba(0, 0, 0, 0.45) 100%),
+      radial-gradient(1200px 800px at 60% 28%, rgba(255, 255, 255, 0.04), transparent 60%),
+      linear-gradient(160deg, #17181a 0%, #101112 45%, #0b0c0d 100%);
   }
 
   .app {
@@ -88,7 +87,7 @@
 
   /* ---------- Sidebar: floating dark glass tab ---------- */
   .sidebar {
-    background: rgba(15, 17, 16, 0.62);
+    background: rgba(18, 19, 20, 0.66);
     border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 20px;
     box-shadow: var(--shadow);
@@ -616,6 +615,7 @@
   
   
   
+  
   /* ---------- subpage components ---------- */
   .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px; }
   .tile {
@@ -866,7 +866,7 @@
   .connect-btn.addr { font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
   .toasts { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 120; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; }
   .toast {
-    background: rgba(15, 17, 16, 0.92); border: 1px solid var(--glass-border-hover); color: var(--text-0);
+    background: rgba(26, 27, 28, 0.94); border: 1px solid var(--glass-border-hover); color: var(--text-0);
     font: 500 13px var(--font); padding: 10px 20px; border-radius: 999px; white-space: nowrap; max-width: 92vw;
     overflow: hidden; text-overflow: ellipsis;
     backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
@@ -894,7 +894,7 @@
     .mhead {
       display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 60;
       align-items: center; justify-content: space-between; padding: 10px 14px;
-      background: rgba(15, 17, 16, 0.74);
+      background: rgba(18, 19, 20, 0.80);
       backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
@@ -903,7 +903,7 @@
     .mhead .connect-btn { padding: 7px 16px; font-size: 12.5px; }
     .mnav {
       display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
-      background: rgba(15, 17, 16, 0.84);
+      background: rgba(18, 19, 20, 0.88);
       backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       padding: 7px 4px calc(7px + env(safe-area-inset-bottom));

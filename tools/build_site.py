@@ -90,16 +90,20 @@ _prev_bg2 = """      radial-gradient(150% 150% at 50% 44%, transparent 55%, rgba
       radial-gradient(1400px 950px at 63% 38%, rgba(98, 172, 126, 0.42), transparent 64%),
       radial-gradient(1000px 700px at 30% 70%, rgba(52, 108, 76, 0.28), transparent 72%),
       linear-gradient(150deg, #13291d 0%, #1d4530 38%, #143223 68%, #0b2015 100%);"""
-_new_bg = """      radial-gradient(150% 150% at 50% 44%, transparent 55%, rgba(6, 7, 7, 0.50) 100%),
+_prev_bg3 = """      radial-gradient(150% 150% at 50% 44%, transparent 55%, rgba(6, 7, 7, 0.50) 100%),
       radial-gradient(1400px 950px at 63% 38%, rgba(150, 160, 152, 0.20), transparent 64%),
       radial-gradient(1000px 700px at 30% 70%, rgba(110, 122, 114, 0.14), transparent 72%),
       linear-gradient(150deg, #1c1e1d 0%, #26292a 38%, #1d201e 68%, #131514 100%);"""
-for _cand in (_old_bg, _prev_bg, _prev_bg2):
+# gemini-dark: near-black ground, whisper of a glow
+_new_bg = """      radial-gradient(150% 150% at 50% 44%, transparent 58%, rgba(0, 0, 0, 0.45) 100%),
+      radial-gradient(1200px 800px at 60% 28%, rgba(255, 255, 255, 0.04), transparent 60%),
+      linear-gradient(160deg, #17181a 0%, #101112 45%, #0b0c0d 100%);"""
+for _cand in (_old_bg, _prev_bg, _prev_bg2, _prev_bg3):
     if _cand in base_css:
         base_css = base_css.replace(_cand, _new_bg)
         break
 else:
-    assert "rgba(150, 160, 152, 0.20)" in base_css, "backdrop missing entirely"
+    assert "rgba(255, 255, 255, 0.04)" in base_css, "backdrop missing entirely"
 
 # family-style contrast: near-black elevated cards, brighter text
 for _old, _new in [
@@ -110,6 +114,11 @@ for _old, _new in [
     ("--text-0: #f4f7f3;", "--text-0: #f8faf8;"),
     ("--text-1: rgba(244, 247, 243, 0.72);", "--text-1: rgba(248, 250, 248, 0.80);"),
     ("--text-2: rgba(244, 247, 243, 0.52);", "--text-2: rgba(248, 250, 248, 0.56);"),
+    # gemini-dark elevated pills
+    ("--glass: rgba(17, 19, 18, 0.58);", "--glass: rgba(30, 31, 33, 0.62);"),
+    ("--glass-strong: rgba(30, 32, 31, 0.72);", "--glass-strong: rgba(43, 45, 47, 0.72);"),
+    ("background: #101211;", "background: #0b0c0c;"),
+    ("background: rgba(15, 17, 16, 0.62);", "background: rgba(18, 19, 20, 0.66);"),
 ]:
     if _old in base_css:
         base_css = base_css.replace(_old, _new)
@@ -118,8 +127,8 @@ for _old, _new in [
 for _old, _new in [
     ("background: #061410;", "background: #101211;"),
     ("background: rgba(6, 18, 13, 0.60);", "background: rgba(15, 17, 16, 0.62);"),
-    ("background: rgba(15, 17, 16, 0.74);", "background: rgba(15, 17, 16, 0.74);"),
-    ("background: rgba(15, 17, 16, 0.84);", "background: rgba(15, 17, 16, 0.84);"),
+    ("background: rgba(18, 19, 20, 0.80);", "background: rgba(18, 19, 20, 0.80);"),
+    ("background: rgba(18, 19, 20, 0.88);", "background: rgba(18, 19, 20, 0.88);"),
 ]:
     if _old in base_css:
         base_css = base_css.replace(_old, _new)
@@ -818,7 +827,7 @@ EXTRA2_CSS = """
   .connect-btn.addr { font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
   .toasts { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 120; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; }
   .toast {
-    background: rgba(15, 17, 16, 0.92); border: 1px solid var(--glass-border-hover); color: var(--text-0);
+    background: rgba(26, 27, 28, 0.94); border: 1px solid var(--glass-border-hover); color: var(--text-0);
     font: 500 13px var(--font); padding: 10px 20px; border-radius: 999px; white-space: nowrap; max-width: 92vw;
     overflow: hidden; text-overflow: ellipsis;
     backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
@@ -846,7 +855,7 @@ EXTRA2_CSS = """
     .mhead {
       display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 60;
       align-items: center; justify-content: space-between; padding: 10px 14px;
-      background: rgba(15, 17, 16, 0.74);
+      background: rgba(18, 19, 20, 0.80);
       backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
@@ -855,7 +864,7 @@ EXTRA2_CSS = """
     .mhead .connect-btn { padding: 7px 16px; font-size: 12.5px; }
     .mnav {
       display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
-      background: rgba(15, 17, 16, 0.84);
+      background: rgba(18, 19, 20, 0.88);
       backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       padding: 7px 4px calc(7px + env(safe-area-inset-bottom));
