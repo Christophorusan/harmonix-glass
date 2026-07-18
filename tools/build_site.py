@@ -85,17 +85,31 @@ _prev_bg = """      radial-gradient(140% 140% at 50% 42%, transparent 52%, rgba(
       radial-gradient(760px 560px at 22% 76%, rgba(40, 96, 64, 0.34), transparent 70%),
       radial-gradient(1700px 1150px at 50% 46%, rgba(22, 56, 38, 0.55), transparent 82%),
       linear-gradient(155deg, #0b1a12 0%, #143726 36%, #0e2a1a 62%, #05100a 100%);"""
-# marketing-tile haze: softer vignette, wide diffuse bloom, gentler contrast
-_new_bg = """      radial-gradient(150% 150% at 50% 44%, transparent 55%, rgba(4, 13, 9, 0.50) 100%),
+# marketing-tile haze on a graphite-grey ground
+_prev_bg2 = """      radial-gradient(150% 150% at 50% 44%, transparent 55%, rgba(4, 13, 9, 0.50) 100%),
       radial-gradient(1400px 950px at 63% 38%, rgba(98, 172, 126, 0.42), transparent 64%),
       radial-gradient(1000px 700px at 30% 70%, rgba(52, 108, 76, 0.28), transparent 72%),
       linear-gradient(150deg, #13291d 0%, #1d4530 38%, #143223 68%, #0b2015 100%);"""
-for _cand in (_old_bg, _prev_bg):
+_new_bg = """      radial-gradient(150% 150% at 50% 44%, transparent 55%, rgba(6, 7, 7, 0.50) 100%),
+      radial-gradient(1400px 950px at 63% 38%, rgba(150, 160, 152, 0.20), transparent 64%),
+      radial-gradient(1000px 700px at 30% 70%, rgba(110, 122, 114, 0.14), transparent 72%),
+      linear-gradient(150deg, #1c1e1d 0%, #26292a 38%, #1d201e 68%, #131514 100%);"""
+for _cand in (_old_bg, _prev_bg, _prev_bg2):
     if _cand in base_css:
         base_css = base_css.replace(_cand, _new_bg)
         break
 else:
-    assert "rgba(98, 172, 126, 0.42)" in base_css, "backdrop missing entirely"
+    assert "rgba(150, 160, 152, 0.20)" in base_css, "backdrop missing entirely"
+
+# neutralize the remaining green-tinted chrome surfaces
+for _old, _new in [
+    ("background: #061410;", "background: #101211;"),
+    ("background: rgba(6, 18, 13, 0.60);", "background: rgba(15, 17, 16, 0.62);"),
+    ("background: rgba(15, 17, 16, 0.74);", "background: rgba(15, 17, 16, 0.74);"),
+    ("background: rgba(15, 17, 16, 0.84);", "background: rgba(15, 17, 16, 0.84);"),
+]:
+    if _old in base_css:
+        base_css = base_css.replace(_old, _new)
 
 # ---------- 2. nav hrefs + active state ----------
 # ---------- 1d. mobile shell: fixed glass header + bottom tab bar ----------
@@ -791,7 +805,7 @@ EXTRA2_CSS = """
   .connect-btn.addr { font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
   .toasts { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 120; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; }
   .toast {
-    background: rgba(8, 20, 14, 0.92); border: 1px solid var(--glass-border-hover); color: var(--text-0);
+    background: rgba(15, 17, 16, 0.92); border: 1px solid var(--glass-border-hover); color: var(--text-0);
     font: 500 13px var(--font); padding: 10px 20px; border-radius: 999px; white-space: nowrap; max-width: 92vw;
     overflow: hidden; text-overflow: ellipsis;
     backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
@@ -819,7 +833,7 @@ EXTRA2_CSS = """
     .mhead {
       display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 60;
       align-items: center; justify-content: space-between; padding: 10px 14px;
-      background: rgba(6, 18, 13, 0.72);
+      background: rgba(15, 17, 16, 0.74);
       backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
@@ -828,7 +842,7 @@ EXTRA2_CSS = """
     .mhead .connect-btn { padding: 7px 16px; font-size: 12.5px; }
     .mnav {
       display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
-      background: rgba(6, 18, 13, 0.82);
+      background: rgba(15, 17, 16, 0.84);
       backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       padding: 7px 4px calc(7px + env(safe-area-inset-bottom));
@@ -1032,7 +1046,7 @@ ANALYTICS = '''    <div class="tiles">
         <p class="muted" style="margin:0 0 6px">Share of protocol deposits.</p>
         <div class="hbar-row">''' + KHYPE_ICON_S + '''<span>HyperEVM $KHYPE</span><span class="hbar-track"><i style="width:100%"></i></span><span class="val">$2.90M</span><span class="pct">49.9%</span></div>
         <div class="hbar-row">''' + HYPE_ICON + '''<span>HyperEVM $HYPE</span><span class="hbar-track"><i style="width:69%"></i></span><span class="val">$1.99M</span><span class="pct">34.3%</span></div>
-        <div class="hbar-row">''' + HYPE_ICON + '''<span>USDC — $HYPE Delta Neutral</span><span class="hbar-track"><i style="width:21%"></i></span><span class="val">$606.5K</span><span class="pct">10.4%</span></div>
+        <div class="hbar-row">''' + USDC_ICON + '''<span>USDC — $HYPE Delta Neutral</span><span class="hbar-track"><i style="width:21%"></i></span><span class="val">$606.5K</span><span class="pct">10.4%</span></div>
         <div class="hbar-row">''' + USDC_ICON + '''<span>HIP-3 haUSDC</span><span class="hbar-track"><i style="width:11%"></i></span><span class="val">$314.3K</span><span class="pct">5.4%</span></div>
       </div>
       <div class="panel">
