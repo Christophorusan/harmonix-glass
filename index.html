@@ -215,6 +215,32 @@
     font-weight: 700;
     letter-spacing: -0.01em;
   }
+  .topbar-actions { display: flex; align-items: center; gap: 10px; }
+
+  .chain-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--glass);
+    color: var(--text-0);
+    border: 1px solid var(--glass-border);
+    border-radius: 999px;
+    font: 500 13.5px var(--font);
+    padding: 8px 14px 8px 10px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .chain-btn:hover { background: var(--glass-strong); border-color: var(--glass-border-hover); }
+  .chain-btn:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+  .chain-btn .cicon {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex: none;
+  }
+  .chain-btn .cicon svg { width: 100%; height: 100%; display: block; }
+  .chain-btn .chev { opacity: 0.6; }
+
   .connect-btn {
     background: var(--glass-strong);
     color: var(--text-0);
@@ -401,8 +427,8 @@
   .row .v .plus { color: var(--text-2); font-size: 12px; font-weight: 600; }
 
   .deposit-btn {
-    background: var(--green-btn);
-    color: #fff;
+    background: rgba(47, 174, 78, 0.16);
+    color: #62d98b;
     border: none;
     border-radius: var(--radius-sm);
     font: 600 13.5px var(--font);
@@ -536,11 +562,12 @@
   }
   .spark circle { fill: var(--lime); }
 
-  /* deposit: gradient, inner sheen, arrow on hover */
+  /* deposit: quiet green tint at rest, fills solid on hover (Polymarket-style) */
   .deposit-btn {
     position: relative;
-    background: linear-gradient(180deg, #38bd58, #27a246);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 4px 16px rgba(47, 174, 78, 0.22);
+    background: rgba(47, 174, 78, 0.16);
+    box-shadow: inset 0 0 0 1px rgba(98, 217, 139, 0.22);
+    transition: background 0.16s, color 0.16s, box-shadow 0.16s;
   }
   .deposit-btn::after {
     content: "\2192";
@@ -553,6 +580,7 @@
   }
   .deposit-btn:hover {
     background: linear-gradient(180deg, #41cc63, #2cb04e);
+    color: #fff;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 6px 20px rgba(47, 174, 78, 0.32);
     transform: none;
   }
@@ -669,7 +697,14 @@
 
     <div class="topbar">
       <h1>Yield Markets</h1>
-      <button class="connect-btn">Connect wallet</button>
+      <div class="topbar-actions">
+        <button class="chain-btn" aria-haspopup="listbox" aria-label="Switch network, current: HyperEVM">
+          <span class="cicon" aria-hidden="true"><svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="11" fill="#072723"/><path d="M18.9666 10.8871C18.9812 12.1981 18.7068 13.4507 18.1679 14.6475C17.3984 16.3517 15.5534 17.7452 13.8685 16.2619C12.4945 15.0529 12.2396 12.5986 10.181 12.2393C7.45717 11.9092 7.39163 15.0675 5.61217 15.4244C3.62879 15.8274 2.9709 12.4918 3.00004 10.9769C3.02917 9.46209 3.43215 7.33305 5.15578 7.33305C7.13915 7.33305 7.27267 10.336 9.79014 10.1734C12.2833 10.0035 12.327 6.87908 13.9559 5.54146C15.3615 4.3859 17.0148 5.23315 17.8426 6.62418C18.6097 7.91083 18.9472 9.42082 18.9641 10.8871H18.9666Z" fill="#50D2C1"/></svg></span>
+          HyperEVM
+          <svg class="chev" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="connect-btn">Connect wallet</button>
+      </div>
     </div>
 
     <!-- ============ Hyperliquid Vaults (all strategies) ============ -->
