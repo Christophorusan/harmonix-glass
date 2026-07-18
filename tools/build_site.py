@@ -154,7 +154,8 @@ LOCKUP_SVG = _lockup_m.group(0) if _lockup_m else ''
 
 MOBILE_HTML = ('<header class="mhead">'
   '<a href="index.html" class="mlogo-a" aria-label="Harmonix home">' + LOCKUP_SVG.replace('aria-label="Harmonix logo"', 'aria-label="Harmonix logo" class="mlogo"') + '</a>'
-  '<button class="connect-btn">Connect</button>'
+  '<span style="display:flex;gap:8px;align-items:center"><button class="theme-btn" aria-label="Toggle light/dark theme"></button>'
+  '<button class="connect-btn">Connect</button></span>'
   '</header>'
   '<nav class="mnav" aria-label="Mobile">'
   '<a class="mn" href="index.html"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg><span>Home</span></a>'
@@ -164,12 +165,20 @@ MOBILE_HTML = ('<header class="mhead">'
   '<a class="mn" href="portfolio.html"><svg width="17" height="17" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5.33 17.33c0-2.51 0-3.77.78-4.55.78-.78 2.04-.78 4.56-.78h10.66c2.52 0 3.77 0 4.55.78.78.78.78 2.04.78 4.55V20c0 3.77 0 5.66-1.17 6.83C24.32 28 22.44 28 18.67 28h-5.34c-3.77 0-5.65 0-6.83-1.17-1.17-1.17-1.17-3.06-1.17-6.83v-2.67Z"/><path stroke-linecap="round" d="M21.33 10.67V9.33a5.33 5.33 0 0 0-10.66 0v1.34"/></svg><span>Portfolio</span></a>'
   '</nav>')
 
+if 'hmx_theme' not in shell_head:
+    shell_head = shell_head.replace('<meta charset="utf-8">',
+        '<meta charset="utf-8">\n<script>document.documentElement.setAttribute("data-theme", (function(){try{return localStorage.getItem("hmx_theme")||"light"}catch(e){return "light"}})());</script>', 1)
+assert 'hmx_theme' in shell_head
+
 if 'name="viewport"' not in shell_head:
     shell_head = shell_head.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">', 1)
 assert 'name="viewport"' in shell_head
 
 if 'class="mhead"' not in shell_head:
     shell_head = shell_head.replace('<div class="app">', MOBILE_HTML + '\n<div class="app">', 1)
+if 'mhead' in shell_head and 'theme-btn' not in shell_head.split('<div class="app">')[0]:
+    shell_head = shell_head.replace('<button class="connect-btn">Connect</button></header>',
+        '<span style="display:flex;gap:8px;align-items:center"><button class="theme-btn" aria-label="Toggle light/dark theme"></button><button class="connect-btn">Connect</button></span></header>', 1)
 assert 'class="mhead"' in shell_head
 
 NAV = {
@@ -200,6 +209,7 @@ def make_shell(active_label, title):
 TOPBAR = '''    <div class="topbar">
       <h1>{title}</h1>
       <div class="topbar-actions">
+        <button class="theme-btn" aria-label="Toggle light/dark theme"></button>
         <button class="chain-btn" aria-haspopup="listbox" aria-label="Switch network, current: HyperEVM">
           <span class="cicon" aria-hidden="true"><svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="11" fill="#072723"/><path d="M18.9666 10.8871C18.9812 12.1981 18.7068 13.4507 18.1679 14.6475C17.3984 16.3517 15.5534 17.7452 13.8685 16.2619C12.4945 15.0529 12.2396 12.5986 10.181 12.2393C7.45717 11.9092 7.39163 15.0675 5.61217 15.4244C3.62879 15.8274 2.9709 12.4918 3.00004 10.9769C3.02917 9.46209 3.43215 7.33305 5.15578 7.33305C7.13915 7.33305 7.27267 10.336 9.79014 10.1734C12.2833 10.0035 12.327 6.87908 13.9559 5.54146C15.3615 4.3859 17.0148 5.23315 17.8426 6.62418C18.6097 7.91083 18.9472 9.42082 18.9641 10.8871H18.9666Z" fill="#50D2C1"/></svg></span>
           HyperEVM
@@ -375,6 +385,10 @@ HYPE_ICON = '<span class="coin" aria-hidden="true"><svg viewBox="0 0 22 22" fill
 USDC_ICON = '<span class="coin" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47 47" fill="none"><path d="M23.6665 46.5C36.4124 46.5 46.6665 36.2459 46.6665 23.5C46.6665 10.7541 36.4124 0.5 23.6665 0.5C10.9206 0.5 0.666504 10.7541 0.666504 23.5C0.666504 36.2459 10.9206 46.5 23.6665 46.5Z" fill="#2775CA"/><path d="M29.991 27.139C29.991 23.7849 27.9785 22.6349 23.9535 22.1558C21.0785 21.7724 20.5035 21.0058 20.5035 19.664C20.5035 18.3221 21.4619 17.4599 23.3785 17.4599C25.1035 17.4599 26.0619 18.0349 26.541 19.4724C26.6369 19.7599 26.9244 19.9515 27.2119 19.9515H28.7451C29.1285 19.9515 29.416 19.664 29.416 19.2808V19.1849C29.0326 17.0765 27.3076 15.4474 25.1035 15.2558V12.9558C25.1035 12.5724 24.816 12.2849 24.3369 12.189H22.8994C22.516 12.189 22.2285 12.4765 22.1326 12.9558V15.1599C19.2576 15.5433 17.4369 17.4599 17.4369 19.8558C17.4369 23.0183 19.3535 24.264 23.3785 24.7433C26.0619 25.2224 26.9244 25.7974 26.9244 27.3308C26.9244 28.8642 25.5826 29.9183 23.7619 29.9183C21.2701 29.9183 20.4076 28.864 20.1201 27.4265C20.0244 27.0433 19.7369 26.8515 19.4494 26.8515H17.8201C17.4369 26.8515 17.1494 27.139 17.1494 27.5224V27.6183C17.5326 30.014 19.066 31.739 22.2285 32.2183V34.5183C22.2285 34.9015 22.516 35.189 22.9951 35.2849H24.4326C24.816 35.2849 25.1035 34.9974 25.1994 34.5183V32.2183C28.0744 31.739 29.991 29.7265 29.991 27.139Z" fill="white"/><path d="M18.7775 37.2032C11.3025 34.52 7.46905 26.1825 10.2484 18.8032C11.6859 14.7782 14.8484 11.7116 18.7775 10.2741C19.1609 10.0825 19.3525 9.79502 19.3525 9.3157V7.97411C19.3525 7.5907 19.1609 7.3032 18.7775 7.20752C18.6815 7.20752 18.49 7.20752 18.394 7.3032C9.28996 10.1782 4.30654 19.8575 7.18154 28.9616C8.90654 34.3282 13.0275 38.4491 18.394 40.1741C18.7775 40.3657 19.1609 40.1741 19.2565 39.7907C19.3525 39.695 19.3525 39.5991 19.3525 39.4075V38.0657C19.3525 37.7782 19.065 37.395 18.7775 37.2032ZM28.9359 7.3032C28.5525 7.11161 28.169 7.3032 28.0734 7.68661C27.9775 7.78252 27.9775 7.8782 27.9775 8.07002V9.41161C27.9775 9.79502 28.265 10.1782 28.5525 10.37C36.0275 13.0532 39.8609 21.3907 37.0816 28.77C35.644 32.795 32.4815 35.8616 28.5525 37.2991C28.169 37.4907 27.9775 37.7782 27.9775 38.2575V39.5991C27.9775 39.9825 28.169 40.27 28.5525 40.3657C28.6484 40.3657 28.84 40.3657 28.9359 40.27C38.04 37.395 43.0234 27.7157 40.1484 18.6116C38.4234 13.1491 34.2066 9.0282 28.9359 7.3032Z" fill="white"/></svg></span>'
 
 home_main = fix_delta_icon(home_main, USDC_ICON)
+if 'theme-btn' not in home_main:
+    home_main = home_main.replace('<div class="topbar-actions">',
+        '<div class="topbar-actions">\n        <button class="theme-btn" aria-label="Toggle light/dark theme"></button>', 1)
+assert 'theme-btn' in home_main, "home topbar toggle missing"
 
 # ---------- 4. candles svg ----------
 random.seed(7)
@@ -1521,8 +1535,9 @@ print("done")
 
 
 LIGHT_CSS = """
+html[data-theme="light"] {
   /* ---------- OG light theme (exact app.harmonix.fi default) ---------- */
-  :root {
+  & {
     --text-0: #11181c;
     --text-1: rgba(24, 49, 50, 0.78);
     --text-2: #71717a;
@@ -1660,8 +1675,25 @@ LIGHT_CSS = """
   @media (max-width: 760px) {
     .cards .card .row { border-color: #eef0eb; }
   }
+}
 """
 open(os.path.join(OUT, "assets", "style.css"), "a").write(LIGHT_CSS)
+
+# theme toggle button styling (works in both themes via tokens)
+THEME_BTN_CSS = """
+  .theme-btn {
+    width: 40px; height: 40px; border-radius: 999px; cursor: pointer;
+    display: inline-grid; place-items: center;
+    background: var(--glass); border: 1px solid var(--glass-border); color: var(--text-1);
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .theme-btn:hover { color: var(--text-0); border-color: var(--glass-border-hover); }
+  .theme-btn:focus-visible { outline: 2px solid #e2f6a1; outline-offset: 2px; }
+  html[data-theme="light"] .theme-btn { background: #ffffff; border-color: #e5e7eb; color: #71717a; }
+  html[data-theme="light"] .theme-btn:hover { color: #11181c; border-color: #c9cec3; }
+  .mhead .theme-btn { width: 34px; height: 34px; }
+"""
+open(os.path.join(OUT, "assets", "style.css"), "a").write(THEME_BTN_CSS)
 
 # ---------- final palette pass: exact OG accent across all generated files ----------
 PALETTE = [

@@ -85,6 +85,28 @@
   function num(el) { return parseFloat((el && el.value || "").replace(/,/g, "")) || 0; }
   function set(id, txt) { var el = document.getElementById(id); if (el) el.textContent = txt; }
 
+  /* ---------- theme toggle (OG light <-> OG dark) ---------- */
+  var SUN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/></svg>';
+  var MOON = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>';
+  function theme() {
+    try { return localStorage.getItem("hmx_theme") || "light"; } catch (e) { return "light"; }
+  }
+  function applyTheme() {
+    var t = theme();
+    document.documentElement.setAttribute("data-theme", t);
+    document.querySelectorAll(".theme-btn").forEach(function (b) {
+      b.innerHTML = t === "light" ? MOON : SUN;
+      b.title = t === "light" ? "Switch to dark" : "Switch to light";
+    });
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest(".theme-btn");
+    if (!b) return;
+    try { localStorage.setItem("hmx_theme", theme() === "light" ? "dark" : "light"); } catch (err) {}
+    applyTheme();
+  });
+  applyTheme();
+
   /* ---------- toasts ---------- */
   var toastBox = null;
   function toast(msg) {
