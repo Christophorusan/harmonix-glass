@@ -94,16 +94,19 @@ _prev_bg3 = """      radial-gradient(150% 150% at 50% 44%, transparent 55%, rgba
       radial-gradient(1400px 950px at 63% 38%, rgba(150, 160, 152, 0.20), transparent 64%),
       radial-gradient(1000px 700px at 30% 70%, rgba(110, 122, 114, 0.14), transparent 72%),
       linear-gradient(150deg, #1c1e1d 0%, #26292a 38%, #1d201e 68%, #131514 100%);"""
-# gemini-dark: near-black ground, whisper of a glow
-_new_bg = """      radial-gradient(150% 150% at 50% 44%, transparent 58%, rgba(0, 0, 0, 0.45) 100%),
+_prev_bg4 = """      radial-gradient(150% 150% at 50% 44%, transparent 58%, rgba(0, 0, 0, 0.45) 100%),
       radial-gradient(1200px 800px at 60% 28%, rgba(255, 255, 255, 0.04), transparent 60%),
       linear-gradient(160deg, #17181a 0%, #101112 45%, #0b0c0d 100%);"""
-for _cand in (_old_bg, _prev_bg, _prev_bg2, _prev_bg3):
+# OG app dark-mode ground: deep teal #0F2122 family
+_new_bg = """      radial-gradient(150% 150% at 50% 44%, transparent 58%, rgba(0, 0, 0, 0.40) 100%),
+      radial-gradient(1200px 800px at 60% 28%, rgba(226, 246, 161, 0.05), transparent 60%),
+      linear-gradient(160deg, #142c2d 0%, #0f2122 48%, #0b1a1b 100%);"""
+for _cand in (_old_bg, _prev_bg, _prev_bg2, _prev_bg3, _prev_bg4):
     if _cand in base_css:
         base_css = base_css.replace(_cand, _new_bg)
         break
 else:
-    assert "rgba(255, 255, 255, 0.04)" in base_css, "backdrop missing entirely"
+    assert "rgba(226, 246, 161, 0.05)" in base_css, "backdrop missing entirely"
 
 # family-style contrast: near-black elevated cards, brighter text
 for _old, _new in [
@@ -119,6 +122,15 @@ for _old, _new in [
     ("--glass-strong: rgba(30, 32, 31, 0.72);", "--glass-strong: rgba(43, 45, 47, 0.72);"),
     ("background: #101211;", "background: #0b0c0c;"),
     ("background: rgba(15, 17, 16, 0.62);", "background: rgba(18, 19, 20, 0.66);"),
+    # OG app dark-mode exact surfaces
+    ("--glass: rgba(30, 31, 33, 0.62);", "--glass: rgba(24, 49, 50, 0.66);"),
+    ("--glass-strong: rgba(43, 45, 47, 0.72);", "--glass-strong: rgba(28, 59, 60, 0.76);"),
+    ("background: #0b0c0c;", "background: #0c191a;"),
+    ("background: rgba(18, 19, 20, 0.66);", "background: rgba(12, 25, 26, 0.72);"),
+    ("background: rgba(18, 19, 20, 0.80);", "background: rgba(12, 25, 26, 0.86);"),
+    ("background: rgba(18, 19, 20, 0.88);", "background: rgba(12, 25, 26, 0.90);"),
+    ("background: rgba(26, 27, 28, 0.94);", "background: rgba(16, 35, 36, 0.94);"),
+    ("--text-2: rgba(248, 250, 248, 0.56);", "--text-2: #a1a1aa;"),
 ]:
     if _old in base_css:
         base_css = base_css.replace(_old, _new)
@@ -1504,3 +1516,25 @@ page("points.html", "Points", "Points", POINTS)
 for v in VAULTS:
     page(v["slug"], "Home", v["name"], vault_content(v))
 print("done")
+
+# ---------- final palette pass: exact OG accent across all generated files ----------
+PALETTE = [
+    ("#d7fb5f", "#e2f6a1"), ("#D7FB5F", "#E2F6A1"),
+    ("rgba(215, 251, 95", "rgba(226, 246, 161"), ("rgba(215,251,95", "rgba(226,246,161"),
+    ("#e0fb6d", "#ecf9c0"), ("#cbf04f", "#dcf291"),
+    ("#eaff85", "#f2fcd4"), ("#d6f95f", "#e5f6a8"),
+    ("#e4ff78", "#eef9c6"), ("#cdf254", "#ddf295"),
+    ("#0a1a12", "#183132"),
+]
+def apply_palette(txt):
+    for a, b in PALETTE:
+        txt = txt.replace(a, b)
+    return txt
+
+import glob
+_js_src = apply_palette(open("app.js").read())
+open(os.path.join(OUT, "assets", "app.js"), "w").write(_js_src)
+for _f in glob.glob(os.path.join(OUT, "*.html")) + [os.path.join(OUT, "assets", "style.css")]:
+    _t = open(_f).read()
+    open(_f, "w").write(apply_palette(_t))
+print("palette pass done")

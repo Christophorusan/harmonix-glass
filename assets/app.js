@@ -363,9 +363,9 @@
       price = c;
     }
     var ly = ym(price);
-    out.push('<line x1="0" y1="' + ly.toFixed(1) + '" x2="' + W + '" y2="' + ly.toFixed(1) + '" stroke="rgba(215,251,95,0.5)" stroke-width="1" stroke-dasharray="4 4"/>');
+    out.push('<line x1="0" y1="' + ly.toFixed(1) + '" x2="' + W + '" y2="' + ly.toFixed(1) + '" stroke="rgba(226,246,161,0.5)" stroke-width="1" stroke-dasharray="4 4"/>');
     out.push('<rect x="' + (W - 56) + '" y="' + (ly - 9).toFixed(1) + '" width="52" height="18" rx="4" fill="#2c4a1f"/>');
-    out.push('<text x="' + (W - 52) + '" y="' + (ly + 4).toFixed(1) + '" font-size="11" fill="#d7fb5f" font-family="Poppins, sans-serif">' + price.toFixed(2) + "</text>");
+    out.push('<text x="' + (W - 52) + '" y="' + (ly + 4).toFixed(1) + '" font-size="11" fill="#e2f6a1" font-family="Poppins, sans-serif">' + price.toFixed(2) + "</text>");
     svg.innerHTML = out.join("");
   }
   var TF_SEEDS = { "1m": 3, "5m": 13, "15m": 19, "1h": 7, "4h": 23, "1d": 31 };
