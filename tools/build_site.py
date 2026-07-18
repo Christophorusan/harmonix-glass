@@ -101,6 +101,19 @@ for _cand in (_old_bg, _prev_bg, _prev_bg2):
 else:
     assert "rgba(150, 160, 152, 0.20)" in base_css, "backdrop missing entirely"
 
+# family-style contrast: near-black elevated cards, brighter text
+for _old, _new in [
+    ("--glass: rgba(255, 255, 255, 0.08);", "--glass: rgba(17, 19, 18, 0.58);"),
+    ("--glass-strong: rgba(255, 255, 255, 0.12);", "--glass-strong: rgba(30, 32, 31, 0.72);"),
+    ("--glass-inner: rgba(255, 255, 255, 0.07);", "--glass-inner: rgba(255, 255, 255, 0.055);"),
+    ("--glass-border: rgba(255, 255, 255, 0.13);", "--glass-border: rgba(255, 255, 255, 0.10);"),
+    ("--text-0: #f4f7f3;", "--text-0: #f8faf8;"),
+    ("--text-1: rgba(244, 247, 243, 0.72);", "--text-1: rgba(248, 250, 248, 0.80);"),
+    ("--text-2: rgba(244, 247, 243, 0.52);", "--text-2: rgba(248, 250, 248, 0.56);"),
+]:
+    if _old in base_css:
+        base_css = base_css.replace(_old, _new)
+
 # neutralize the remaining green-tinted chrome surfaces
 for _old, _new in [
     ("background: #061410;", "background: #101211;"),
@@ -911,6 +924,16 @@ EXTRA2_CSS = """
     box-shadow: inset 0 0 0 1px rgba(215, 251, 95, 0.28);
   }
   .connect-btn.addr:hover { background: rgba(215, 251, 95, 0.18); }
+
+  /* HyperEVM chain pill in lime */
+  .chain-btn {
+    background: rgba(215, 251, 95, 0.12); border-color: rgba(215, 251, 95, 0.28);
+    color: var(--lime); font-weight: 600;
+  }
+  .chain-btn:hover { background: rgba(215, 251, 95, 0.18); border-color: rgba(215, 251, 95, 0.4); }
+  .chain-btn .chev { opacity: 0.8; }
+  .chain-btn .cicon svg circle { fill: #d7fb5f; }
+  .chain-btn .cicon svg path { fill: #0a1a12; }
 
   .panel .kv { padding: 7px 2px; }
   .panel .kv + .kv { border-top: 1px solid rgba(255, 255, 255, 0.055); }
