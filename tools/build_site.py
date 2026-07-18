@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Generate the multi-page Harmonix glass mockup site from the single-file source."""
-import re, random, os
+import re, random, os, time
 
+VER = str(int(time.time()))
 SRC = "harmonix-earn-glass.html"
 OUT = "harmonix-glass-deploy"
 
@@ -10,11 +11,13 @@ src = open(SRC).read()
 # ---------- 1. split source ----------
 style_m = re.search(r"<style>(.*?)</style>", src, re.S)
 base_css = style_m.group(1)
+# strip EXTRA blocks re-ingested from a previous build cycle (they get re-appended below)
+base_css = base_css.split("/* ---------- subpage components")[0]
 
 main_start = src.index('<main class="main">')
 shell_head = src[:main_start]              # meta, title, sprite svg, <div class="app">, sidebar, up to main
-shell_head = shell_head.replace(style_m.group(0), '<link rel="stylesheet" href="assets/style.css">\n<script src="assets/app.js" defer></script>')
-shell_head = shell_head.replace('<script src="assets/app.js" defer></script>\n<script src="assets/app.js" defer></script>', '<script src="assets/app.js" defer></script>')
+shell_head = shell_head.replace(style_m.group(0), '<link rel="stylesheet" href="assets/style.css?v=' + VER + '">\n<script src="assets/app.js?v=' + VER + '" defer></script>')
+shell_head = re.sub(r'(<script src="assets/app\.js[^"]*" defer></script>\s*)+', lambda m: m.group(0).split('</script>')[0] + '</script>', shell_head)
 
 home_main = src[main_start:]               # <main> ... </main></div>
 SHELL_TAIL = "</div>\n"
@@ -862,6 +865,36 @@ EXTRA2_CSS = """
     .code-box { font-size: 14px; flex-wrap: wrap; }
     .pairbar { gap: 14px; padding: 12px 16px; }
     .toasts { bottom: calc(84px + env(safe-area-inset-bottom)); }
+  }
+
+  /* ---------- OG lime buttons + separator lines ---------- */
+  .deposit-btn {
+    display: inline-flex; align-items: center; justify-content: center; text-align: center;
+    background: rgba(215, 251, 95, 0.12); color: var(--lime);
+    box-shadow: inset 0 0 0 1px rgba(215, 251, 95, 0.25);
+  }
+  .deposit-btn:hover {
+    background: linear-gradient(180deg, #e4ff78, #cdf254); color: #0a1a12;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 6px 20px rgba(215, 251, 95, 0.22);
+  }
+  .deposit-btn::after { content: none; }
+  .ghost-btn { background: rgba(215, 251, 95, 0.12); color: var(--lime); box-shadow: inset 0 0 0 1px rgba(215, 251, 95, 0.22); }
+  .ghost-btn:hover { background: linear-gradient(180deg, #e4ff78, #cdf254); color: #0a1a12; }
+  .cta {
+    background: linear-gradient(180deg, #e0fb6d, #cbf04f); color: #0a1a12;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 16px rgba(215, 251, 95, 0.20);
+  }
+  .cta:hover { background: linear-gradient(180deg, #eaff85, #d6f95f); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 6px 20px rgba(215, 251, 95, 0.30); }
+  .cta.sell { background: linear-gradient(180deg, #e0605d, #c04a47); color: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 16px rgba(224, 96, 93, 0.25); }
+  .cta.sell:hover { background: linear-gradient(180deg, #e8706d, #cb5350); }
+  .connect-btn:hover { border-color: rgba(215, 251, 95, 0.35); }
+
+  .panel .kv { padding: 7px 2px; }
+  .panel .kv + .kv { border-top: 1px solid rgba(255, 255, 255, 0.055); }
+  .growth-grid { border-top: 1px solid rgba(255, 255, 255, 0.055); padding-top: 14px; }
+  @media (max-width: 760px) {
+    .cards .card .row { grid-column: 1 / -1; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 10px; }
+    .cards .card .deposit-btn { margin-top: 2px; }
   }
 """
 open(os.path.join(OUT, "assets", "style.css"), "a").write(EXTRA2_CSS)
