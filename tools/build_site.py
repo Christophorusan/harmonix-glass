@@ -21,11 +21,13 @@ SHELL_TAIL = "</div>\n"
 # ---------- 1b. sidebar footer: auditor logos + socials + docs ----------
 VERICHAINS_SVG = open("verichains.svg").read().strip()
 SHIELDIFY_SVG = open("shieldify.svg").read().strip()
+ZENITH_SVG = open("zenith.svg").read().strip()
 
 SIDE_FOOT = ('<div class="side-foot">'
   '<div class="audit-label">Audited by</div>'
   '<div class="audit-logos">'
-  '<a href="https://github.com/harmonixfi/core-smart-contract/blob/main/audits/Harmonix%20Finance%20-%20Zenith%20Audit%20Report.pdf" aria-label="Verichains audit report">' + VERICHAINS_SVG + '</a>'
+  '<a href="https://github.com/harmonixfi/core-smart-contract/tree/main/audits" aria-label="Verichains audits">' + VERICHAINS_SVG + '</a>'
+  '<a href="https://github.com/harmonixfi/core-smart-contract/blob/main/audits/Harmonix%20Finance%20-%20Zenith%20Audit%20Report.pdf" aria-label="Zenith audit report">' + ZENITH_SVG + '</a>'
   '<a href="https://github.com/shieldify-security/audits-portfolio/blob/main/reports/HarmonixFinance-Hyperliquid-Security-Review.pdf" aria-label="Shieldify security review">' + SHIELDIFY_SVG + '</a>'
   '</div>'
   '<div class="socials">'
@@ -36,8 +38,12 @@ SIDE_FOOT = ('<div class="side-foot">'
   '<a href="https://harmonixfi.github.io/harmonix-docs-v2/harmonix-docs-v2.html" aria-label="Harmonix Docs"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M2.5 3.2C2.5 2.54 3.04 2 3.7 2h8.6c.66 0 1.2.54 1.2 1.2v9.6c0 .66-.54 1.2-1.2 1.2H3.7c-.66 0-1.2-.54-1.2-1.2V3.2Z"/><path d="M5.5 2v12M8.5 5.5h3M8.5 8h3" stroke-linecap="round"/></svg></a>'
   '</div></div>')
 
-shell_head = shell_head.replace('<div class="audit">Audited by <strong>Verichains</strong></div>', SIDE_FOOT)
-assert 'side-foot' in shell_head, "sidebar footer not injected"
+if '<div class="audit">Audited by <strong>Verichains</strong></div>' in shell_head:
+    shell_head = shell_head.replace('<div class="audit">Audited by <strong>Verichains</strong></div>', SIDE_FOOT)
+else:
+    shell_head, _n = re.subn(r'<div class="side-foot">.*?</div></div>', SIDE_FOOT, shell_head, count=1, flags=re.S)
+    assert _n == 1, "existing side-foot not replaced"
+assert 'Zenith audit report' in shell_head, "zenith logo not injected"
 
 # ---------- 1c. home strip fixes: Asset column header, drop text asset col, delta-neutral USDC icon ----------
 home_main = home_main.replace(
@@ -652,11 +658,26 @@ EXTRA2_CSS = """
   /* sidebar footer: audits + socials */
   .side-foot { margin-top: auto; padding: 16px 10px 4px; border-top: 1px solid rgba(255, 255, 255, 0.07); display: flex; flex-direction: column; gap: 10px; }
   .side-foot .audit-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-3); }
-  .audit-logos { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-  .audit-logos a { display: flex; opacity: 0.7; transition: opacity 0.15s; color: #cfd8d2; }
+  .audit-logos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; align-items: center; justify-items: start; }
+  .audit-logos a { display: flex; align-items: center; opacity: 0.65; transition: opacity 0.15s; color: #cfd8d2; min-height: 24px; }
   .audit-logos a:hover { opacity: 1; }
-  .audit-logos svg { height: 22px; width: auto; display: block; }
-  .audit-logos a:first-child svg { height: 30px; }
+  .audit-logos svg { height: 17px; width: auto; display: block; }
+  .audit-logos a:first-child { grid-column: 1 / -1; }
+  .audit-logos a:first-child svg { height: 28px; }
+
+  /* token reward icon — global sizing (used in rows AND tiles) */
+  .ricon { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; display: inline-grid; place-items: center; flex: none; }
+  .ricon svg { width: 100%; height: 100%; display: block; }
+
+  /* clickable vault rows */
+  a.card { text-decoration: none; color: inherit; cursor: pointer; }
+  a.card:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+  .backlink { color: var(--text-2); text-decoration: none; font-size: 13px; transition: color 0.15s; }
+  .backlink:hover { color: var(--text-0); }
+  .vault-hero-head { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .vault-hero-head .coin { width: 40px; height: 40px; }
+  .vault-hero-head h2 { margin: 0 0 2px; }
+  .vault-hero-head p { margin: 0; }
   .socials { display: flex; gap: 7px; margin-top: 2px; }
   .socials a { width: 30px; height: 30px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.09); display: grid; place-items: center; color: var(--text-1); transition: color 0.15s, background 0.15s, border-color 0.15s; }
   .socials a:hover { color: #fff; background: rgba(255, 255, 255, 0.10); border-color: rgba(255, 255, 255, 0.2); }
@@ -982,6 +1003,118 @@ POINTS = '''    <div class="tiles">
     </div>
 '''
 
+# ---------- 4c. vault detail pages + clickable rows ----------
+def vault_apy_chart(apy):
+    random.seed(int(apy * 100))
+    pts = []
+    x, y = 60, 128
+    for i in range(13):
+        pts.append((x, int(max(34, min(158, y)))))
+        x += 51
+        y += random.uniform(-15, 9)
+    line = " ".join("%d,%d" % p for p in pts)
+    fill = "60,176 " + line + " %d,176" % pts[-1][0]
+    labels = ""
+    for i, frac in enumerate([1.15, 1.0, 0.85, 0.7]):
+        yy = 34 + i * 41
+        labels += '<line x1="60" y1="%d" x2="700" y2="%d" stroke="rgba(255,255,255,0.05)"/><text class="axis" x="8" y="%d">%.1f%%</text>' % (yy, yy, yy + 3, apy * frac)
+    return ('<svg viewBox="0 0 730 185" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">'
+            '<defs><linearGradient id="vg' + str(int(apy*100)) + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(215,251,95,0.28)"/><stop offset="1" stop-color="rgba(215,251,95,0)"/></linearGradient></defs>'
+            + labels +
+            '<polygon points="' + fill + '" fill="url(#vg' + str(int(apy*100)) + ')"/>'
+            '<polyline points="' + line + '" fill="none" stroke="#d7fb5f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+            '<circle cx="%d" cy="%d" r="3.5" fill="#d7fb5f"/></svg>' % pts[-1])
+
+VAULTS = [
+    dict(slug="vault-hausdc.html", icon=USDC_ICON, name="HIP-3 haUSDC Vault", apy=8.42, tvl="$314.3K", sub="",
+         asset="USDC", cap="$5.0M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+3</span>',
+         desc="Multi-asset stablecoin vault optimized across HyperEVM, HyperCore, and HIP3 markets. Earn from delta-neutral strategies, lending yield, and future HIP3 potential rewards.",
+         strat=["Delta-neutral basis positions on HyperCore perps", "Stablecoin lending across HyperEVM money markets", "HIP-3 market-making inventory, hedged"]),
+    dict(slug="vault-delta-neutral.html", icon=USDC_ICON, name="USDC — $HYPE Delta Neutral Vault", apy=7.46, tvl="$606.51K", sub="",
+         asset="USDC", cap="$2.5M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span>',
+         desc="Convert half of your deposit into HyperLiquid and purchase $HYPE, while a 1x short HYPE-USD position hedges your exposure and earns funding fees.",
+         strat=["Spot HYPE long, 1x perp short — net delta zero", "Collects funding while hedged", "Auto-rebalances when funding flips"]),
+    dict(slug="vault-khype.html", icon=KHYPE_ICON_S, name="HyperEVM $KHYPE Vault", apy=3.84, tvl="$2.9M", sub="47,539.37 KHYPE",
+         asset="KHYPE", cap="$6.0M", rewards='<span class="ricon"><svg aria-hidden="true"><use href="#tok-valantis"/></svg></span><span class="plus">+1</span>',
+         desc="Deposit your KHYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols.",
+         strat=["Spot KHYPE deployed across HyperEVM lending markets", "Delta-neutral overlay on staking yield", "Valantis points accrue to depositors"]),
+    dict(slug="vault-hype.html", icon=HYPE_ICON, name="HyperEVM $HYPE Vault", apy=3.80, tvl="$1.99M", sub="33,231.78 HYPE",
+         asset="HYPE", cap="$5.0M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+1</span>',
+         desc="Deposit your HYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols.",
+         strat=["Spot HYPE allocated across HyperEVM protocols", "Market-neutral positioning, no directional risk", "Rewards stream in the Harmonix token"]),
+]
+
+def vault_content(v):
+    strat_html = "".join('<div class="step"><b><span class="n">%d</span>%s</b></div>' % (i + 1, s) for i, s in enumerate(v["strat"]))
+    sub_html = ('<div class="sub">%s</div>' % v["sub"]) if v["sub"] else ""
+    return '''    <p style="margin:0 0 14px"><a href="index.html" class="backlink">&larr; Yield Markets</a></p>
+    <div class="hero" style="padding:20px 26px">
+      <div class="vault-hero-head">
+        ''' + v["icon"] + '''
+        <div><h2>''' + v["name"] + '''</h2><p>''' + v["desc"] + '''</p></div>
+      </div>
+      <span class="live">LIVE</span>
+    </div>
+    <div class="tiles">
+      <div class="tile"><div class="label">Net APY</div><div class="value lime">''' + ('%.2f%%' % v["apy"]) + '''</div>''' + spark_tile([(0,15),(9,13),(18,14),(27,11),(36,12),(45,9),(54,8),(63,5)]) + '''</div>
+      <div class="tile"><div class="label">TVL</div><div class="value">''' + v["tvl"] + '''</div>''' + sub_html + '''</div>
+      <div class="tile"><div class="label">Capacity</div><div class="value">''' + v["cap"] + '''</div></div>
+      <div class="tile"><div class="label">Rewards</div><div class="value" style="display:flex;align-items:center;gap:6px">''' + v["rewards"] + '''</div></div>
+    </div>
+    <div class="grid2">
+      <div>
+        <div class="panel" style="margin-bottom:14px">
+          <h2>Net APY — last 90 days</h2>
+          <p class="muted" style="margin:0 0 12px">After fees, including rewards.</p>
+          ''' + vault_apy_chart(v["apy"]) + '''
+          <p class="chart-cap">Trailing net APY. Rewards valued at market on accrual.</p>
+        </div>
+        <div class="panel">
+          <h2>Strategy</h2>
+          <div class="steps" style="margin-top:10px;grid-template-columns:1fr">''' + strat_html + '''</div>
+        </div>
+      </div>
+      <div>
+        <div class="panel" style="margin-bottom:14px">
+          <h2>Deposit</h2>
+          <div class="field">
+            <div class="flabel">You deposit</div>
+            <div class="fbox">0.00 <span class="unit">''' + v["asset"] + '''</span></div>
+          </div>
+          <div class="trade-rows">
+            <div class="kv"><span>Est. yearly earnings</span><b>—</b></div>
+            <div class="kv"><span>Your balance</span><b>—</b></div>
+          </div>
+          <button class="cta">Connect wallet to deposit</button>
+        </div>
+        <div class="panel">
+          <h2>Details</h2>
+          <div style="margin-top:8px">
+            <div class="kv"><span>Network</span><b>HyperEVM</b></div>
+            <div class="kv"><span>Asset</span><b>''' + v["asset"] + '''</b></div>
+            <div class="kv"><span>Withdrawals</span><b>Daily, no lock</b></div>
+            <div class="kv"><span>Performance fee</span><b>10% on yield</b></div>
+            <div class="kv"><span>Management fee</span><b>None</b></div>
+            <div class="kv"><span>Manager</span><b>Harmonix</b></div>
+            <div class="kv"><span>Contract</span><b class="mono">0x3f8a…9d21</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+'''
+
+# make home rows clickable
+_parts = home_main.split('<article class="card">')
+if len(_parts) == 5:
+    _rebuilt = _parts[0]
+    for _i, _part in enumerate(_parts[1:]):
+        _part = _part.replace('</article>', '</a>', 1)
+        _part = _part.replace('<button class="deposit-btn">Deposit</button>', '<span class="deposit-btn" role="button">Deposit</span>', 1)
+        _rebuilt += '<a class="card" href="' + VAULTS[_i]["slug"] + '">' + _part
+    home_main = _rebuilt
+else:
+    assert 'a class="card" href="vault-' in home_main, "vault rows neither articles nor anchors"
+
 # ---------- 5. home page: reuse existing main, strip its inline topbar & swap in shared ----------
 home_content = home_main[len('<main class="main">'):]
 home_content = home_content[:home_content.rindex('</main>')]
@@ -999,4 +1132,6 @@ page("portfolio.html", "Portfolio", "Portfolio", PORTFOLIO)
 page("analytics.html", "Analytics", "Analytics", ANALYTICS)
 page("referral.html", "Referral Program", "Referral Program", REFERRAL)
 page("points.html", "Points", "Points", POINTS)
+for v in VAULTS:
+    page(v["slug"], "Home", v["name"], vault_content(v))
 print("done")
