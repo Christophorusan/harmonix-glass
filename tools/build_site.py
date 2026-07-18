@@ -42,11 +42,13 @@ SIDE_FOOT = ('<div class="side-foot">'
   '<a href="https://harmonixfi.github.io/harmonix-docs-v2/harmonix-docs-v2.html" aria-label="Harmonix Docs"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M2.5 3.2C2.5 2.54 3.04 2 3.7 2h8.6c.66 0 1.2.54 1.2 1.2v9.6c0 .66-.54 1.2-1.2 1.2H3.7c-.66 0-1.2-.54-1.2-1.2V3.2Z"/><path d="M5.5 2v12M8.5 5.5h3M8.5 8h3" stroke-linecap="round"/></svg></a>'
   '</div></div>')
 
-# white marketing lockup: drop the cream tile, recolor the loop mark to white
-shell_head = shell_head.replace('<rect y="0.0996094" width="56" height="56" rx="16.925" fill="#F1F1EB"></rect>', '')
-shell_head = shell_head.replace('C29.8701 17.1871 26.3825 20.5101 23.519 25.4528L22.0539 24.6069Z" fill="#173132">',
-                                'C29.8701 17.1871 26.3825 20.5101 23.519 25.4528L22.0539 24.6069Z" fill="#F1F1EB">')
-assert 'fill="#173132"' not in shell_head, "logo mark still dark"
+# OG app lockup: cream tile + dark loop mark (restore if a previous cycle removed it)
+if '<rect y="0.0996094"' not in shell_head:
+    shell_head = shell_head.replace('aria-label="Harmonix logo">',
+        'aria-label="Harmonix logo"><rect y="0.0996094" width="56" height="56" rx="16.925" fill="#F1F1EB"></rect>', 1)
+shell_head = shell_head.replace('C29.8701 17.1871 26.3825 20.5101 23.519 25.4528L22.0539 24.6069Z" fill="#F1F1EB">',
+                                'C29.8701 17.1871 26.3825 20.5101 23.519 25.4528L22.0539 24.6069Z" fill="#173132">')
+assert '<rect y="0.0996094"' in shell_head, "logo tile missing"
 
 if '<div class="audit">Audited by <strong>Verichains</strong></div>' in shell_head:
     shell_head = shell_head.replace('<div class="audit">Audited by <strong>Verichains</strong></div>', SIDE_FOOT)
@@ -1516,6 +1518,150 @@ page("points.html", "Points", "Points", POINTS)
 for v in VAULTS:
     page(v["slug"], "Home", v["name"], vault_content(v))
 print("done")
+
+
+LIGHT_CSS = """
+  /* ---------- OG light theme (exact app.harmonix.fi default) ---------- */
+  :root {
+    --text-0: #11181c;
+    --text-1: rgba(24, 49, 50, 0.78);
+    --text-2: #71717a;
+    --text-3: #a1a1aa;
+    --glass-border: #e5e7eb;
+    --glass-border-hover: #c9cec3;
+  }
+  body { background: #ffffff; color: #11181c; }
+  .sidebar { color: #f8faf8; }
+  .sidebar .assets-card .value { color: #ffffff; }
+  .mn { color: rgba(248, 250, 248, 0.6); }
+  .mn.active { color: #e2f6a1; }
+  body::before { background: #ffffff; }
+  body::after { opacity: 0.02; }
+  .topbar h1 { color: #11181c; }
+
+  .banner { background: linear-gradient(90deg, #f2fad9, #e3f3c6); border-color: rgba(24, 49, 50, 0.08); color: #3f4a46; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .banner strong { color: #11181c; }
+  .banner .dot { background: #77a11c; box-shadow: none; }
+
+  .card, .panel, .tile, .tabs, .sort, .chain-btn, .pairbar {
+    background: #ffffff; border-color: #e5e7eb; color: #11181c;
+    box-shadow: 0 6px 18px rgba(16, 24, 40, 0.05);
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+  .card:hover { background: #fbfcf9; border-color: #d6dad2; box-shadow: 0 10px 24px rgba(16, 24, 40, 0.09); }
+  .list-head { color: #71717a; }
+  .card-head h3, .metric .value, .tile .value, .row .v, .kv b, .pstat .v { color: #183132; }
+  .metric .label, .tile .label, .pstat .label, .flabel { color: #71717a; }
+  .metric .sub, .tile .sub { color: #a1a1aa; }
+  .metric.apy .value, .tile .value.lime, .pstat .v.lime { color: #059212; }
+  .pstat .v.up { color: #059212; }
+  .delta.up { color: #059212; } .delta.down { color: #dc2626; }
+  .gtable th { color: #71717a; }
+  .gtable td { border-color: #eef0eb; color: #3f4a46; }
+  .gtable td:first-child { color: #183132; }
+  .panel h2 { color: #11181c; }
+  .panel .muted { color: #71717a; }
+  .panel .kv { color: #71717a; }
+  .panel .kv + .kv, .growth-grid, .divider, .spread { border-color: #eef0eb; }
+  .you-row td { color: #4d7c0f !important; }
+
+  /* dark-green hero + chart cards, like the OG section cards */
+  .hero, .chart-panel, .panel:has(.axis) { background: #072723; border-color: rgba(255, 255, 255, 0.06); color: #f8faf8; box-shadow: 0 16px 40px rgba(7, 39, 35, 0.25); }
+  .hero h2, .chart-panel h2, .panel:has(.axis) h2 { color: #ffffff; }
+  .hero p, .chart-panel .muted, .panel:has(.axis) .muted { color: rgba(248, 250, 248, 0.6); }
+  .panel:has(.axis) .kv, .chart-panel .kv { color: rgba(248, 250, 248, 0.6); }
+  .panel:has(.axis) .kv b, .chart-panel .kv b { color: #f8faf8; }
+  .panel:has(.axis) .kv + .kv, .chart-panel .kv + .kv { border-color: rgba(255, 255, 255, 0.08); }
+  .chart-cap { color: #a1a1aa; }
+  .chart-panel .chart-cap, .panel:has(.axis) .chart-cap { color: rgba(248, 250, 248, 0.45); }
+  .panel:has(.axis) .legend, .chart-panel .legend { color: rgba(248, 250, 248, 0.75); }
+  .legend { color: #3f4a46; }
+  .hero-stats { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.12); color: rgba(248, 250, 248, 0.8); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .hero-stats b { color: #ffffff; }
+  .hero-stats .apy { color: #e2f6a1; }
+  .hero .live { color: #e2f6a1; border-color: rgba(226, 246, 161, 0.45); }
+  .hero .live::before { background: #e2f6a1; }
+  .live { color: #059212; border-color: rgba(5, 146, 18, 0.4); }
+  .live::before { background: #059212; box-shadow: none; }
+
+  /* accents on white */
+  .card .spark polyline, .tile .spark polyline { stroke: #059212; }
+  .card .spark circle, .tile .spark circle { fill: #059212; }
+  .px-up { color: #059212 !important; }
+  .px-down { color: #dc2626 !important; }
+  .growth-grid .g .n, .bignum { color: #059212; }
+  .hbar-track { background: #eef0eb; }
+  .hbar-track i { background: linear-gradient(90deg, rgba(5, 146, 18, 0.35), #059212); }
+  .hbar-row + .hbar-row { border-color: #eef0eb; }
+  .hbar-row .val { color: #183132; }
+  .hbar-row .pct { color: #71717a; }
+
+  /* OG buttons: dark teal pills on light */
+  .deposit-btn { background: #183132; color: #ffffff; box-shadow: none; }
+  .deposit-btn:hover { background: #1c3b3c; color: #ffffff; box-shadow: 0 6px 16px rgba(24, 49, 50, 0.25); }
+  .cta { background: #183132; color: #ffffff; box-shadow: none; }
+  .cta:hover { background: #1c3b3c; box-shadow: 0 6px 16px rgba(24, 49, 50, 0.25); }
+  .cta.sell { background: #dc2626; color: #fff; }
+  .cta.sell:hover { background: #e04545; }
+  .connect-btn { background: #183132; color: #ffffff; box-shadow: none; }
+  .connect-btn:hover { background: #1c3b3c; }
+  .connect-btn.addr { background: #f4f5f1; color: #183132; box-shadow: inset 0 0 0 1px #d8dcd0; }
+  .connect-btn.addr:hover { background: #eef0e9; }
+  .ghost-btn { background: #f4f5f1; color: #183132; box-shadow: inset 0 0 0 1px #d8dcd0; }
+  .ghost-btn:hover { background: #183132; color: #ffffff; }
+  .chain-btn { color: #183132; font-weight: 600; }
+  .chain-btn:hover { background: #f6f7f3; border-color: #d6dad2; }
+  .chain-btn .cicon svg circle { fill: #072723; }
+  .chain-btn .cicon svg path { fill: #50D2C1; }
+
+  /* segments, tabs, inputs on white */
+  .seg { background: #f4f5f1; border-color: #e5e7eb; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .seg button { color: #71717a; }
+  .seg button.active { background: #183132; color: #ffffff; }
+  .seg.buysell button.buy.active { background: #059212; color: #fff; }
+  .seg.buysell button.sell.active { background: #dc2626; color: #fff; }
+  .tf button { color: #71717a; }
+  .tf button.active { background: rgba(5, 146, 18, 0.10); color: #059212; }
+  .chart-panel .tf button, .panel:has(.axis) .tf button { color: rgba(248, 250, 248, 0.55); }
+  .chart-panel .tf button.active, .panel:has(.axis) .tf button.active { background: rgba(226, 246, 161, 0.16); color: #e2f6a1; }
+  .ptabs button, .vtabs button { color: #71717a; }
+  .ptabs button.active, .vtabs button.active { color: #11181c; border-bottom-color: #059212; }
+  .ptabs, .vtabs { border-color: #eef0eb; }
+  .fbox { background: #f7f8f4; border-color: #e5e7eb; color: #183132; }
+  .finput { color: #183132; }
+  .finput::placeholder { color: #a1a1aa; }
+  .halfmax button { background: #f4f5f1; border-color: #d8dcd0; color: #183132; }
+  .wallet-line { color: #a1a1aa; }
+  .ob-head { color: #71717a; }
+  .ob-row { color: #3f4a46; }
+  .spread { color: #71717a; }
+  .empty { background: #fafbf7; border-color: #d8dcd0; color: #a1a1aa; }
+  .empty-state { color: #71717a; }
+  .empty-state .big { color: #11181c; }
+  .step, .swap-box, .code-box { background: #f7f8f4; border-color: #e5e7eb; color: #3f4a46; }
+  .step b { color: #11181c; }
+  .step .n { color: #4d7c0f; }
+  .chip-sm { background: #f4f5f1; border-color: #e5e7eb; color: #71717a; }
+  .chip-sm b { color: #183132; }
+  .backlink { color: #71717a; }
+  .backlink:hover { color: #11181c; }
+  .token-pill { background: #f4f5f1; border-color: #e5e7eb; color: #183132; }
+  .avatar { background: #f4f5f1; border-color: #e5e7eb; color: #3f4a46; }
+  .row .v .chip { background: rgba(5, 146, 18, 0.08); border-color: rgba(5, 146, 18, 0.3); color: #059212; }
+  .row .v .plus { color: #71717a; }
+  .panel:not(:has(.axis)) svg text { fill: #71717a; }
+  .progress { background: #eef0eb; border-color: #e5e7eb; }
+  .progress i { background: linear-gradient(90deg, rgba(5, 146, 18, 0.4), #059212); }
+
+  /* sidebar stays OG dark */
+  .sidebar { background: #0c1c1a; border: 1px solid rgba(255, 255, 255, 0.05); }
+  .assets-card { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.09); }
+
+  @media (max-width: 760px) {
+    .cards .card .row { border-color: #eef0eb; }
+  }
+"""
+open(os.path.join(OUT, "assets", "style.css"), "a").write(LIGHT_CSS)
 
 # ---------- final palette pass: exact OG accent across all generated files ----------
 PALETTE = [
