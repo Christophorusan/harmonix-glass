@@ -88,26 +88,31 @@
         <button class="connect-btn">Connect wallet</button>
       </div>
     </div>
-    <div class="hero">
-      <div>
-        <h2>Protection Vault</h2>
-        <p>Downside-protected yield. Deposit once, stay hedged automatically.</p>
-      </div>
-      <div class="hero-stats">
-        <span>Vaults <b>1</b></span>
-        <span class="sep" aria-hidden="true"></span>
-        <span>Best APY <span class="apy">5.20%</span></span>
-      </div>
+    <div class="tiles">
+      <div class="tile"><div class="label">Net APY</div><div class="value lime">5.20%</div><svg class="spark" width="64" height="22" viewBox="0 0 64 22" aria-hidden="true"><polyline points="0,14 9,12 18,13 27,10 36,11 45,8 54,9 63,7" fill="none" stroke="#d7fb5f" stroke-width="1.6" opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="63" cy="7" r="2" fill="#d7fb5f"/></svg></div>
+      <div class="tile"><div class="label">TVL</div><div class="value">$1.24M</div></div>
+      <div class="tile"><div class="label">Protection floor</div><div class="value">-5%</div><div class="sub">max drawdown target</div></div>
+      <div class="tile"><div class="label">Hedge cost</div><div class="value">0.9%</div><div class="sub">annualized</div></div>
     </div>
-    <div class="panel">
-      <h2>HYPE Protection Vault</h2>
-      <p class="muted" style="margin:0 0 14px">Holds spot HYPE while dynamically hedging drawdowns with perps. Yield from funding and covered strategies.</p>
-      <div class="tiles" style="margin-bottom:14px">
-        <div class="tile"><div class="label">Net APY</div><div class="value lime">5.20%</div></div>
-        <div class="tile"><div class="label">TVL</div><div class="value">$1.24M</div></div>
-        <div class="tile"><div class="label">Max drawdown target</div><div class="value">-5%</div></div>
+    <div class="grid2">
+      <div class="panel">
+        <h2>HYPE Protection Vault</h2>
+        <p class="muted" style="margin:0 0 12px">Vault performance vs. the protection floor, last 60 days.</p>
+        <svg viewBox="0 0 700 140" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="100" width="660" height="26" rx="4" fill="rgba(242,113,110,0.10)"/><line x1="20" y1="100" x2="680" y2="100" stroke="rgba(242,113,110,0.6)" stroke-width="1" stroke-dasharray="5 4"/><text class="axis" x="24" y="118" fill="rgba(242,113,110,0.8)">protection floor  (-5%)</text><polyline points="20,60 80,52 140,68 200,58 260,84 320,72 380,96 440,88 500,70 560,78 620,62 680,55" fill="none" stroke="#62d98b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="680" cy="55" r="3.5" fill="#62d98b"/></svg>
+        <button class="ghost-btn" style="margin-top:14px">Deposit</button>
       </div>
-      <button class="ghost-btn">Deposit</button>
+      <div class="panel">
+        <h2>How it works</h2>
+        <div class="steps" style="margin-top:10px;grid-template-columns:1fr">
+          <div class="step"><b><span class="n">1</span>Deposit HYPE</b>Your spot HYPE keeps full upside exposure.</div>
+          <div class="step"><b><span class="n">2</span>Automatic hedge</b>The vault buys downside protection with perps when volatility spikes.</div>
+          <div class="step"><b><span class="n">3</span>Bounded drawdown</b>Losses are capped near the floor while funding and covered strategies pay the hedge.</div>
+        </div>
+        <div style="margin-top:12px">
+          <div class="kv"><span>Withdrawals</span><b>Daily, no lock</b></div>
+          <div class="kv"><span>Performance fee</span><b>10% on yield</b></div>
+        </div>
+      </div>
     </div>
 
   </main>

@@ -89,21 +89,37 @@
       </div>
     </div>
     <div class="tiles">
-      <div class="tile"><div class="label">Staking APR</div><div class="value lime">2.31%</div></div>
-      <div class="tile"><div class="label">Total staked</div><div class="value">381,204 HYPE</div></div>
+      <div class="tile"><div class="label">Staking APR</div><div class="value lime">2.31%</div><svg class="spark" width="64" height="22" viewBox="0 0 64 22" aria-hidden="true"><polyline points="0,12 9,13 18,10 27,11 36,9 45,10 54,7 63,8" fill="none" stroke="#d7fb5f" stroke-width="1.6" opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="63" cy="8" r="2" fill="#d7fb5f"/></svg></div>
+      <div class="tile"><div class="label">Total staked</div><div class="value">381,204 HYPE</div><div class="sub">$16.4M</div></div>
+      <div class="tile"><div class="label">Unbonding period</div><div class="value">7 days</div></div>
       <div class="tile"><div class="label">Your stake</div><div class="value">—</div><div class="sub">Connect wallet</div></div>
     </div>
-    <div class="panel">
-      <h2>Stake with validators</h2>
-      <p class="muted" style="margin:0 0 10px">Delegate HYPE to a validator and earn network staking rewards.</p>
-      <table class="gtable">
-        <thead><tr><th>Validator</th><th class="r">APR</th><th class="r">Commission</th><th class="r">Total staked</th><th class="r"></th></tr></thead>
-        <tbody>
-          <tr><td>Harmonix Validator</td><td class="r" style="color:#62d98b">2.31%</td><td class="r">4%</td><td class="r">204,118 HYPE</td><td class="r"><button class="ghost-btn">Stake</button></td></tr>
-          <tr><td>Hyper Foundation 1</td><td class="r" style="color:#62d98b">2.28%</td><td class="r">5%</td><td class="r">122,551 HYPE</td><td class="r"><button class="ghost-btn">Stake</button></td></tr>
-          <tr><td>Nansen x HypurrCollective</td><td class="r" style="color:#62d98b">2.24%</td><td class="r">5%</td><td class="r">54,535 HYPE</td><td class="r"><button class="ghost-btn">Stake</button></td></tr>
-        </tbody>
-      </table>
+    <div class="grid2">
+      <div class="panel">
+        <h2>Validators</h2>
+        <p class="muted" style="margin:0 0 6px">Delegate HYPE and earn network staking rewards.</p>
+        <table class="gtable">
+          <thead><tr><th>Validator</th><th class="r">APR</th><th class="r">Commission</th><th class="r">Total staked</th><th class="r"></th></tr></thead>
+          <tbody>
+            <tr><td><span class="avatar">H</span>Harmonix Validator</td><td class="r" style="color:#62d98b">2.31%</td><td class="r">4%</td><td class="r">204,118</td><td class="r"><button class="ghost-btn">Stake</button></td></tr>
+            <tr><td><span class="avatar">F</span>Hyper Foundation 1</td><td class="r" style="color:#62d98b">2.28%</td><td class="r">5%</td><td class="r">122,551</td><td class="r"><button class="ghost-btn">Stake</button></td></tr>
+            <tr><td><span class="avatar">N</span>Nansen x HypurrCollective</td><td class="r" style="color:#62d98b">2.24%</td><td class="r">5%</td><td class="r">54,535</td><td class="r"><button class="ghost-btn">Stake</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel">
+        <h2>How staking works</h2>
+        <div class="steps" style="margin-top:10px;grid-template-columns:1fr">
+          <div class="step"><b><span class="n">1</span>Delegate</b>Choose a validator and stake any amount of HYPE.</div>
+          <div class="step"><b><span class="n">2</span>Earn</b>Rewards accrue every epoch and auto-compound.</div>
+          <div class="step"><b><span class="n">3</span>Unstake</b>Withdraw any time — funds unlock after the 7-day unbonding period.</div>
+        </div>
+        <div style="margin-top:14px">
+          <div class="kv"><span>Reward frequency</span><b>Every epoch (~90 min)</b></div>
+          <div class="kv"><span>Auto-compounding</span><b>Yes</b></div>
+          <div class="kv"><span>Points boost</span><b>1.2x while staked</b></div>
+        </div>
+      </div>
     </div>
 
   </main>

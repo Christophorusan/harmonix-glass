@@ -89,19 +89,30 @@
       </div>
     </div>
     <div class="tiles">
-      <div class="tile"><div class="label">HAR price</div><div class="value">$0.042</div></div>
-      <div class="tile"><div class="label">Total HAR staked</div><div class="value">18.4M</div></div>
+      <div class="tile"><div class="label">HAR price</div><div class="value">$0.042<span class="delta up">+3.1%</span></div></div>
+      <div class="tile"><div class="label">HAR staked</div><div class="value">18.4M</div><div class="sub">34% of supply</div></div>
+      <div class="tile"><div class="label">Average lock</div><div class="value">5.2 mo</div></div>
       <div class="tile"><div class="label">Your stake</div><div class="value">—</div><div class="sub">Connect wallet</div></div>
     </div>
-    <div class="panel">
-      <h2>Stake HAR</h2>
-      <p class="muted" style="margin:0 0 14px">Lock HAR to boost your vault rewards and share protocol revenue. Longer locks, bigger multipliers.</p>
-      <div class="steps" style="margin-top:0">
-        <div class="step"><b>1 month</b>1.0x points multiplier</div>
-        <div class="step"><b>3 months</b>1.5x points multiplier</div>
-        <div class="step"><b>12 months</b>3.0x points multiplier</div>
+    <div class="grid2" style="grid-template-columns: 2fr 1fr">
+      <div class="panel">
+        <h2>Choose a lock</h2>
+        <p class="muted" style="margin:0 0 12px">Longer locks earn bigger point multipliers and a larger revenue share.</p>
+        <div class="steps" style="margin-top:0">
+          <div class="step tier"><div class="dur">1 month</div><div class="mult">1.0x</div><div class="est">Est. 8% APR - revenue share</div><button class="ghost-btn">Select</button></div>
+          <div class="step tier" style="border-color:rgba(215,251,95,0.35)"><div class="dur">3 months</div><div class="mult">1.5x</div><div class="est">Est. 14% APR - revenue share</div><button class="ghost-btn">Select</button></div>
+          <div class="step tier"><div class="dur">12 months</div><div class="mult">3.0x</div><div class="est">Est. 26% APR - revenue share</div><button class="ghost-btn">Select</button></div>
+        </div>
+        <button class="cta" style="max-width:280px">Connect wallet to stake</button>
       </div>
-      <button class="cta" style="max-width:260px">Connect wallet to stake</button>
+      <div class="panel">
+        <h2>Why stake HAR</h2>
+        <div class="steps" style="margin-top:10px;grid-template-columns:1fr">
+          <div class="step"><b>Revenue share</b>A cut of protocol fees, paid in USDC.</div>
+          <div class="step"><b>Points multiplier</b>Boosts every point you earn across Harmonix.</div>
+          <div class="step"><b>Governance</b>Vote on new vaults and parameters.</div>
+        </div>
+      </div>
     </div>
 
   </main>

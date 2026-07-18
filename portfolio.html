@@ -89,16 +89,41 @@
       </div>
     </div>
     <div class="tiles">
-      <div class="tile"><div class="label">Total balance</div><div class="value">$0.00</div></div>
+      <div class="tile"><div class="label">Total balance</div><div class="value">$0.00</div><div class="sub">Across vaults, spot and perps</div></div>
       <div class="tile"><div class="label">Deposited</div><div class="value">$0.00</div></div>
       <div class="tile"><div class="label">Unclaimed rewards</div><div class="value">$0.00</div></div>
-      <div class="tile"><div class="label">Points</div><div class="value">0</div></div>
+      <div class="tile"><div class="label">Points</div><div class="value">0</div><div class="sub">Season 1</div></div>
     </div>
-    <div class="panel">
-      <div class="empty-state">
-        <div class="big">Nothing here yet</div>
-        Connect your wallet to see your deposits, positions and rewards.
-        <div><button class="connect-btn">Connect wallet</button></div>
+    <div class="grid2">
+      <div class="panel">
+        <h2>Allocation</h2>
+        <p class="muted" style="margin:0 0 10px">How your balance is deployed.</p>
+        <svg viewBox="0 0 160 160" style="width:150px;height:150px;display:block;margin:16px auto" aria-hidden="true">
+          <circle cx="80" cy="80" r="62" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="18"/>
+          <text x="80" y="76" text-anchor="middle" font-size="17" font-weight="600" fill="rgba(244,247,243,0.72)" font-family="Poppins, sans-serif">$0.00</text>
+          <text x="80" y="94" text-anchor="middle" font-size="10" fill="rgba(244,247,243,0.36)" font-family="Poppins, sans-serif">no positions yet</text>
+        </svg>
+        <div class="legend">
+          <span><span class="sw" style="background:#d7fb5f"></span>Vaults</span>
+          <span><span class="sw" style="background:#62d98b"></span>Spot</span>
+          <span><span class="sw" style="background:#50D2C1"></span>Perps margin</span>
+          <span><span class="sw" style="background:rgba(255,255,255,0.25)"></span>Idle</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Positions</h2>
+        <p class="muted" style="margin:0 0 6px">Vault deposits and open balances.</p>
+        <table class="gtable">
+          <thead><tr><th>Position</th><th class="r">Balance</th><th class="r">Net APY</th><th class="r">PnL</th></tr></thead>
+          <tbody>
+            <tr><td style="color:var(--text-3)">—</td><td class="r" style="color:var(--text-3)">—</td><td class="r" style="color:var(--text-3)">—</td><td class="r" style="color:var(--text-3)">—</td></tr>
+            <tr><td style="color:var(--text-3)">—</td><td class="r" style="color:var(--text-3)">—</td><td class="r" style="color:var(--text-3)">—</td><td class="r" style="color:var(--text-3)">—</td></tr>
+          </tbody>
+        </table>
+        <div class="empty-state" style="padding:26px 20px 8px">
+          Connect your wallet to see deposits, PnL and rewards.
+          <div><button class="connect-btn" style="margin-top:14px">Connect wallet</button></div>
+        </div>
       </div>
     </div>
 
