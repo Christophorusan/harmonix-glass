@@ -41,34 +41,38 @@
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(1100px 750px at 62% 32%, rgba(96, 158, 118, 0.60), transparent 62%),
-      radial-gradient(800px 560px at 82% 68%, rgba(70, 128, 94, 0.50), transparent 68%),
-      radial-gradient(900px 640px at 25% 80%, rgba(46, 96, 68, 0.45), transparent 70%),
-      radial-gradient(1400px 1000px at 50% 50%, rgba(28, 66, 47, 0.55), transparent 85%),
-      linear-gradient(160deg, #10281d 0%, #1b4230 40%, #163628 70%, #0e2419 100%);
+      radial-gradient(1300px 750px at 55% -12%, rgba(150, 200, 165, 0.50), transparent 62%),
+      radial-gradient(950px 620px at 78% 22%, rgba(88, 146, 108, 0.42), transparent 66%),
+      radial-gradient(800px 560px at 18% 38%, rgba(64, 116, 85, 0.35), transparent 68%),
+      linear-gradient(180deg, #35634a 0%, #24503a 26%, #17392a 52%, #0c231a 78%, #071510 100%);
   }
 
   .app {
     display: grid;
-    grid-template-columns: 256px 1fr;
+    grid-template-columns: 272px 1fr;
     min-height: 100vh;
     max-width: 1560px;
     margin: 0 auto;
   }
 
-  /* ---------- Sidebar: the dark side ---------- */
+  /* ---------- Sidebar: floating dark glass tab ---------- */
   .sidebar {
-    background: var(--sidebar-bg);
-    border-right: 1px solid rgba(255, 255, 255, 0.07);
+    background: rgba(6, 18, 13, 0.60);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    margin: 14px 0 14px 14px;
     padding: 24px 16px;
     display: flex;
     flex-direction: column;
     gap: 6px;
     position: sticky;
-    top: 0;
-    height: 100vh;
+    top: 14px;
+    height: calc(100vh - 28px);
     overflow-y: auto;
+    scrollbar-width: none;
   }
+  .sidebar::-webkit-scrollbar { display: none; }
 
   .logo {
     padding: 0 8px 18px;
@@ -244,11 +248,24 @@
   .hero-stats .apy { color: var(--lime); font-weight: 700; font-variant-numeric: tabular-nums; }
   .hero-stats .sep { width: 1px; height: 18px; background: var(--glass-border-hover); }
 
-  /* ---------- Vault cards: the light frosted boxes ---------- */
-  .cards {
+  /* ---------- Vault strips (Kamino-style rows) ---------- */
+  .list-head {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: minmax(280px, 2fr) 0.8fr 1fr 0.9fr 0.9fr 128px;
     gap: 18px;
+    align-items: center;
+    padding: 0 20px 8px;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    color: var(--text-2);
+  }
+  .list-head span:last-child { text-align: right; }
+
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .card {
@@ -256,22 +273,23 @@
     border: 1px solid var(--glass-border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    transition: border-color 0.18s, transform 0.18s, background 0.18s;
+    padding: 14px 20px;
+    display: grid;
+    grid-template-columns: minmax(280px, 2fr) 0.8fr 1fr 0.9fr 0.9fr 128px;
+    gap: 18px;
+    align-items: center;
+    transition: border-color 0.18s, background 0.18s;
   }
   .card:hover {
     border-color: var(--glass-border-hover);
     background: var(--glass-strong);
-    transform: translateY(-2px);
   }
 
   .card-head {
     display: flex;
     align-items: center;
     gap: 10px;
+    min-width: 0;
   }
   .coin {
     width: 30px; height: 30px;
@@ -302,42 +320,33 @@
     padding: 3px 10px;
   }
 
-  .metrics {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-  .metric .label {
-    font-size: 10.5px;
-    text-transform: uppercase;
-    letter-spacing: 0.11em;
-    color: var(--text-2);
-  }
+  .metrics { display: contents; }
+  .metric .label { display: none; }
   .metric .value {
-    font-size: 25px;
+    font-size: 18px;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
-    margin-top: 2px;
     letter-spacing: -0.01em;
   }
   .metric.apy .value { color: var(--lime); }
   .metric .sub {
-    font-size: 11.5px;
+    font-size: 11px;
     color: var(--text-3);
     font-variant-numeric: tabular-nums;
   }
 
-  .divider { height: 1px; background: var(--glass-border); }
+  .divider { display: none; }
+  .card .desc { display: none; }
 
   .row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    gap: 8px;
     font-size: 13px;
+    min-width: 0;
   }
-  .row .k { color: var(--text-2); }
-  .row .v { color: var(--text-0); font-weight: 600; display: flex; align-items: center; gap: 6px; }
+  .row .k { display: none; }
+  .row .v { color: var(--text-0); font-weight: 600; display: flex; align-items: center; gap: 5px; }
   .row .v .chip {
     background: rgba(215, 251, 95, 0.14);
     border: 1px solid rgba(215, 251, 95, 0.3);
@@ -347,23 +356,26 @@
     font-size: 11.5px;
     font-weight: 600;
   }
-
-  .card .desc {
-    margin: 0;
-    font-size: 12.5px;
-    color: var(--text-2);
-    line-height: 1.55;
-    flex: 1;
+  .row .v .ricon {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    flex: none;
   }
+  .row .v .ricon svg { width: 100%; height: 100%; display: block; }
+  .row .v .plus { color: var(--text-2); font-size: 12px; font-weight: 600; }
 
   .deposit-btn {
     background: var(--green-btn);
     color: #fff;
     border: none;
     border-radius: var(--radius-sm);
-    font: 600 14.5px var(--font);
-    padding: 12px;
-    width: 100%;
+    font: 600 13.5px var(--font);
+    padding: 10px 0;
+    width: 128px;
+    justify-self: end;
     cursor: pointer;
     transition: background 0.15s, transform 0.12s;
   }
@@ -418,12 +430,19 @@
   @media (max-width: 1080px) {
     .app { grid-template-columns: 220px 1fr; }
     .main { padding: 16px 18px 40px; }
+    .section { overflow-x: auto; }
+    .list-head, .cards .card { min-width: 840px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; }
   }
 </style>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="tok-glow" viewBox="0 -9 66 66"><g><path d="M48.6887 10C54.5314 10.0001 55.8981 17.3373 55.9969 22.5578C56.0956 27.7786 53.8646 39.2733 47.1414 37.8845C41.4178 36.7172 40.925 26.8563 33.0001 26.8245C25.0752 26.8565 24.5824 36.7174 18.8587 37.8845C12.1355 39.2732 9.90443 27.7785 10.0031 22.5578C10.1019 17.3374 11.4687 10.0002 17.3114 10C24.029 10.0002 24.4867 20.3311 33.0001 19.789C41.5134 20.3312 41.9712 10.0004 48.6887 10Z" fill="#09090B"/><path d="M48.6885 10.5C51.3373 10.5 52.9989 12.1382 54.0381 14.5215C55.0838 16.9199 55.4482 19.9824 55.4971 22.5674C55.5454 25.1236 55.0196 29.2318 53.665 32.5088C52.9877 34.1474 52.1207 35.5345 51.0547 36.4258C50.0075 37.3012 48.7598 37.708 47.2422 37.3945H47.2412C45.9551 37.1322 44.9396 36.3803 44.0039 35.335C43.0556 34.2756 42.2406 32.9782 41.3057 31.6416C39.4659 29.0116 37.2309 26.3412 33.002 26.3242H32.998C28.7688 26.3413 26.5341 29.0125 24.6943 31.6426C23.7594 32.9791 22.9443 34.2757 21.9961 35.335C21.0604 36.3803 20.045 37.1322 18.7588 37.3945H18.7578C17.2402 37.708 15.9925 37.3012 14.9453 36.4258C13.8793 35.5345 13.0123 34.1474 12.335 32.5088C10.9804 29.2318 10.4546 25.1235 10.5029 22.5674C10.5518 19.9825 10.9162 16.9199 11.9619 14.5215C13.0011 12.1382 14.6627 10.5001 17.3115 10.5C18.8431 10.5001 20.0201 11.0823 21.0742 11.9854C22.1495 12.9066 23.0651 14.1306 24.0928 15.4111C26.1154 17.9315 28.4955 20.5628 33 20.2891C37.5048 20.563 39.8855 17.9316 41.9082 15.4111C42.9358 14.1306 43.8506 12.9066 44.9258 11.9854C45.9799 11.0822 47.157 10.5002 48.6885 10.5Z" stroke="#19C692"/></g><defs><filter id="glowf" x="0" y="0" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset/><feGaussianBlur stdDeviation="5"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0.0980392 0 0 0 0 0.776471 0 0 0 0 0.572549 0 0 0 1 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/></filter></defs></symbol>
+  <symbol id="tok-valantis" viewBox="0 0 139 139"><path d="M91.1202 34.9919V12.1258L46.5919 33.8649L69.766 45.2774L91.1202 34.9919Z" fill="url(#va0)"/><path d="M95.0765 98.5983L121.297 111.803L121.113 65.1043L95.2937 77.9867L95.0765 98.5983Z" fill="url(#va1)"/><path d="M69.5921 137.406L94.8005 124.846L95.5246 55.9952L69.4205 68.647L69.5921 137.406Z" fill="#0D1C2B"/><path d="M46.8674 103.107L23.9574 114.701V68.4859L46.9597 79.7579L46.8674 103.107Z" fill="url(#va2)"/><path d="M69.9485 0.69278L1.32695 34.3835L69.4205 68.647L95.5246 55.9952L137.857 35.314L114.488 23.3978L91.1202 34.9919L69.766 45.2774L46.5919 33.8649L91.1202 12.1258L69.9485 0.69278Z" fill="#5EA9FF"/><path d="M1.14331 103.59L1.32695 34.3835L69.4205 68.647L69.5921 137.406L46.7759 126.11L46.9597 79.7579L23.9574 68.4859V114.701L1.14331 103.59Z" fill="#37679E"/><path d="M137.857 35.314L95.5246 55.9952L95.2937 77.9867L121.113 65.1043L121.297 111.803L137.857 103.751V35.314Z" fill="#0D1C2B"/><path d="M95.2937 77.9867L69.4761 90.9237L69.4205 68.647L95.5246 55.9952L95.2937 77.9867Z" fill="#0D1C2B"/><defs><linearGradient id="va0" x1="76.3357" y1="48.5425" x2="76.3357" y2="-28.017" gradientUnits="userSpaceOnUse"><stop offset=".045" stop-color="#050A10"/><stop offset=".291" stop-color="#254A76"/></linearGradient><linearGradient id="va1" x1="96.8294" y1="79.996" x2="117.35" y2="107.329" gradientUnits="userSpaceOnUse"><stop offset=".045" stop-color="#050A10"/><stop offset=".791" stop-color="#254A76"/></linearGradient><linearGradient id="va2" x1="48.993" y1="75.8852" x2="24.3846" y2="116.899" gradientUnits="userSpaceOnUse"><stop offset=".045" stop-color="#050A10"/><stop offset=".67" stop-color="#254A76"/></linearGradient></defs></symbol>
+</svg>
 
 <div class="app">
   <aside class="sidebar">
@@ -452,23 +471,27 @@
         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M7.5 2v11M2 7.5h11" stroke="currentColor" stroke-width="1.1"/></svg>
         Yield Markets
       </a>
-      <a href="#">
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 12V8m4.5 4V5.5M12 12V3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-        Stake with Validators
+      <a href="https://christophorusan.github.io/futuresxyz/perps">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M2 11.5 5.5 7l2.5 2.5L13 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 3.5H13V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Perps
       </a>
-      <a href="#">
+      <a href="https://christophorusan.github.io/futuresxyz/swap">
         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M10 2.5 12.5 5 10 7.5M12 5H3M5 12.5 2.5 10 5 7.5M3 10h9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Swap
+      </a>
+      <a href="#">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 12V8m4.5 4V5.5M12 12V3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Stake
       </a>
 
       <div class="nav-group-label">Stats</div>
       <a href="#">
         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="7.5" cy="5" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M2.5 13c.6-2.4 2.6-4 5-4s4.4 1.6 5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        My portfolio
+        Portfolio
       </a>
       <a href="#">
         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><rect x="2" y="2" width="4.5" height="6" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="8.5" y="2" width="4.5" height="3.5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="8.5" y="7.5" width="4.5" height="5.5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="2" y="10" width="4.5" height="3" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
-        Dashboard
+        Analytics
       </a>
 
       <div class="nav-group-label">Rewards</div>
@@ -478,7 +501,7 @@
       </a>
       <a href="#">
         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><rect x="2" y="5" width="11" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M2 8h11M7.5 5v8" stroke="currentColor" stroke-width="1.2"/></svg>
-        Harmonix rewards
+        Points
       </a>
     </nav>
 
@@ -515,6 +538,10 @@
         </div>
       </div>
 
+      <div class="list-head" aria-hidden="true">
+        <span>Vault</span><span>Net APY</span><span>TVL</span><span>Asset</span><span>Rewards</span><span></span>
+      </div>
+
       <div class="cards">
         <article class="card">
           <div class="card-head">
@@ -534,7 +561,7 @@
           </div>
           <div class="divider" aria-hidden="true"></div>
           <div class="row"><span class="k">Asset</span><span class="v">USDC</span></div>
-          <div class="row"><span class="k">Rewards</span><span class="v"><span class="chip">Points</span>+3</span></div>
+          <div class="row"><span class="k">Rewards</span><span class="v"><span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+3</span></span></div>
           <p class="desc">Multi-asset stablecoin vault optimized across HyperEVM, HyperCore, and HIP3 markets. Earn from delta-neutral strategies, lending yield, and future HIP3 potential rewards.</p>
           <button class="deposit-btn">Deposit</button>
         </article>
@@ -557,7 +584,7 @@
           </div>
           <div class="divider" aria-hidden="true"></div>
           <div class="row"><span class="k">Asset</span><span class="v">USDC</span></div>
-          <div class="row"><span class="k">Rewards</span><span class="v"><span class="chip">Points</span></span></div>
+          <div class="row"><span class="k">Rewards</span><span class="v"><span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span></span></div>
           <p class="desc">Convert half of your deposit into HyperLiquid and purchase $HYPE, while a 1x short HYPE-USD position hedges your exposure and earns funding fees.</p>
           <button class="deposit-btn">Deposit</button>
         </article>
@@ -581,7 +608,7 @@
           </div>
           <div class="divider" aria-hidden="true"></div>
           <div class="row"><span class="k">Asset</span><span class="v">KHYPE</span></div>
-          <div class="row"><span class="k">Rewards</span><span class="v"><span class="chip">Points</span></span></div>
+          <div class="row"><span class="k">Rewards</span><span class="v"><span class="ricon"><svg aria-hidden="true"><use href="#tok-valantis"/></svg></span><span class="plus">+1</span></span></div>
           <p class="desc">Deposit your KHYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols.</p>
           <button class="deposit-btn">Deposit</button>
         </article>
@@ -605,7 +632,7 @@
           </div>
           <div class="divider" aria-hidden="true"></div>
           <div class="row"><span class="k">Asset</span><span class="v">HYPE</span></div>
-          <div class="row"><span class="k">Rewards</span><span class="v"><span class="chip">Points</span></span></div>
+          <div class="row"><span class="k">Rewards</span><span class="v"><span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+1</span></span></div>
           <p class="desc">Deposit your HYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols.</p>
           <button class="deposit-btn">Deposit</button>
         </article>
