@@ -38,6 +38,12 @@ SIDE_FOOT = ('<div class="side-foot">'
   '<a href="https://harmonixfi.github.io/harmonix-docs-v2/harmonix-docs-v2.html" aria-label="Harmonix Docs"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M2.5 3.2C2.5 2.54 3.04 2 3.7 2h8.6c.66 0 1.2.54 1.2 1.2v9.6c0 .66-.54 1.2-1.2 1.2H3.7c-.66 0-1.2-.54-1.2-1.2V3.2Z"/><path d="M5.5 2v12M8.5 5.5h3M8.5 8h3" stroke-linecap="round"/></svg></a>'
   '</div></div>')
 
+# white marketing lockup: drop the cream tile, recolor the loop mark to white
+shell_head = shell_head.replace('<rect y="0.0996094" width="56" height="56" rx="16.925" fill="#F1F1EB"></rect>', '')
+shell_head = shell_head.replace('C29.8701 17.1871 26.3825 20.5101 23.519 25.4528L22.0539 24.6069Z" fill="#173132">',
+                                'C29.8701 17.1871 26.3825 20.5101 23.519 25.4528L22.0539 24.6069Z" fill="#F1F1EB">')
+assert 'fill="#173132"' not in shell_head, "logo mark still dark"
+
 if '<div class="audit">Audited by <strong>Verichains</strong></div>' in shell_head:
     shell_head = shell_head.replace('<div class="audit">Audited by <strong>Verichains</strong></div>', SIDE_FOOT)
 else:
@@ -70,15 +76,22 @@ _old_bg = """      radial-gradient(1300px 750px at 55% -12%, rgba(150, 200, 165,
       radial-gradient(950px 620px at 78% 22%, rgba(88, 146, 108, 0.42), transparent 66%),
       radial-gradient(800px 560px at 18% 38%, rgba(64, 116, 85, 0.35), transparent 68%),
       linear-gradient(180deg, #35634a 0%, #24503a 26%, #17392a 52%, #0c231a 78%, #071510 100%);"""
-_new_bg = """      radial-gradient(140% 140% at 50% 42%, transparent 52%, rgba(2, 9, 5, 0.62) 100%),
+_prev_bg = """      radial-gradient(140% 140% at 50% 42%, transparent 52%, rgba(2, 9, 5, 0.62) 100%),
       radial-gradient(1150px 820px at 64% 36%, rgba(86, 168, 116, 0.50), transparent 60%),
       radial-gradient(760px 560px at 22% 76%, rgba(40, 96, 64, 0.34), transparent 70%),
       radial-gradient(1700px 1150px at 50% 46%, rgba(22, 56, 38, 0.55), transparent 82%),
       linear-gradient(155deg, #0b1a12 0%, #143726 36%, #0e2a1a 62%, #05100a 100%);"""
-if _old_bg in base_css:
-    base_css = base_css.replace(_old_bg, _new_bg)
+# marketing-tile haze: softer vignette, wide diffuse bloom, gentler contrast
+_new_bg = """      radial-gradient(150% 150% at 50% 44%, transparent 55%, rgba(4, 13, 9, 0.50) 100%),
+      radial-gradient(1400px 950px at 63% 38%, rgba(98, 172, 126, 0.42), transparent 64%),
+      radial-gradient(1000px 700px at 30% 70%, rgba(52, 108, 76, 0.28), transparent 72%),
+      linear-gradient(150deg, #13291d 0%, #1d4530 38%, #143223 68%, #0b2015 100%);"""
+for _cand in (_old_bg, _prev_bg):
+    if _cand in base_css:
+        base_css = base_css.replace(_cand, _new_bg)
+        break
 else:
-    assert "rgba(86, 168, 116, 0.50)" in base_css, "backdrop missing entirely"
+    assert "rgba(98, 172, 126, 0.42)" in base_css, "backdrop missing entirely"
 
 # ---------- 2. nav hrefs + active state ----------
 NAV = {
@@ -672,6 +685,34 @@ EXTRA2_CSS = """
   /* clickable vault rows */
   a.card { text-decoration: none; color: inherit; cursor: pointer; }
   a.card:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+
+  /* kamino-style vault overview */
+  .vhead { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+  .vhead-l { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .vhead-l .coin { width: 42px; height: 42px; }
+  .vhead-l h2 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+  .chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .chip-sm {
+    font-size: 11px; font-weight: 500; color: var(--text-1);
+    background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: 999px; padding: 3px 10px;
+  }
+  .chip-sm b { color: var(--text-0); font-weight: 600; }
+  .vtabs { display: flex; gap: 2px; border-bottom: 1px solid var(--glass-border); margin-bottom: 16px; }
+  .vtabs button { background: transparent; border: none; color: var(--text-2); font: 600 13.5px var(--font); padding: 10px 16px; cursor: pointer; border-bottom: 2px solid transparent; }
+  .vtabs button.active { color: var(--text-0); border-bottom-color: var(--lime); }
+  .halfmax { display: flex; gap: 6px; }
+  .halfmax button {
+    background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: 7px;
+    color: var(--text-1); font: 600 11px var(--font); padding: 4px 10px; cursor: pointer;
+  }
+  .halfmax button:hover { color: var(--text-0); border-color: var(--glass-border-hover); }
+  .wallet-line { display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; color: var(--text-3); margin-top: 6px; }
+  .legend-dot { display: inline-block; width: 8px; height: 8px; border-radius: 3px; margin-right: 6px; vertical-align: 0; }
+  .growth-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+  .growth-grid .g .n { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; color: #62d98b; }
+  .growth-grid .g .l { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--text-2); margin-top: 2px; }
+  .rail { position: sticky; top: 14px; }
+  @media (max-width: 1150px) { .rail { position: static; } }
   .backlink { color: var(--text-2); text-decoration: none; font-size: 13px; transition: color 0.15s; }
   .backlink:hover { color: var(--text-0); }
   .vault-hero-head { display: flex; align-items: center; gap: 14px; min-width: 0; }
@@ -1018,10 +1059,12 @@ def vault_apy_chart(apy):
     for i, frac in enumerate([1.15, 1.0, 0.85, 0.7]):
         yy = 34 + i * 41
         labels += '<line x1="60" y1="%d" x2="700" y2="%d" stroke="rgba(255,255,255,0.05)"/><text class="axis" x="8" y="%d">%.1f%%</text>' % (yy, yy, yy + 3, apy * frac)
+    bench = " ".join("%d,%d" % (p[0], min(160, p[1] + 26 + (i % 3) * 3)) for i, p in enumerate(pts))
     return ('<svg viewBox="0 0 730 185" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">'
             '<defs><linearGradient id="vg' + str(int(apy*100)) + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(215,251,95,0.28)"/><stop offset="1" stop-color="rgba(215,251,95,0)"/></linearGradient></defs>'
             + labels +
             '<polygon points="' + fill + '" fill="url(#vg' + str(int(apy*100)) + ')"/>'
+            '<polyline points="' + bench + '" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.5" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round"/>'
             '<polyline points="' + line + '" fill="none" stroke="#d7fb5f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
             '<circle cx="%d" cy="%d" r="3.5" fill="#d7fb5f"/></svg>' % pts[-1])
 
@@ -1029,81 +1072,138 @@ VAULTS = [
     dict(slug="vault-hausdc.html", icon=USDC_ICON, name="HIP-3 haUSDC Vault", apy=8.42, tvl="$314.3K", sub="",
          asset="USDC", cap="$5.0M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+3</span>',
          desc="Multi-asset stablecoin vault optimized across HyperEVM, HyperCore, and HIP3 markets. Earn from delta-neutral strategies, lending yield, and future HIP3 potential rewards.",
-         strat=["Delta-neutral basis positions on HyperCore perps", "Stablecoin lending across HyperEVM money markets", "HIP-3 market-making inventory, hedged"]),
+         profile="Balanced", earned="$18.4K", g1="$61", g7="$412", g30="$1.7K", vid="0x3f8a…9d21", deployed="Jun 2026",
+         allocs=[("Delta-neutral basis (HyperCore)", "52%", "$163.4K", "9.8%"),
+                 ("Stablecoin lending (HyperEVM)", "33%", "$103.7K", "6.4%"),
+                 ("HIP-3 market-making, hedged", "15%", "$47.2K", "8.9%")]),
     dict(slug="vault-delta-neutral.html", icon=USDC_ICON, name="USDC — $HYPE Delta Neutral Vault", apy=7.46, tvl="$606.51K", sub="",
          asset="USDC", cap="$2.5M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span>',
-         desc="Convert half of your deposit into HyperLiquid and purchase $HYPE, while a 1x short HYPE-USD position hedges your exposure and earns funding fees.",
-         strat=["Spot HYPE long, 1x perp short — net delta zero", "Collects funding while hedged", "Auto-rebalances when funding flips"]),
+         desc="Convert half of your deposit into HyperLiquid and purchase $HYPE, while a 1x short HYPE-USD position hedges your exposure and earns funding fees. Net delta zero; auto-rebalances when funding flips.",
+         profile="Balanced", earned="$31.2K", g1="$124", g7="$861", g30="$3.6K", vid="0x81c2…44e0", deployed="Feb 2026",
+         allocs=[("Spot HYPE long", "50%", "$303.2K", "—"),
+                 ("1x HYPE-USD short (funding)", "50%", "$303.3K", "14.9%")]),
     dict(slug="vault-khype.html", icon=KHYPE_ICON_S, name="HyperEVM $KHYPE Vault", apy=3.84, tvl="$2.9M", sub="47,539.37 KHYPE",
          asset="KHYPE", cap="$6.0M", rewards='<span class="ricon"><svg aria-hidden="true"><use href="#tok-valantis"/></svg></span><span class="plus">+1</span>',
-         desc="Deposit your KHYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols.",
-         strat=["Spot KHYPE deployed across HyperEVM lending markets", "Delta-neutral overlay on staking yield", "Valantis points accrue to depositors"]),
+         desc="Deposit your KHYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols. Valantis points accrue to depositors.",
+         profile="Conservative", earned="$84.9K", g1="$305", g7="$2.1K", g30="$9.2K", vid="0xc4d9…b7a3", deployed="Mar 2026",
+         allocs=[("HyperEVM lending markets", "58%", "$1.68M", "4.1%"),
+                 ("Delta-neutral overlay", "27%", "$783K", "3.4%"),
+                 ("Liquid reserve", "15%", "$435K", "—")]),
     dict(slug="vault-hype.html", icon=HYPE_ICON, name="HyperEVM $HYPE Vault", apy=3.80, tvl="$1.99M", sub="33,231.78 HYPE",
          asset="HYPE", cap="$5.0M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+1</span>',
-         desc="Deposit your HYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols.",
-         strat=["Spot HYPE allocated across HyperEVM protocols", "Market-neutral positioning, no directional risk", "Rewards stream in the Harmonix token"]),
+         desc="Deposit your HYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols. No directional risk.",
+         profile="Conservative", earned="$56.3K", g1="$207", g7="$1.5K", g30="$6.1K", vid="0x9ab1…02cf", deployed="Mar 2026",
+         allocs=[("HyperEVM protocol allocation", "62%", "$1.23M", "4.0%"),
+                 ("Market-neutral positions", "23%", "$458K", "3.6%"),
+                 ("Liquid reserve", "15%", "$299K", "—")]),
 ]
 
 def vault_content(v):
-    strat_html = "".join('<div class="step"><b><span class="n">%d</span>%s</b></div>' % (i + 1, s) for i, s in enumerate(v["strat"]))
     sub_html = ('<div class="sub">%s</div>' % v["sub"]) if v["sub"] else ""
-    return '''    <p style="margin:0 0 14px"><a href="index.html" class="backlink">&larr; Yield Markets</a></p>
-    <div class="hero" style="padding:20px 26px">
-      <div class="vault-hero-head">
+    alloc_rows = "".join(
+        '<tr><td>%s</td><td class="r">%s</td><td class="r">%s</td><td class="r" style="color:var(--lime)">%s</td></tr>'
+        % a for a in v["allocs"])
+    return '''    <p style="margin:0 0 12px"><a href="index.html" class="backlink">Yield Markets</a><span style="color:var(--text-3);font-size:13px"> / ''' + v["name"] + '''</span></p>
+    <div class="vhead">
+      <div class="vhead-l">
         ''' + v["icon"] + '''
-        <div><h2>''' + v["name"] + '''</h2><p>''' + v["desc"] + '''</p></div>
+        <div>
+          <h2>''' + v["name"] + '''</h2>
+          <div class="chip-row">
+            <span class="chip-sm">Profile <b>''' + v["profile"] + '''</b></span>
+            <span class="chip-sm">Vault token <b>''' + v["asset"] + '''</b></span>
+            <span class="chip-sm">Manager <b>Harmonix</b></span>
+          </div>
+        </div>
       </div>
       <span class="live">LIVE</span>
     </div>
+    <div class="vtabs"><button class="active">Vault overview</button><button>My position</button></div>
     <div class="tiles">
-      <div class="tile"><div class="label">Net APY</div><div class="value lime">''' + ('%.2f%%' % v["apy"]) + '''</div>''' + spark_tile([(0,15),(9,13),(18,14),(27,11),(36,12),(45,9),(54,8),(63,5)]) + '''</div>
       <div class="tile"><div class="label">TVL</div><div class="value">''' + v["tvl"] + '''</div>''' + sub_html + '''</div>
       <div class="tile"><div class="label">Capacity</div><div class="value">''' + v["cap"] + '''</div></div>
+      <div class="tile"><div class="label">Net APY</div><div class="value lime">''' + ('%.2f%%' % v["apy"]) + '''</div></div>
+      <div class="tile"><div class="label">Net APY (90d avg)</div><div class="value">''' + ('%.2f%%' % (v["apy"] * 0.93)) + '''</div></div>
       <div class="tile"><div class="label">Rewards</div><div class="value" style="display:flex;align-items:center;gap:6px">''' + v["rewards"] + '''</div></div>
     </div>
-    <div class="grid2">
+    <div class="grid2" style="grid-template-columns: 1.7fr 1fr; align-items: start;">
       <div>
         <div class="panel" style="margin-bottom:14px">
-          <h2>Net APY — last 90 days</h2>
-          <p class="muted" style="margin:0 0 12px">After fees, including rewards.</p>
+          <h2>Strategy overview</h2>
+          <p class="muted" style="margin:6px 0 0">''' + v["desc"] + '''</p>
+        </div>
+        <div class="panel" style="margin-bottom:14px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <h2 style="margin:0">Net APY</h2>
+            <div class="tf" style="margin:0"><button>7D</button><button class="active">30D</button><button>3M</button></div>
+          </div>
+          <div class="legend" style="margin:10px 0 8px">
+            <span><span class="legend-dot" style="background:#d7fb5f"></span>Net APY</span>
+            <span><span class="legend-dot" style="background:rgba(255,255,255,0.35)"></span>Benchmark (HyperEVM lending)</span>
+          </div>
           ''' + vault_apy_chart(v["apy"]) + '''
-          <p class="chart-cap">Trailing net APY. Rewards valued at market on accrual.</p>
+          <p class="chart-cap">Trailing net APY after fees. Rewards valued at market on accrual.</p>
+        </div>
+        <div class="panel" style="margin-bottom:14px">
+          <h2>Interest generated</h2>
+          <p class="muted" style="margin:2px 0 0">Total yield paid to depositors in this vault.</p>
+          <div style="font-size:24px;font-weight:600;color:#62d98b;margin-top:10px;font-variant-numeric:tabular-nums">+''' + v["earned"] + '''</div>
+          <div class="growth-grid">
+            <div class="g"><div class="n">''' + v["g1"] + '''</div><div class="l">1D growth</div></div>
+            <div class="g"><div class="n">''' + v["g7"] + '''</div><div class="l">7D growth</div></div>
+            <div class="g"><div class="n">''' + v["g30"] + '''</div><div class="l">30D growth</div></div>
+            <div class="g"><div class="n">''' + v["earned"] + '''</div><div class="l">All time</div></div>
+          </div>
         </div>
         <div class="panel">
-          <h2>Strategy</h2>
-          <div class="steps" style="margin-top:10px;grid-template-columns:1fr">''' + strat_html + '''</div>
+          <h2>Allocation breakdown</h2>
+          <p class="muted" style="margin:0 0 6px">Where deposits are deployed right now.</p>
+          <table class="gtable">
+            <thead><tr><th>Strategy</th><th class="r">Allocation</th><th class="r">Deployed</th><th class="r">APY</th></tr></thead>
+            <tbody>''' + alloc_rows + '''</tbody>
+          </table>
         </div>
       </div>
-      <div>
+      <div class="rail">
         <div class="panel" style="margin-bottom:14px">
-          <h2>Deposit</h2>
-          <div class="field">
-            <div class="flabel">You deposit</div>
+          <h2>You deposit</h2>
+          <div class="field" style="margin-top:8px">
             <div class="fbox">0.00 <span class="unit">''' + v["asset"] + '''</span></div>
           </div>
+          <div class="wallet-line"><span>Wallet: 0</span><span class="halfmax"><button>Half</button><button>Max</button></span></div>
           <div class="trade-rows">
+            <div class="kv"><span>~ value</span><b>$0.00</b></div>
             <div class="kv"><span>Est. yearly earnings</span><b>—</b></div>
-            <div class="kv"><span>Your balance</span><b>—</b></div>
           </div>
-          <button class="cta">Connect wallet to deposit</button>
+          <button class="cta">Connect wallet</button>
+          <div class="kv" style="margin-top:10px"><span>Transaction settings</span><b>0.5% slippage</b></div>
+        </div>
+        <div class="panel" style="margin-bottom:14px">
+          <h2>Vault info</h2>
+          <div style="margin-top:8px">
+            <div class="kv"><span>Token</span><b>''' + v["asset"] + '''</b></div>
+            <div class="kv"><span>Vault profile</span><b>''' + v["profile"] + '''</b></div>
+            <div class="kv"><span>Net APY</span><b style="color:var(--lime)">''' + ('%.2f%%' % v["apy"]) + '''</b></div>
+            <div class="kv"><span>Vault ID</span><b class="mono">''' + v["vid"] + '''</b></div>
+            <div class="kv"><span>Network</span><b>HyperEVM</b></div>
+            <div class="kv"><span>Manager</span><b>Harmonix</b></div>
+            <div class="kv"><span>Deployed</span><b>''' + v["deployed"] + '''</b></div>
+            <div class="kv"><span>Management fee</span><b>0.00%</b></div>
+            <div class="kv"><span>Performance fee</span><b>10.00%</b></div>
+            <div class="kv"><span>Withdrawals</span><b>Daily, no lock</b></div>
+          </div>
         </div>
         <div class="panel">
-          <h2>Details</h2>
-          <div style="margin-top:8px">
-            <div class="kv"><span>Network</span><b>HyperEVM</b></div>
-            <div class="kv"><span>Asset</span><b>''' + v["asset"] + '''</b></div>
-            <div class="kv"><span>Withdrawals</span><b>Daily, no lock</b></div>
-            <div class="kv"><span>Performance fee</span><b>10% on yield</b></div>
-            <div class="kv"><span>Management fee</span><b>None</b></div>
-            <div class="kv"><span>Manager</span><b>Harmonix</b></div>
-            <div class="kv"><span>Contract</span><b class="mono">0x3f8a…9d21</b></div>
-          </div>
+          <h2>Harmonix</h2>
+          <p class="muted" style="margin:6px 0 10px">Harmonix builds risk-managed yield strategies on Hyperliquid — delta-neutral by default, transparent on-chain, audited by Verichains, Zenith and Shieldify.</p>
+          <a class="backlink" href="analytics.html">Learn more</a>
         </div>
       </div>
     </div>
 '''
 
 # make home rows clickable
+home_main = home_main.replace('href="https://christophorusan.github.io/harmonix-glass/', 'href="')
 _parts = home_main.split('<article class="card">')
 if len(_parts) == 5:
     _rebuilt = _parts[0]

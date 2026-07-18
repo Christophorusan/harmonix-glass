@@ -74,11 +74,10 @@
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(140% 140% at 50% 42%, transparent 52%, rgba(2, 9, 5, 0.62) 100%),
-      radial-gradient(1150px 820px at 64% 36%, rgba(86, 168, 116, 0.50), transparent 60%),
-      radial-gradient(760px 560px at 22% 76%, rgba(40, 96, 64, 0.34), transparent 70%),
-      radial-gradient(1700px 1150px at 50% 46%, rgba(22, 56, 38, 0.55), transparent 82%),
-      linear-gradient(155deg, #0b1a12 0%, #143726 36%, #0e2a1a 62%, #05100a 100%);
+      radial-gradient(150% 150% at 50% 44%, transparent 55%, rgba(4, 13, 9, 0.50) 100%),
+      radial-gradient(1400px 950px at 63% 38%, rgba(98, 172, 126, 0.42), transparent 64%),
+      radial-gradient(1000px 700px at 30% 70%, rgba(52, 108, 76, 0.28), transparent 72%),
+      linear-gradient(150deg, #13291d 0%, #1d4530 38%, #143223 68%, #0b2015 100%);
   }
 
   .app {
@@ -1672,6 +1671,250 @@
 
   /* quiet chart captions */
   .chart-cap { margin: 8px 2px 0; font-size: 11.5px; color: var(--text-3); }
+
+  /* ---------- subpage components ---------- */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px; }
+  .tile {
+    background: var(--glass); border: 1px solid var(--glass-border); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 16px 20px;
+    backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  }
+  .tile .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.11em; color: var(--text-2); }
+  .tile .value { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: 3px; letter-spacing: -0.01em; }
+  .tile .value.lime { color: var(--lime); }
+  .tile .sub { font-size: 11.5px; color: var(--text-3); }
+
+  .panel {
+    background: var(--glass); border: 1px solid var(--glass-border); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 20px;
+    backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  }
+  .panel h2 { margin: 0 0 4px; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .panel .muted { color: var(--text-2); font-size: 13px; }
+
+  .empty-state { text-align: center; padding: 56px 20px; color: var(--text-2); font-size: 14px; }
+  .empty-state .big { font-size: 16px; font-weight: 600; color: var(--text-1); margin-bottom: 6px; }
+  .empty-state .connect-btn { margin-top: 18px; }
+
+  .ghost-btn {
+    background: rgba(47, 174, 78, 0.16); color: #62d98b; border: none; border-radius: var(--radius-sm);
+    font: 600 13.5px var(--font); padding: 10px 22px; cursor: pointer;
+    box-shadow: inset 0 0 0 1px rgba(98, 217, 139, 0.22);
+    transition: background 0.16s, color 0.16s;
+  }
+  .ghost-btn:hover { background: linear-gradient(180deg, #41cc63, #2cb04e); color: #fff; }
+
+  /* centered card pages (swap / stake) */
+  .center-wrap { display: flex; justify-content: center; padding-top: 12px; }
+  .center-card { width: 440px; max-width: 100%; }
+  .swap-box {
+    background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
+    padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  .swap-box + .swap-box { margin-top: 8px; }
+  .swap-box .amt { font-size: 24px; font-weight: 600; color: var(--text-0); font-variant-numeric: tabular-nums; }
+  .swap-box .lbl { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-2); margin-bottom: 4px; }
+  .swap-box .bal { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+  .token-pill {
+    display: inline-flex; align-items: center; gap: 7px; background: var(--glass-strong);
+    border: 1px solid var(--glass-border); border-radius: 999px; padding: 6px 12px 6px 7px;
+    font-weight: 600; font-size: 14px; color: var(--text-0); flex: none;
+  }
+  .token-pill .coin { width: 22px; height: 22px; }
+  .swap-arrow { display: flex; justify-content: center; margin: 2px 0; color: var(--text-2); }
+  .kv { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-2); padding: 4px 2px; }
+  .kv b { color: var(--text-1); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .cta {
+    width: 100%; margin-top: 14px; padding: 13px; border: none; border-radius: var(--radius-sm);
+    background: linear-gradient(180deg, #38bd58, #27a246); color: #fff; font: 600 14.5px var(--font);
+    cursor: pointer; box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), 0 4px 16px rgba(47,174,78,0.22);
+    transition: background 0.16s, box-shadow 0.16s;
+  }
+  .cta:hover { background: linear-gradient(180deg, #41cc63, #2cb04e); }
+  .fine { text-align: center; font-size: 11px; color: var(--text-3); margin-top: 12px; }
+
+  /* tables (points / stake validators) */
+  .gtable { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .gtable th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.11em; color: var(--text-2); font-weight: 500; padding: 8px 12px; }
+  .gtable td { padding: 11px 12px; border-top: 1px solid var(--glass-border); color: var(--text-1); font-variant-numeric: tabular-nums; }
+  .gtable td:first-child, .gtable th:first-child { padding-left: 4px; }
+  .gtable .r { text-align: right; }
+  .gtable th.r { text-align: right; }
+  .mono { color: var(--text-1); }
+
+  /* ---------- perps ---------- */
+  .perps-grid { display: grid; grid-template-columns: 1fr 300px 320px; gap: 12px; align-items: start; }
+  .pairbar {
+    grid-column: 1 / -1; display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+    background: var(--glass); border: 1px solid var(--glass-border); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 12px 20px;
+    backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  }
+  .pairbar .pair { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; }
+  .pairbar .pair .coin { width: 26px; height: 26px; }
+  .pstat .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-2); }
+  .pstat .v { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: 1px; }
+  .pstat .v.up { color: #62d98b; }
+  .pstat .v.lime { color: var(--lime); }
+
+  .chart-panel { padding: 14px 16px 8px; }
+  .tf { display: flex; gap: 4px; margin-bottom: 10px; }
+  .tf button {
+    background: transparent; border: none; border-radius: 7px; color: var(--text-2);
+    font: 500 12px var(--font); padding: 5px 11px; cursor: pointer;
+  }
+  .tf button.active { background: rgba(215, 251, 95, 0.14); color: var(--lime); }
+  .candles { width: 100%; height: auto; display: block; }
+
+  .ob-head, .ob-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .ob-head { color: var(--text-2); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 6px 8px; }
+  .ob-row { padding: 3px 6px; border-radius: 5px; position: relative; color: var(--text-1); }
+  .ob-row span:nth-child(2), .ob-row span:nth-child(3) { text-align: right; }
+  .ob-row.ask span:first-child { color: #f2716e; }
+  .ob-row.bid span:first-child { color: #62d98b; }
+  .ob-row .depth { position: absolute; right: 0; top: 0; bottom: 0; border-radius: 5px; z-index: -1; }
+  .ob-row.ask .depth { background: rgba(242, 113, 110, 0.10); }
+  .ob-row.bid .depth { background: rgba(98, 217, 139, 0.10); }
+  .ob-row { z-index: 0; }
+  .spread { text-align: center; font-size: 11.5px; color: var(--text-2); padding: 7px 0; border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); margin: 6px 0; }
+
+  .seg { display: flex; gap: 4px; background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: 999px; padding: 3px; }
+  .seg button { flex: 1; background: transparent; border: none; border-radius: 999px; color: var(--text-2); font: 600 12.5px var(--font); padding: 7px 0; cursor: pointer; }
+  .seg button.active { background: rgba(255, 255, 255, 0.10); color: var(--text-0); }
+  .seg.buysell { margin-top: 10px; }
+  .seg.buysell button.buy.active { background: linear-gradient(180deg, #38bd58, #27a246); color: #fff; }
+  .seg.buysell button.sell.active { background: #a03c3a; color: #fff; }
+
+  .field { margin-top: 10px; }
+  .field .flabel { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-2); margin-bottom: 5px; }
+  .field .fbox {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
+    padding: 10px 14px; font-size: 15px; font-weight: 600; color: var(--text-3);
+  }
+  .field .fbox .unit { color: var(--text-2); font-size: 12.5px; font-weight: 500; }
+  .trade-rows { margin-top: 12px; }
+  .positions-panel { grid-column: 1 / -1; }
+  .ptabs { display: flex; gap: 2px; border-bottom: 1px solid var(--glass-border); margin-bottom: 0; }
+  .ptabs button { background: transparent; border: none; color: var(--text-2); font: 500 13px var(--font); padding: 10px 14px; cursor: pointer; border-bottom: 2px solid transparent; }
+  .ptabs button.active { color: var(--text-0); border-bottom-color: var(--lime); }
+
+  @media (max-width: 1200px) { .perps-grid { grid-template-columns: 1fr 1fr; } .chart-wrap { grid-column: 1 / -1; } }
+
+  /* referral / points */
+  .code-box {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: var(--glass-inner); border: 1px dashed var(--glass-border-hover); border-radius: var(--radius-sm);
+    padding: 14px 18px; font-size: 18px; font-weight: 600; letter-spacing: 0.06em;
+  }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 18px; }
+  .step { background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); padding: 14px 16px; font-size: 13px; color: var(--text-1); }
+  .step b { display: block; color: var(--text-0); margin-bottom: 4px; font-weight: 600; }
+  .step .n { color: var(--lime); font-weight: 600; margin-right: 6px; }
+
+  /* dashboard grids + charts */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid2 > .panel { min-width: 0; }
+  @media (max-width: 1150px) { .grid2 { grid-template-columns: 1fr; } }
+  .tile { position: relative; overflow: hidden; }
+  .tile .spark { position: absolute; right: 14px; bottom: 14px; opacity: 0.85; }
+  .delta { font-size: 11.5px; font-weight: 600; margin-left: 8px; }
+  .delta.up { color: #62d98b; }
+  .delta.down { color: #f2716e; }
+  .axis { font-size: 10px; fill: rgba(244,247,243,0.36); font-family: Poppins, sans-serif; }
+
+  .hbar-row { display: grid; grid-template-columns: 30px minmax(120px, 220px) 1fr auto auto; gap: 12px; align-items: center; padding: 9px 2px; font-size: 13px; }
+  .hbar-row + .hbar-row { border-top: 1px solid var(--glass-border); }
+  .hbar-row .coin { width: 24px; height: 24px; }
+  .hbar-track { height: 8px; border-radius: 4px; background: var(--glass-inner); overflow: hidden; }
+  .hbar-track i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, rgba(215,251,95,0.45), #d7fb5f); }
+  .hbar-row .val { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .hbar-row .pct { font-variant-numeric: tabular-nums; color: var(--text-2); font-size: 12px; width: 48px; text-align: right; }
+
+  .progress { height: 9px; border-radius: 5px; background: var(--glass-inner); border: 1px solid var(--glass-border); overflow: hidden; margin-top: 10px; }
+  .progress i { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, rgba(215,251,95,0.5), #d7fb5f); }
+
+  .avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--glass-strong); border: 1px solid var(--glass-border); display: inline-grid; place-items: center; font-size: 11px; font-weight: 600; color: var(--text-1); margin-right: 9px; }
+
+  .tier { text-align: left; }
+  .tier .mult { font-size: 30px; font-weight: 600; color: var(--lime); letter-spacing: -0.02em; }
+  .tier .dur { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .tier .est { font-size: 12px; color: var(--text-2); margin: 6px 0 12px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; font-size: 12.5px; color: var(--text-1); }
+  .legend .sw { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 6px; }
+
+  .you-row td { color: var(--lime) !important; font-weight: 600; }
+
+  /* sidebar footer: audits + socials */
+  .side-foot { margin-top: auto; padding: 16px 10px 4px; border-top: 1px solid rgba(255, 255, 255, 0.07); display: flex; flex-direction: column; gap: 10px; }
+  .side-foot .audit-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-3); }
+  .audit-logos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; align-items: center; justify-items: start; }
+  .audit-logos a { display: flex; align-items: center; opacity: 0.65; transition: opacity 0.15s; color: #cfd8d2; min-height: 24px; }
+  .audit-logos a:hover { opacity: 1; }
+  .audit-logos svg { height: 17px; width: auto; display: block; }
+  .audit-logos a:first-child { grid-column: 1 / -1; }
+  .audit-logos a:first-child svg { height: 28px; }
+
+  /* token reward icon — global sizing (used in rows AND tiles) */
+  .ricon { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; display: inline-grid; place-items: center; flex: none; }
+  .ricon svg { width: 100%; height: 100%; display: block; }
+
+  /* clickable vault rows */
+  a.card { text-decoration: none; color: inherit; cursor: pointer; }
+  a.card:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+
+  /* kamino-style vault overview */
+  .vhead { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+  .vhead-l { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .vhead-l .coin { width: 42px; height: 42px; }
+  .vhead-l h2 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+  .chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .chip-sm {
+    font-size: 11px; font-weight: 500; color: var(--text-1);
+    background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: 999px; padding: 3px 10px;
+  }
+  .chip-sm b { color: var(--text-0); font-weight: 600; }
+  .vtabs { display: flex; gap: 2px; border-bottom: 1px solid var(--glass-border); margin-bottom: 16px; }
+  .vtabs button { background: transparent; border: none; color: var(--text-2); font: 600 13.5px var(--font); padding: 10px 16px; cursor: pointer; border-bottom: 2px solid transparent; }
+  .vtabs button.active { color: var(--text-0); border-bottom-color: var(--lime); }
+  .halfmax { display: flex; gap: 6px; }
+  .halfmax button {
+    background: var(--glass-inner); border: 1px solid var(--glass-border); border-radius: 7px;
+    color: var(--text-1); font: 600 11px var(--font); padding: 4px 10px; cursor: pointer;
+  }
+  .halfmax button:hover { color: var(--text-0); border-color: var(--glass-border-hover); }
+  .wallet-line { display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; color: var(--text-3); margin-top: 6px; }
+  .legend-dot { display: inline-block; width: 8px; height: 8px; border-radius: 3px; margin-right: 6px; vertical-align: 0; }
+  .growth-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+  .growth-grid .g .n { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; color: #62d98b; }
+  .growth-grid .g .l { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--text-2); margin-top: 2px; }
+  .rail { position: sticky; top: 14px; }
+  @media (max-width: 1150px) { .rail { position: static; } }
+  .backlink { color: var(--text-2); text-decoration: none; font-size: 13px; transition: color 0.15s; }
+  .backlink:hover { color: var(--text-0); }
+  .vault-hero-head { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .vault-hero-head .coin { width: 40px; height: 40px; }
+  .vault-hero-head h2 { margin: 0 0 2px; }
+  .vault-hero-head p { margin: 0; }
+  .socials { display: flex; gap: 7px; margin-top: 2px; }
+  .socials a { width: 30px; height: 30px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.09); display: grid; place-items: center; color: var(--text-1); transition: color 0.15s, background 0.15s, border-color 0.15s; }
+  .socials a:hover { color: #fff; background: rgba(255, 255, 255, 0.10); border-color: rgba(255, 255, 255, 0.2); }
+  .socials a:focus-visible { outline: 2px solid var(--lime); outline-offset: 1px; }
+
+  /* living numbers: momentum colouring + crossfading arrow (benji-style) */
+  .pstat .v, [data-px] { transition: color 0.45s ease; }
+  .px-up { color: #62d98b !important; }
+  .px-down { color: #f2716e !important; }
+  .mk-arrow { display: inline-block; font-size: 9px; margin-left: 5px; vertical-align: 1px; opacity: 0; transition: opacity 0.35s ease, color 0.45s ease; }
+  .mk-arrow.show { opacity: 0.9; }
+
+  /* breathing endpoint on sparklines */
+  .spark circle { animation: dotbreathe 2.6s ease-in-out infinite; }
+  @keyframes dotbreathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* quiet chart captions */
+  .chart-cap { margin: 8px 2px 0; font-size: 11.5px; color: var(--text-3); }
 </style>
 
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1682,7 +1925,7 @@
 <div class="app">
   <aside class="sidebar">
     <div class="logo" aria-label="Harmonix">
-      <svg viewBox="0 0 236 57" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Harmonix logo"><rect y="0.0996094" width="56" height="56" rx="16.925" fill="#F1F1EB"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M33.9174 31.4653C28.9876 40.0038 22.3874 45.4223 15.064 41.1942C7.74059 36.966 9.13304 28.5408 14.0628 20.0022L23.5022 25.452C20.6528 30.4037 19.5183 35.0864 22.8098 36.9867C26.1013 38.8871 29.5893 35.5632 32.453 30.6198L33.9174 31.4653ZM32.9688 10.3034L32.9163 10.273L32.8638 10.2428L32.9688 10.3034ZM22.0539 24.6069C26.9837 16.0682 33.5839 10.6496 40.9074 14.8778C48.2308 19.106 46.8383 27.5313 41.9085 36.07L32.4698 30.6205C35.3185 25.6693 36.4525 20.9874 33.1613 19.0873C29.8701 17.1871 26.3825 20.5101 23.519 25.4528L22.0539 24.6069Z" fill="#173132"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M76 18.8035V44.3064H80.2004V33.0122H92.2537V44.3064H96.4541V18.8035H92.2537V29.1868H80.2004V18.8035H76ZM157.51 43.2023C158.771 43.937 160.177 44.3043 161.726 44.3043C163.297 44.3043 164.713 43.937 165.975 43.2023C167.236 42.4453 168.232 41.4323 168.963 40.1632C169.715 38.8942 170.091 37.4804 170.091 35.9219C170.091 34.3634 169.715 32.9608 168.963 31.714C168.232 30.4449 167.236 29.4431 165.975 28.7083C164.713 27.9736 163.297 27.6063 161.726 27.6063C160.177 27.6063 158.771 27.9848 157.51 28.7417C156.248 29.4764 155.241 30.4672 154.489 31.714C153.758 32.9608 153.393 34.3634 153.393 35.9219C153.393 37.4804 153.758 38.8942 154.489 40.1632C155.241 41.4323 156.248 42.4453 157.51 43.2023ZM164.116 40.1632C163.43 40.564 162.633 40.7644 161.726 40.7644C160.84 40.7644 160.044 40.564 159.336 40.1632C158.649 39.7402 158.107 39.1613 157.709 38.4266C157.333 37.6919 157.145 36.857 157.145 35.9219C157.145 34.9868 157.333 34.163 157.709 33.4506C158.107 32.7381 158.649 32.1815 159.336 31.7808C160.044 31.3578 160.84 31.1463 161.726 31.1463C162.633 31.1463 163.43 31.3578 164.116 31.7808C164.802 32.1815 165.344 32.7381 165.743 33.4506C166.141 34.163 166.34 34.9868 166.34 35.9219C166.34 36.857 166.141 37.6919 165.743 38.4266C165.366 39.1613 164.824 39.7402 164.116 40.1632ZM107.052 44.3059C105.514 44.3059 104.12 43.9442 102.868 43.2208C101.616 42.4755 100.617 41.4781 99.8702 40.2286C99.1455 38.9791 98.7831 37.5871 98.7831 36.0526C98.7831 34.5181 99.1455 33.137 99.8702 31.9094C100.617 30.6819 101.616 29.7064 102.868 28.983C104.12 28.2376 105.514 27.865 107.052 27.865C108.611 27.865 110.017 28.2267 111.269 28.9501C111.519 29.0947 111.759 29.2499 111.988 29.4156V27.865H115.483V44.3059H111.988V42.7435C111.759 42.9127 111.519 43.0718 111.269 43.2208C110.017 43.9442 108.611 44.3059 107.052 44.3059ZM107.052 40.8205C107.952 40.8205 108.743 40.6232 109.424 40.2286C110.127 39.8121 110.665 39.2421 111.038 38.5187C111.433 37.7953 111.631 36.9733 111.631 36.0526C111.631 35.1319 111.433 34.3208 111.038 33.6193C110.643 32.9178 110.105 32.3698 109.424 31.9752C108.743 31.5587 107.952 31.3505 107.052 31.3505C106.173 31.3505 105.383 31.5587 104.68 31.9752C103.999 32.3698 103.461 32.9178 103.066 33.6193C102.692 34.3208 102.506 35.1319 102.506 36.0526C102.506 36.9733 102.692 37.7953 103.066 38.5187C103.461 39.2421 103.999 39.8121 104.68 40.2286C105.383 40.6232 106.173 40.8205 107.052 40.8205ZM184.952 34.4002C184.953 34.3526 184.953 34.3049 184.953 34.2571C184.953 34.2092 184.953 34.1615 184.952 34.114V34.0897H184.951C184.862 30.663 182.057 27.9124 178.609 27.9124C175.216 27.9124 172.446 30.5746 172.273 33.9237H172.262V44.2755H175.936V40.0129L175.938 40.014V34.0911V34.0066H175.939C175.984 32.5703 177.162 31.4196 178.61 31.4196C180.057 31.4196 181.235 32.5703 181.28 34.0066H181.281V34.0897H181.278V44.2746H184.952V34.4002ZM144.74 27.9128C142.978 27.9128 141.383 28.6316 140.233 29.792C139.084 28.6316 137.489 27.9128 135.726 27.9128C132.334 27.9128 129.564 30.5749 129.39 33.9239H129.383V34.1086C129.382 34.1581 129.381 34.2077 129.381 34.2575C129.381 34.3073 129.382 34.3569 129.383 34.4064V44.2757H133.056V34.0071H133.058C133.102 32.5707 134.281 31.4201 135.728 31.4201C137.163 31.4201 138.333 32.5514 138.397 33.9707V34.1509C138.396 34.1864 138.396 34.2219 138.396 34.2575C138.396 34.2931 138.396 34.3286 138.397 34.3641V44.2757H142.07V44.2748H142.072V34.0899H142.071V34.0071H142.073C142.117 32.5707 143.296 31.4201 144.743 31.4201C146.19 31.4201 147.368 32.5707 147.413 34.0071H147.414V34.0899H147.413V44.2748H151.086V34.0899H151.083C150.994 30.6633 148.188 27.9128 144.74 27.9128ZM118.01 34.3042C118.01 30.7107 120.923 27.7975 124.517 27.7975C126.016 27.7975 127.14 28 127.932 28.2307C128.326 28.3458 128.635 28.4669 128.864 28.571C128.978 28.6229 129.071 28.6705 129.145 28.7107C129.182 28.7308 129.215 28.7491 129.242 28.7651C129.255 28.7731 129.268 28.7805 129.279 28.7874L129.295 28.7971L129.302 28.8017L129.306 28.8039L129.307 28.8049C129.308 28.8055 129.309 28.806 128.303 30.3922C127.297 31.9783 127.298 31.9789 127.298 31.9794L127.3 31.9804L127.303 31.9824L127.309 31.9862L127.32 31.9929L127.337 32.0032C127.347 32.0087 127.352 32.0116 127.353 32.0121C127.355 32.0131 127.339 32.0047 127.306 31.9895C127.24 31.9593 127.1 31.9014 126.88 31.8374C126.443 31.7099 125.674 31.5542 124.517 31.5542C122.998 31.5542 121.766 32.7854 121.766 34.3042V44.175H118.01V34.3042ZM187.03 27.8649V44.2357H190.697V31.5317C190.697 29.5066 189.055 27.8649 187.03 27.8649ZM205.824 44.3059C204.833 44.3059 203.905 43.8184 203.343 43.002L200.35 38.6559L197.332 43.0095C196.769 43.8215 195.844 44.3059 194.856 44.3059H191.992L198.142 35.8887L192.304 27.865H194.131C195.879 27.865 197.516 28.7176 198.519 30.1493L200.565 33.073L202.508 30.2118C203.505 28.7438 205.165 27.865 206.939 27.865H208.509L202.78 35.8504L208.821 44.3059H205.824Z" fill="#F1F1EB"></path><circle cx="188.758" cy="23.5919" r="1.94185" fill="#F1F1EB"></circle></svg>
+      <svg viewBox="0 0 236 57" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Harmonix logo"><path fill-rule="evenodd" clip-rule="evenodd" d="M33.9174 31.4653C28.9876 40.0038 22.3874 45.4223 15.064 41.1942C7.74059 36.966 9.13304 28.5408 14.0628 20.0022L23.5022 25.452C20.6528 30.4037 19.5183 35.0864 22.8098 36.9867C26.1013 38.8871 29.5893 35.5632 32.453 30.6198L33.9174 31.4653ZM32.9688 10.3034L32.9163 10.273L32.8638 10.2428L32.9688 10.3034ZM22.0539 24.6069C26.9837 16.0682 33.5839 10.6496 40.9074 14.8778C48.2308 19.106 46.8383 27.5313 41.9085 36.07L32.4698 30.6205C35.3185 25.6693 36.4525 20.9874 33.1613 19.0873C29.8701 17.1871 26.3825 20.5101 23.519 25.4528L22.0539 24.6069Z" fill="#F1F1EB"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M76 18.8035V44.3064H80.2004V33.0122H92.2537V44.3064H96.4541V18.8035H92.2537V29.1868H80.2004V18.8035H76ZM157.51 43.2023C158.771 43.937 160.177 44.3043 161.726 44.3043C163.297 44.3043 164.713 43.937 165.975 43.2023C167.236 42.4453 168.232 41.4323 168.963 40.1632C169.715 38.8942 170.091 37.4804 170.091 35.9219C170.091 34.3634 169.715 32.9608 168.963 31.714C168.232 30.4449 167.236 29.4431 165.975 28.7083C164.713 27.9736 163.297 27.6063 161.726 27.6063C160.177 27.6063 158.771 27.9848 157.51 28.7417C156.248 29.4764 155.241 30.4672 154.489 31.714C153.758 32.9608 153.393 34.3634 153.393 35.9219C153.393 37.4804 153.758 38.8942 154.489 40.1632C155.241 41.4323 156.248 42.4453 157.51 43.2023ZM164.116 40.1632C163.43 40.564 162.633 40.7644 161.726 40.7644C160.84 40.7644 160.044 40.564 159.336 40.1632C158.649 39.7402 158.107 39.1613 157.709 38.4266C157.333 37.6919 157.145 36.857 157.145 35.9219C157.145 34.9868 157.333 34.163 157.709 33.4506C158.107 32.7381 158.649 32.1815 159.336 31.7808C160.044 31.3578 160.84 31.1463 161.726 31.1463C162.633 31.1463 163.43 31.3578 164.116 31.7808C164.802 32.1815 165.344 32.7381 165.743 33.4506C166.141 34.163 166.34 34.9868 166.34 35.9219C166.34 36.857 166.141 37.6919 165.743 38.4266C165.366 39.1613 164.824 39.7402 164.116 40.1632ZM107.052 44.3059C105.514 44.3059 104.12 43.9442 102.868 43.2208C101.616 42.4755 100.617 41.4781 99.8702 40.2286C99.1455 38.9791 98.7831 37.5871 98.7831 36.0526C98.7831 34.5181 99.1455 33.137 99.8702 31.9094C100.617 30.6819 101.616 29.7064 102.868 28.983C104.12 28.2376 105.514 27.865 107.052 27.865C108.611 27.865 110.017 28.2267 111.269 28.9501C111.519 29.0947 111.759 29.2499 111.988 29.4156V27.865H115.483V44.3059H111.988V42.7435C111.759 42.9127 111.519 43.0718 111.269 43.2208C110.017 43.9442 108.611 44.3059 107.052 44.3059ZM107.052 40.8205C107.952 40.8205 108.743 40.6232 109.424 40.2286C110.127 39.8121 110.665 39.2421 111.038 38.5187C111.433 37.7953 111.631 36.9733 111.631 36.0526C111.631 35.1319 111.433 34.3208 111.038 33.6193C110.643 32.9178 110.105 32.3698 109.424 31.9752C108.743 31.5587 107.952 31.3505 107.052 31.3505C106.173 31.3505 105.383 31.5587 104.68 31.9752C103.999 32.3698 103.461 32.9178 103.066 33.6193C102.692 34.3208 102.506 35.1319 102.506 36.0526C102.506 36.9733 102.692 37.7953 103.066 38.5187C103.461 39.2421 103.999 39.8121 104.68 40.2286C105.383 40.6232 106.173 40.8205 107.052 40.8205ZM184.952 34.4002C184.953 34.3526 184.953 34.3049 184.953 34.2571C184.953 34.2092 184.953 34.1615 184.952 34.114V34.0897H184.951C184.862 30.663 182.057 27.9124 178.609 27.9124C175.216 27.9124 172.446 30.5746 172.273 33.9237H172.262V44.2755H175.936V40.0129L175.938 40.014V34.0911V34.0066H175.939C175.984 32.5703 177.162 31.4196 178.61 31.4196C180.057 31.4196 181.235 32.5703 181.28 34.0066H181.281V34.0897H181.278V44.2746H184.952V34.4002ZM144.74 27.9128C142.978 27.9128 141.383 28.6316 140.233 29.792C139.084 28.6316 137.489 27.9128 135.726 27.9128C132.334 27.9128 129.564 30.5749 129.39 33.9239H129.383V34.1086C129.382 34.1581 129.381 34.2077 129.381 34.2575C129.381 34.3073 129.382 34.3569 129.383 34.4064V44.2757H133.056V34.0071H133.058C133.102 32.5707 134.281 31.4201 135.728 31.4201C137.163 31.4201 138.333 32.5514 138.397 33.9707V34.1509C138.396 34.1864 138.396 34.2219 138.396 34.2575C138.396 34.2931 138.396 34.3286 138.397 34.3641V44.2757H142.07V44.2748H142.072V34.0899H142.071V34.0071H142.073C142.117 32.5707 143.296 31.4201 144.743 31.4201C146.19 31.4201 147.368 32.5707 147.413 34.0071H147.414V34.0899H147.413V44.2748H151.086V34.0899H151.083C150.994 30.6633 148.188 27.9128 144.74 27.9128ZM118.01 34.3042C118.01 30.7107 120.923 27.7975 124.517 27.7975C126.016 27.7975 127.14 28 127.932 28.2307C128.326 28.3458 128.635 28.4669 128.864 28.571C128.978 28.6229 129.071 28.6705 129.145 28.7107C129.182 28.7308 129.215 28.7491 129.242 28.7651C129.255 28.7731 129.268 28.7805 129.279 28.7874L129.295 28.7971L129.302 28.8017L129.306 28.8039L129.307 28.8049C129.308 28.8055 129.309 28.806 128.303 30.3922C127.297 31.9783 127.298 31.9789 127.298 31.9794L127.3 31.9804L127.303 31.9824L127.309 31.9862L127.32 31.9929L127.337 32.0032C127.347 32.0087 127.352 32.0116 127.353 32.0121C127.355 32.0131 127.339 32.0047 127.306 31.9895C127.24 31.9593 127.1 31.9014 126.88 31.8374C126.443 31.7099 125.674 31.5542 124.517 31.5542C122.998 31.5542 121.766 32.7854 121.766 34.3042V44.175H118.01V34.3042ZM187.03 27.8649V44.2357H190.697V31.5317C190.697 29.5066 189.055 27.8649 187.03 27.8649ZM205.824 44.3059C204.833 44.3059 203.905 43.8184 203.343 43.002L200.35 38.6559L197.332 43.0095C196.769 43.8215 195.844 44.3059 194.856 44.3059H191.992L198.142 35.8887L192.304 27.865H194.131C195.879 27.865 197.516 28.7176 198.519 30.1493L200.565 33.073L202.508 30.2118C203.505 28.7438 205.165 27.865 206.939 27.865H208.509L202.78 35.8504L208.821 44.3059H205.824Z" fill="#F1F1EB"></path><circle cx="188.758" cy="23.5919" r="1.94185" fill="#F1F1EB"></circle></svg>
     </div>
 
     <div class="assets-card">
