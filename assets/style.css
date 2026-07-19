@@ -632,6 +632,7 @@
   
   
   
+  
   /* ---------- subpage components ---------- */
   .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px; }
   .tile {
@@ -1370,3 +1371,7 @@ html[data-theme="light"] {
     .banner { margin: 0 -14px; padding: 10px 14px; }
     .topbar { margin: 0 -14px 18px; padding: 10px 14px; }
   }
+
+  /* overlapping asset coin stacks like the OG */
+  .coin.ovl { margin-left: -11px; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9); border-radius: 50%; }
+  html:not([data-theme="light"]) .coin.ovl { box-shadow: 0 0 0 2px rgba(16, 34, 33, 0.9); }
