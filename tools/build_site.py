@@ -1853,6 +1853,31 @@ FIXES_CSS = """
 """
 open(os.path.join(OUT, "assets", "style.css"), "a").write(FIXES_CSS)
 
+OGDETAIL_CSS = """
+  /* ---------- OG banner: diffuse colour wash (lime melting into mint/teal) ---------- */
+  .banner {
+    background:
+      radial-gradient(520px 160% at 10% 50%, rgba(226, 246, 161, 0.16), transparent 60%),
+      radial-gradient(460px 160% at 88% 50%, rgba(80, 210, 193, 0.13), transparent 65%),
+      var(--glass);
+    border-color: rgba(226, 246, 161, 0.16);
+  }
+  html[data-theme="light"] .banner {
+    background:
+      radial-gradient(560px 170% at 10% 50%, rgba(226, 246, 161, 0.85), transparent 62%),
+      radial-gradient(520px 170% at 88% 50%, rgba(154, 219, 202, 0.65), transparent 65%),
+      linear-gradient(90deg, #f0f9d8 0%, #e2f2d9 55%, #d6eee3 100%);
+    border-color: rgba(24, 49, 50, 0.07);
+    color: #33413b;
+  }
+
+  /* ---------- header band: distinct tone for the column labels row ---------- */
+  .vault-table { overflow: hidden; }
+  .vault-table .list-head { background: rgba(0, 0, 0, 0.20); }
+  html[data-theme="light"] .vault-table .list-head { background: rgba(24, 49, 50, 0.05); }
+"""
+open(os.path.join(OUT, "assets", "style.css"), "a").write(OGDETAIL_CSS)
+
 # ---------- final palette pass: exact OG accent across all generated files ----------
 PALETTE = [
     ("#d7fb5f", "#e2f6a1"), ("#D7FB5F", "#E2F6A1"),
