@@ -1523,6 +1523,10 @@ if 'vault-table' not in home_main:
     _close = '</div>\n    </section>'
     assert home_main.count(_close) == 1, "cards close anchor not unique"
     home_main = home_main.replace(_close, '</div>\n      </section>\n    </section>', 1)
+if '<span>Asset</span><span>Net APY</span><span>TVL</span><span>Rewards</span>' in home_main:
+    home_main = home_main.replace('<span>Asset</span><span>Net APY</span><span>TVL</span><span>Rewards</span>',
+                                  '<span>Asset</span><span>TVL</span><span>Rewards</span><span>Net APY</span>', 1)
+assert '<span>Asset</span><span>TVL</span><span>Rewards</span><span>Net APY</span>' in home_main
 assert 'vault-table' in home_main
 _parts = home_main.split('<article class="card">')
 if len(_parts) == 5:
@@ -1877,6 +1881,28 @@ OGDETAIL_CSS = """
   html[data-theme="light"] .vault-table .list-head { background: rgba(24, 49, 50, 0.05); }
 """
 open(os.path.join(OUT, "assets", "style.css"), "a").write(OGDETAIL_CSS)
+
+ROWS_CSS = """
+  /* ---------- vault rows: alternating tones + APY right of rewards ---------- */
+  .vault-table .list-head, .vault-table .cards .card {
+    grid-template-columns: minmax(280px, 2fr) 1.1fr 1fr 1fr 128px;
+  }
+  .vault-table .card-head { order: 1; }
+  .vault-table .metric:not(.apy) { order: 2; }
+  .vault-table .row { order: 3; }
+  .vault-table .metric.apy { order: 4; }
+  .vault-table .deposit-btn { order: 5; }
+
+  .vault-table .card:nth-child(even) { background: rgba(255, 255, 255, 0.035); }
+  html[data-theme="light"] .vault-table .card:nth-child(even) { background: rgba(24, 49, 50, 0.035); }
+  .vault-table .card:hover, .vault-table .card:nth-child(even):hover { background: rgba(255, 255, 255, 0.06); }
+  html[data-theme="light"] .vault-table .card:hover, html[data-theme="light"] .vault-table .card:nth-child(even):hover { background: rgba(24, 49, 50, 0.055); }
+
+  @media (max-width: 760px) {
+    .vault-table .cards .card { grid-template-columns: 1fr 1fr; }
+  }
+"""
+open(os.path.join(OUT, "assets", "style.css"), "a").write(ROWS_CSS)
 
 # ---------- final palette pass: exact OG accent across all generated files ----------
 PALETTE = [

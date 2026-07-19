@@ -627,6 +627,7 @@
   
   
   
+  
   /* ---------- subpage components ---------- */
   .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px; }
   .tile {
@@ -1300,3 +1301,22 @@ html[data-theme="light"] {
   .vault-table { overflow: hidden; }
   .vault-table .list-head { background: rgba(0, 0, 0, 0.20); }
   html[data-theme="light"] .vault-table .list-head { background: rgba(24, 49, 50, 0.05); }
+
+  /* ---------- vault rows: alternating tones + APY right of rewards ---------- */
+  .vault-table .list-head, .vault-table .cards .card {
+    grid-template-columns: minmax(280px, 2fr) 1.1fr 1fr 1fr 128px;
+  }
+  .vault-table .card-head { order: 1; }
+  .vault-table .metric:not(.apy) { order: 2; }
+  .vault-table .row { order: 3; }
+  .vault-table .metric.apy { order: 4; }
+  .vault-table .deposit-btn { order: 5; }
+
+  .vault-table .card:nth-child(even) { background: rgba(255, 255, 255, 0.035); }
+  html[data-theme="light"] .vault-table .card:nth-child(even) { background: rgba(24, 49, 50, 0.035); }
+  .vault-table .card:hover, .vault-table .card:nth-child(even):hover { background: rgba(255, 255, 255, 0.06); }
+  html[data-theme="light"] .vault-table .card:hover, html[data-theme="light"] .vault-table .card:nth-child(even):hover { background: rgba(24, 49, 50, 0.055); }
+
+  @media (max-width: 760px) {
+    .vault-table .cards .card { grid-template-columns: 1fr 1fr; }
+  }
