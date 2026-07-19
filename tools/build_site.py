@@ -1434,7 +1434,6 @@ def vault_content(v):
     <div class="vtabs"><button class="active">Vault overview</button><button>My position</button></div>
     <div class="tiles">
       <div class="tile"><div class="label">TVL</div><div class="value">''' + v["tvl"] + '''</div>''' + sub_html + '''</div>
-      <div class="tile"><div class="label">Capacity</div><div class="value">''' + v["cap"] + '''</div></div>
       <div class="tile"><div class="label">Net APY</div><div class="value lime">''' + ('%.2f%%' % v["apy"]) + '''</div></div>
       <div class="tile"><div class="label">Net APY (90d avg)</div><div class="value">''' + ('%.2f%%' % (v["apy"] * 0.93)) + '''</div></div>
       <div class="tile"><div class="label">Rewards</div><div class="value" style="display:flex;align-items:center;gap:6px">''' + v["rewards"] + '''</div></div>
