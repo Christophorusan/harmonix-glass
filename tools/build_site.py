@@ -847,7 +847,7 @@ EXTRA2_CSS = """
   .vault-hero-head .coin { width: 40px; height: 40px; }
   .vault-hero-head h2 { margin: 0 0 2px; }
   .vault-hero-head p { margin: 0; }
-  .socials { display: flex; gap: 7px; margin-top: 2px; }
+  .socials { display: flex; gap: 7px; margin-top: 2px; justify-content: center; }
   .socials a { width: 30px; height: 30px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.09); display: grid; place-items: center; color: var(--text-1); transition: color 0.15s, background 0.15s, border-color 0.15s; }
   .socials a:hover { color: #fff; background: rgba(255, 255, 255, 0.10); border-color: rgba(255, 255, 255, 0.2); }
   .socials a:focus-visible { outline: 2px solid var(--lime); outline-offset: 1px; }
