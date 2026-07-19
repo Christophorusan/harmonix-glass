@@ -1904,6 +1904,36 @@ ROWS_CSS = """
 """
 open(os.path.join(OUT, "assets", "style.css"), "a").write(ROWS_CSS)
 
+TYPO_CSS = """
+  /* ---------- OG typography: lighter weights, sentence-case labels ---------- */
+  .topbar h1 { font-size: 24px; font-weight: 700; letter-spacing: normal; }
+  .hero h2 { font-size: 30px; font-weight: 600; letter-spacing: normal; line-height: 1.2; }
+  .hero p { font-size: 15px; }
+  .panel h2, .vhead-l h2 { font-weight: 600; }
+  .card-head h3 { font-size: 16px; font-weight: 500; }
+
+  .list-head { font-size: 13px; font-weight: 400; text-transform: none; letter-spacing: 0.01em; }
+  .metric .label, .tile .label, .pstat .label, .flabel {
+    font-size: 13px; font-weight: 400; text-transform: none; letter-spacing: normal;
+  }
+  .metric .value { font-weight: 600; }
+  .tile .value { font-weight: 600; }
+  .assets-card .label { font-size: 12px; text-transform: none; letter-spacing: 0.01em; }
+  .assets-card .value { font-weight: 600; }
+
+  .nav a { font-weight: 400; }
+  .nav a.active { font-weight: 500; }
+  .nav-group-label { font-size: 12px; font-weight: 300; letter-spacing: 0.08em; }
+
+  .deposit-btn { font-weight: 500; }
+  .cta { font-weight: 500; }
+  .connect-btn { font-weight: 500; }
+  .chain-btn { font-weight: 500; }
+  .hero-stats { font-weight: 400; }
+  .hero-stats b, .hero-stats .apy { font-weight: 600; }
+"""
+open(os.path.join(OUT, "assets", "style.css"), "a").write(TYPO_CSS)
+
 # ---------- final palette pass: exact OG accent across all generated files ----------
 PALETTE = [
     ("#d7fb5f", "#e2f6a1"), ("#D7FB5F", "#E2F6A1"),
