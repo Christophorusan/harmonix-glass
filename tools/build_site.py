@@ -1838,9 +1838,13 @@ FIXES_CSS = """
     color: #ffffff; background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.22);
   }
 
-  /* sidebar identical in both themes */
-  .sidebar, html[data-theme="light"] .sidebar {
+  /* sidebar identical in both themes — light gets the solid blend so no white bleeds through */
+  .sidebar {
     background: rgba(10, 26, 23, 0.92);
+  }
+  html[data-theme="light"] .sidebar {
+    background: #0a1b18;
+    backdrop-filter: none; -webkit-backdrop-filter: none;
   }
 
   /* theme button keeps its footprint while scripts load */
