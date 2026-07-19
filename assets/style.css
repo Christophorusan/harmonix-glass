@@ -629,6 +629,7 @@
   
   
   
+  
   /* ---------- subpage components ---------- */
   .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px; }
   .tile {
@@ -1220,8 +1221,8 @@ html[data-theme="light"] {
   }
 
   /* ---------- vault table: header + rows share one box ---------- */
-  .vault-table { padding: 4px 0 6px; }
-  .vault-table .list-head { padding: 12px 20px 12px; margin: 0; border-bottom: 1px solid var(--glass-border); }
+  .vault-table { padding: 0 0 6px; }
+  .vault-table .list-head { padding: 14px 20px 13px; margin: 0; border-bottom: 1px solid var(--glass-border); }
   .vault-table .cards { display: block; }
   .vault-table .card {
     background: transparent; border: none; border-radius: 0; box-shadow: none;
@@ -1268,11 +1269,8 @@ html[data-theme="light"] {
     color: #ffffff; background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.22);
   }
 
-  /* sidebar identical in both themes — light gets the solid blend so no white bleeds through */
-  .sidebar {
-    background: rgba(10, 26, 23, 0.92);
-  }
-  html[data-theme="light"] .sidebar {
+  /* sidebar: one identical solid colour in both themes */
+  .sidebar, html[data-theme="light"] .sidebar {
     background: #0a1b18;
     backdrop-filter: none; -webkit-backdrop-filter: none;
   }

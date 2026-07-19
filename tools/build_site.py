@@ -192,6 +192,8 @@ if 'class="mhead"' not in shell_head:
 if 'mhead' in shell_head and 'theme-btn' not in shell_head.split('<div class="app">')[0]:
     shell_head = shell_head.replace('<button class="connect-btn">Connect</button></header>',
         '<span style="display:flex;gap:8px;align-items:center"><button class="theme-btn" aria-label="Toggle light/dark theme"></button><button class="connect-btn">Connect</button></span></header>', 1)
+shell_head = shell_head.replace('\n        Swap\n      </a>', '\n        Spot\n      </a>')
+shell_head = shell_head.replace('<span>Swap</span>', '<span>Spot</span>')
 assert 'class="mhead"' in shell_head
 
 NAV = {
@@ -200,7 +202,7 @@ NAV = {
     "Stake HAR": "stake-har.html",
     "Yield Markets": "index.html",
     "Perps": "perps.html",
-    "Swap": "swap.html",
+    "Spot": "swap.html",
     "Stake": "stake.html",
     "Portfolio": "portfolio.html",
     "Analytics": "analytics.html",
@@ -215,8 +217,7 @@ def make_shell(active_label, title):
         cls = ' class="active" aria-current="page"' if label == active_label else ''
         h, n = pat.subn(lambda m: '<a href="' + href + '"' + cls + '>' + m.group(2), h, count=1)
         assert n == 1, "nav link not found: " + label
-    h = h.replace("<title>Harmonix — Yield Markets (Glass Redesign)</title>",
-                  "<title>Harmonix — " + title + "</title>")
+    h = re.sub(r"<title>.*?</title>", "<title>Harmonix — " + title + "</title>", h, count=1)
     return h
 
 TOPBAR = '''    <div class="topbar">
@@ -233,7 +234,7 @@ TOPBAR = '''    <div class="topbar">
     </div>
 '''
 
-_MNAV_MAP = {"Home": "index.html", "Perps": "perps.html", "Swap": "swap.html", "Stake": "stake.html", "Portfolio": "portfolio.html"}
+_MNAV_MAP = {"Home": "index.html", "Perps": "perps.html", "Spot": "swap.html", "Stake": "stake.html", "Portfolio": "portfolio.html"}
 
 _MOON_DEFAULT = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>'
 
@@ -1549,7 +1550,7 @@ open(os.path.join(OUT, "index.html"), "w").write(idx_html)
 print("wrote index.html", len(idx_html))
 
 page("perps.html", "Perps", "Perps", PERPS)
-page("swap.html", "Swap", "Swap", SWAP)
+page("swap.html", "Spot", "Spot", SWAP)
 page("stake.html", "Stake", "Stake", STAKE)
 page("protection.html", "Protection Vault", "Protection Vault", PROTECTION)
 page("stake-har.html", "Stake HAR", "Stake HAR", STAKE_HAR)
@@ -1791,8 +1792,8 @@ STRUCT_CSS = """
   }
 
   /* ---------- vault table: header + rows share one box ---------- */
-  .vault-table { padding: 4px 0 6px; }
-  .vault-table .list-head { padding: 12px 20px 12px; margin: 0; border-bottom: 1px solid var(--glass-border); }
+  .vault-table { padding: 0 0 6px; }
+  .vault-table .list-head { padding: 14px 20px 13px; margin: 0; border-bottom: 1px solid var(--glass-border); }
   .vault-table .cards { display: block; }
   .vault-table .card {
     background: transparent; border: none; border-radius: 0; box-shadow: none;
@@ -1842,11 +1843,8 @@ FIXES_CSS = """
     color: #ffffff; background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.22);
   }
 
-  /* sidebar identical in both themes — light gets the solid blend so no white bleeds through */
-  .sidebar {
-    background: rgba(10, 26, 23, 0.92);
-  }
-  html[data-theme="light"] .sidebar {
+  /* sidebar: one identical solid colour in both themes */
+  .sidebar, html[data-theme="light"] .sidebar {
     background: #0a1b18;
     backdrop-filter: none; -webkit-backdrop-filter: none;
   }
