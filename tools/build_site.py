@@ -1931,6 +1931,31 @@ TYPO_CSS = """
 """
 open(os.path.join(OUT, "assets", "style.css"), "a").write(TYPO_CSS)
 
+TOPBAND_CSS = """
+  /* ---------- OG header band: banner full-bleed, title bar on its own strip ---------- */
+  .banner {
+    margin: -20px -30px 0; border-radius: 0; padding: 10px 30px;
+    justify-content: center; text-align: center;
+    border: none; border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  html[data-theme="light"] .banner { border-bottom: 1px solid rgba(24, 49, 50, 0.07); }
+  .topbar {
+    margin: 0 -30px 24px; padding: 12px 30px;
+    background: rgba(10, 22, 20, 0.45);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  }
+  html[data-theme="light"] .topbar {
+    background: #ffffff;
+    border-bottom: 1px solid #e8ebe4;
+  }
+  @media (max-width: 760px) {
+    .banner { margin: 0 -14px; padding: 10px 14px; }
+    .topbar { margin: 0 -14px 18px; padding: 10px 14px; }
+  }
+"""
+open(os.path.join(OUT, "assets", "style.css"), "a").write(TOPBAND_CSS)
+
 # ---------- final palette pass: exact OG accent across all generated files ----------
 PALETTE = [
     ("#d7fb5f", "#e2f6a1"), ("#D7FB5F", "#E2F6A1"),
