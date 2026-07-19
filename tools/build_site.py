@@ -1875,11 +1875,13 @@ OGDETAIL_CSS = """
   /* ---------- OG banner: diffuse colour wash (lime melting into mint/teal) ---------- */
   .banner {
     background:
-      radial-gradient(520px 160% at 10% 50%, rgba(226, 246, 161, 0.16), transparent 60%),
-      radial-gradient(460px 160% at 88% 50%, rgba(80, 210, 193, 0.13), transparent 65%),
-      var(--glass);
+      radial-gradient(560px 170% at 10% 50%, rgba(226, 246, 161, 0.30), transparent 60%),
+      radial-gradient(500px 170% at 55% 50%, rgba(226, 246, 161, 0.14), transparent 65%),
+      radial-gradient(460px 170% at 88% 50%, rgba(80, 210, 193, 0.22), transparent 65%),
+      rgba(24, 49, 50, 0.7);
     border-color: rgba(226, 246, 161, 0.16);
   }
+  html:not([data-theme="light"]) .banner strong { color: #e2f6a1; }
   html[data-theme="light"] .banner {
     background:
       radial-gradient(560px 170% at 10% 50%, rgba(226, 246, 161, 0.85), transparent 62%),
