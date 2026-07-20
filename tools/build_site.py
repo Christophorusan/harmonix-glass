@@ -180,7 +180,7 @@ MOBILE_HTML = ('<header class="mhead">'
 
 if 'hmx_theme' not in shell_head:
     shell_head = shell_head.replace('<meta charset="utf-8">',
-        '<meta charset="utf-8">\n<script>document.documentElement.setAttribute("data-theme", (function(){try{return localStorage.getItem("hmx_theme")||"light"}catch(e){return "light"}})());</script>', 1)
+        '<meta charset="utf-8">\n<script>document.documentElement.setAttribute("data-theme", (function(){try{return localStorage.getItem("hmx_theme")||"dark"}catch(e){return "dark"}})());</script>', 1)
 assert 'hmx_theme' in shell_head
 
 if 'name="viewport"' not in shell_head:
