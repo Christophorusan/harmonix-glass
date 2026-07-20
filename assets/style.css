@@ -635,6 +635,7 @@
   
   
   
+  
   /* ---------- subpage components ---------- */
   .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px; }
   .tile {
@@ -998,8 +999,8 @@
   }
   .chain-btn:hover { background: rgba(226, 246, 161, 0.18); border-color: rgba(226, 246, 161, 0.4); }
   .chain-btn .chev { opacity: 0.8; }
-  .chain-btn .cicon svg circle { fill: #e2f6a1; }
-  .chain-btn .cicon svg path { fill: #183132; }
+  .chain-btn .cicon svg circle { fill: #072723; }
+  .chain-btn .cicon svg path { fill: #50D2C1; }
 
   .panel .kv { padding: 7px 2px; }
   .panel .kv + .kv { border-top: 1px solid rgba(255, 255, 255, 0.055); }

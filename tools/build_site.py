@@ -986,8 +986,8 @@ EXTRA2_CSS = """
   }
   .chain-btn:hover { background: rgba(215, 251, 95, 0.18); border-color: rgba(215, 251, 95, 0.4); }
   .chain-btn .chev { opacity: 0.8; }
-  .chain-btn .cicon svg circle { fill: #d7fb5f; }
-  .chain-btn .cicon svg path { fill: #0a1a12; }
+  .chain-btn .cicon svg circle { fill: #072723; }
+  .chain-btn .cicon svg path { fill: #50D2C1; }
 
   .panel .kv { padding: 7px 2px; }
   .panel .kv + .kv { border-top: 1px solid rgba(255, 255, 255, 0.055); }
@@ -1227,7 +1227,7 @@ STAKE = '''    <div class="tiles">
 '''
 
 STAKE_HAR = '''    <div class="tiles">
-      <div class="tile"><div class="label">HAR price</div><div class="value">$0.042<span class="delta up">+3.1%</span></div></div>
+      <div class="tile"><div class="label">HAR price</div><div class="value">$0.002044<span class="delta up">+3.1%</span></div></div>
       <div class="tile"><div class="label">HAR staked</div><div class="value">18.4M</div><div class="sub">34% of supply</div></div>
       <div class="tile"><div class="label">Average lock</div><div class="value">5.2 mo</div></div>
       <div class="tile"><div class="label">Your stake</div><div class="value">—</div><div class="sub">Connect wallet</div></div>
@@ -1249,6 +1249,40 @@ STAKE_HAR = '''    <div class="tiles">
           <div class="step"><b>Revenue share</b>A cut of protocol fees, paid in USDC.</div>
           <div class="step"><b>Points multiplier</b>Boosts every point you earn across Harmonix.</div>
           <div class="step"><b>Governance</b>Vote on new vaults and parameters.</div>
+        </div>
+      </div>
+    </div>
+    <div class="grid2" style="grid-template-columns: 2fr 1fr; margin-top: 14px;">
+      <div class="panel">
+        <h2>Treasury stats</h2>
+        <p class="muted" style="margin:0 0 12px">Protocol buybacks, funded by revenue.</p>
+        <div class="grid2" style="gap: 20px;">
+          <div>
+            <div class="kv"><span>Net HAR</span><b>15,000,000 $HAR</b></div>
+            <div class="kv"><span>Bought</span><b>15,680,000 HAR</b></div>
+            <div class="kv"><span>Sold (operations only)</span><b>680,000 HAR</b></div>
+            <div class="kv"><span>Progress</span><b style="color:var(--lime)">82%</b></div>
+            <div class="progress" aria-hidden="true"><i style="width:82%"></i></div>
+          </div>
+          <div>
+            <div class="kv"><span>HYPE bought</span><b>1,500 $HYPE</b></div>
+            <div class="kv"><span>Amount</span><b>1,500 HYPE</b></div>
+            <div class="kv"><span>Progress</span><b style="color:var(--lime)">24%</b></div>
+            <div class="progress" aria-hidden="true"><i style="width:24%"></i></div>
+          </div>
+        </div>
+        <div style="margin-top:14px">
+          <div class="kv"><span>HAR price</span><b>$0.002044</b></div>
+          <div class="kv"><span>Source</span><b>HyperCore</b></div>
+          <div class="kv"><span>Updated</span><b>20 Jul 2026, 16:15 UTC</b></div>
+        </div>
+        <button class="ghost-btn" style="margin-top:12px">Buy HAR</button>
+      </div>
+      <div class="panel">
+        <h2>Earn more rewards with $HAR</h2>
+        <div class="steps" style="margin-top:10px;grid-template-columns:1fr">
+          <div class="step"><b>Staking</b>Use $HAR for staking to earn more rewards.</div>
+          <div class="step"><b>Liquidity</b>Add liquidity on HyperSwap.</div>
         </div>
       </div>
     </div>
@@ -1382,27 +1416,27 @@ def vault_apy_chart(apy):
             '<circle cx="%d" cy="%d" r="3.5" fill="#d7fb5f"/></svg>' % pts[-1])
 
 VAULTS = [
-    dict(slug="vault-hausdc.html", px="1", earned_full="18412.66", earned_disp="18,412.66", step="0.05", icon=USDC_ICON, name="HIP-3 haUSDC Vault", apy=8.42, tvl="$314.3K", sub="",
+    dict(slug="vault-hausdc.html", px="1", earned_full="18412.66", earned_disp="18,412.66", step="0.05", icon=USDC_ICON, name="HIP-3 haUSDC Vault", apy=8.52, tvl="$340.9K", sub="",
          asset="USDC", cap="$5.0M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+3</span>',
          desc="Multi-asset stablecoin vault optimized across HyperEVM, HyperCore, and HIP3 markets. Earn from delta-neutral strategies, lending yield, and future HIP3 potential rewards.",
          profile="Balanced", earned="$18.4K", g1="$61", g7="$412", g30="$1.7K", vid="0x3f8a…9d21", deployed="Jun 2026",
          allocs=[("Delta-neutral basis (HyperCore)", "52%", "$163.4K", "9.8%"),
                  ("Stablecoin lending (HyperEVM)", "33%", "$103.7K", "6.4%"),
                  ("HIP-3 market-making, hedged", "15%", "$47.2K", "8.9%")]),
-    dict(slug="vault-delta-neutral.html", px="1", earned_full="31204.18", earned_disp="31,204.18", step="0.09", icon=USDC_ICON, name="USDC — $HYPE Delta Neutral Vault", apy=7.46, tvl="$606.51K", sub="",
+    dict(slug="vault-delta-neutral.html", px="1", earned_full="31204.18", earned_disp="31,204.18", step="0.09", icon=USDC_ICON, name="USDC — $HYPE Delta Neutral Vault", apy=7.27, tvl="$606.63K", sub="",
          asset="USDC", cap="$2.5M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span>',
          desc="Convert half of your deposit into HyperLiquid and purchase $HYPE, while a 1x short HYPE-USD position hedges your exposure and earns funding fees. Net delta zero; auto-rebalances when funding flips.",
          profile="Balanced", earned="$31.2K", g1="$124", g7="$861", g30="$3.6K", vid="0x81c2…44e0", deployed="Feb 2026",
          allocs=[("Spot HYPE long", "50%", "$303.2K", "—"),
                  ("1x HYPE-USD short (funding)", "50%", "$303.3K", "14.9%")]),
-    dict(slug="vault-khype.html", px="43.6", earned_full="84903.42", earned_disp="84,903.42", step="0.24", icon=KHYPE_ICON_S, name="HyperEVM $KHYPE Vault", apy=3.84, tvl="$2.9M", sub="47,539.37 KHYPE",
+    dict(slug="vault-khype.html", px="43.6", earned_full="84903.42", earned_disp="84,903.42", step="0.24", icon=KHYPE_ICON_S, name="HyperEVM $KHYPE Vault", apy=3.84, tvl="$2.9M", sub="47,550.22 KHYPE",
          asset="KHYPE", cap="$6.0M", rewards='<span class="ricon"><svg aria-hidden="true"><use href="#tok-valantis"/></svg></span><span class="plus">+1</span>',
          desc="Deposit your KHYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols. Valantis points accrue to depositors.",
          profile="Conservative", earned="$84.9K", g1="$305", g7="$2.1K", g30="$9.2K", vid="0xc4d9…b7a3", deployed="Mar 2026",
          allocs=[("HyperEVM lending markets", "58%", "$1.68M", "4.1%"),
                  ("Delta-neutral overlay", "27%", "$783K", "3.4%"),
                  ("Liquid reserve", "15%", "$435K", "—")]),
-    dict(slug="vault-hype.html", px="42.9", earned_full="56310.77", earned_disp="56,310.77", step="0.16", icon=HYPE_ICON, name="HyperEVM $HYPE Vault", apy=3.80, tvl="$1.99M", sub="33,231.78 HYPE",
+    dict(slug="vault-hype.html", px="42.9", earned_full="56310.77", earned_disp="56,310.77", step="0.16", icon=HYPE_ICON, name="HyperEVM $HYPE Vault", apy=3.80, tvl="$2.0M", sub="33,231.22 HYPE",
          asset="HYPE", cap="$5.0M", rewards='<span class="ricon" style="background:#071916"><svg aria-hidden="true"><use href="#tok-glow"/></svg></span><span class="plus">+1</span>',
          desc="Deposit your HYPE to earn optimized yield across market-neutral strategies, dynamically allocated across leading HyperEVM protocols. No directional risk.",
          profile="Conservative", earned="$56.3K", g1="$207", g7="$1.5K", g30="$6.1K", vid="0x9ab1…02cf", deployed="Mar 2026",
@@ -1527,16 +1561,23 @@ if '<span>Asset</span><span>Net APY</span><span>TVL</span><span>Rewards</span>' 
     home_main = home_main.replace('<span>Asset</span><span>Net APY</span><span>TVL</span><span>Rewards</span>',
                                   '<span>Asset</span><span>TVL</span><span>Rewards</span><span>Net APY</span>', 1)
 assert '<span>Asset</span><span>TVL</span><span>Rewards</span><span>Net APY</span>' in home_main
+
+# refresh to OG-current numbers (2026-07-19 dashboard)
+for _old, _new in [("8.42%", "8.52%"), ("$314.3K", "$340.9K"), ("7.46%", "7.27%"), ("$606.51K", "$606.63K"),
+                   ("$1.99M", "$2.0M"), ("Total TVL <b>$5.81M</b>", "Total TVL <b>$5.85M</b>"),
+                   ("47,539.37 KHYPE", "47,550.22 KHYPE"), ("33,231.78 HYPE", "33,231.22 HYPE")]:
+    home_main = home_main.replace(_old, _new)
 # OG asset icon stacks (haUSDC: USDC+USDS+HYPE, Delta: USDC+HYPE)
 USDS_OVL = '<span class="coin ovl" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 94 94" fill="none"><path d="M46.8535 0.847656H46.8555C71.9997 0.847656 92.3836 21.2308 92.3838 46.375V46.377C92.3838 71.5213 71.9999 91.9053 46.8555 91.9053H46.8535C21.7093 91.9051 1.32617 71.5212 1.32617 46.377V46.375C1.32635 21.2309 21.7094 0.847829 46.8535 0.847656Z" fill="black" stroke="black" stroke-width="1.67719"/><path fill-rule="evenodd" clip-rule="evenodd" d="M39.4161 8.22266C21.5183 11.67 7.99907 27.4161 7.99902 46.3201C7.99902 65.2242 21.5183 80.971 39.4161 84.4185V80.782C23.4996 77.389 11.5615 63.2486 11.5615 46.3201C11.5616 29.3917 23.4996 15.2512 39.4161 11.8583V8.22266ZM54.2464 11.8726V8.23555C72.1112 11.7091 85.5976 27.4396 85.5977 46.3201C85.5977 65.2007 72.1112 80.9319 54.2464 84.4056V80.7677C70.1295 77.3495 82.0342 63.225 82.0342 46.3201C82.0341 29.4153 70.1295 15.2907 54.2464 11.8726Z" fill="white"/><path d="M52.3261 45.0239C55.2864 45.5881 57.5826 46.6762 59.2146 48.2882C60.8466 49.8599 61.6626 51.8748 61.6626 54.3331V58.2019C61.6626 61.1438 60.5999 63.5215 58.4745 65.335C56.3491 67.1082 53.5596 67.9948 50.1058 67.9948H48.9103V74.1607H44.8113V67.9948H43.5588C41.2816 67.9948 39.2701 67.491 37.5242 66.4835C35.7783 65.4357 34.412 63.985 33.4252 62.1312C32.4764 60.2371 32.002 58.0609 32.002 55.6026H36.1009C36.1009 58.1012 36.7841 60.1363 38.1504 61.708C39.5547 63.2394 41.3955 64.0051 43.6727 64.0051H49.9919C52.2312 64.0051 54.034 63.4812 55.4003 62.4334C56.7666 61.3453 57.4498 59.9348 57.4498 58.2019V54.3331C57.4498 52.9629 56.9374 51.7942 55.9127 50.8271C54.9259 49.8599 53.5596 49.2352 51.8137 48.9531L41.5662 47.1396C38.6818 46.6157 36.4425 45.5276 34.8485 43.8753C33.2544 42.223 32.4574 40.1476 32.4574 37.649V34.3847C32.4574 31.4428 33.4821 29.1054 35.5316 27.3725C37.6191 25.5994 40.3707 24.7128 43.7865 24.7128H44.8113V18.5469H48.9103V24.7128H50.2196C53.4457 24.7128 56.0455 25.7606 58.0191 27.8561C59.9927 29.9114 60.9795 32.6317 60.9795 36.0169H56.8805C56.8805 33.8004 56.2732 32.0272 55.0587 30.6973C53.8442 29.3674 52.2312 28.7024 50.2196 28.7024H43.7865C41.6232 28.7024 39.8963 29.2263 38.6059 30.2741C37.3154 31.2816 36.6702 32.6518 36.6702 34.3847V37.649C36.6702 39.0595 37.1447 40.2483 38.0935 41.2155C39.0803 42.1827 40.4276 42.8275 42.1355 43.1499L52.3261 45.0239Z" fill="white"/></svg></span>'
 HYPE_OVL = '<span class="coin ovl hype" aria-hidden="true"><svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="11" fill="#072723"/><path d="M18.9666 10.8871C18.9812 12.1981 18.7068 13.4507 18.1679 14.6475C17.3984 16.3517 15.5534 17.7452 13.8685 16.2619C12.4945 15.0529 12.2396 12.5986 10.181 12.2393C7.45717 11.9092 7.39163 15.0675 5.61217 15.4244C3.62879 15.8274 2.9709 12.4918 3.00004 10.9769C3.02917 9.46209 3.43215 7.33305 5.15578 7.33305C7.13915 7.33305 7.27267 10.336 9.79014 10.1734C12.2833 10.0035 12.327 6.87908 13.9559 5.54146C15.3615 4.3859 17.0148 5.23315 17.8426 6.62418C18.6097 7.91083 18.9472 9.42082 18.9641 10.8871H18.9666Z" fill="#50D2C1"/></svg></span>'
 if 'coin ovl' not in home_main:
     _h1 = '</span>\n            <h3>HIP-3 haUSDC Vault</h3>'
     assert home_main.count(_h1) == 1
-    home_main = home_main.replace(_h1, '</span>' + USDS_OVL + HYPE_OVL + '\n            <h3>HIP-3 haUSDC Vault</h3>', 1)
+    home_main = home_main.replace(_h1, '</span>' + USDS_OVL + '\n            <h3>HIP-3 haUSDC Vault</h3>', 1)
     _h2 = '</span>\n            <h3>USDC — $HYPE Delta Neutral Vault</h3>'
     assert home_main.count(_h2) == 1
     home_main = home_main.replace(_h2, '</span>' + HYPE_OVL + '\n            <h3>USDC — $HYPE Delta Neutral Vault</h3>', 1)
+home_main = home_main.replace(HYPE_OVL + '\n            <h3>HIP-3 haUSDC Vault</h3>', '\n            <h3>HIP-3 haUSDC Vault</h3>')
 assert 'coin ovl' in home_main
 
 # denser hero contours
@@ -1555,6 +1596,8 @@ if len(_parts) == 5:
     home_main = _rebuilt
 else:
     assert 'a class="card" href="vault-' in home_main, "vault rows neither articles nor anchors"
+
+exec(open("analytics_v2.py").read())
 
 # ---------- 5. home page: reuse existing main, strip its inline topbar & swap in shared ----------
 home_content = home_main[len('<main class="main">'):]
